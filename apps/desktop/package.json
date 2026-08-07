@@ -6,6 +6,11 @@
   "private": true,
   "type": "module",
   "main": "dist-electron/main/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JimmiesAndTheCoders/blockdevelop-ide.git",
+    "directory": "apps/desktop"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
@@ -22,7 +27,9 @@
       "output": "release/${version}"
     },
     "publish": {
-      "provider": "github"
+      "provider": "github",
+      "owner": "JimmiesAndTheCoders",
+      "repo": "blockdevelop-ide"
     },
     "files": [
       "dist/**/*",
