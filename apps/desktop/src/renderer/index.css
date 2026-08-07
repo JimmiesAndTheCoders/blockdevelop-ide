@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+    background-color: #181818;
+    color: #e0e0e0;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', Consolas, monospace;
+  }
+}

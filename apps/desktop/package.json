@@ -1,0 +1,76 @@
+{
+  "name": "@blockdevelop/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist-electron/main/index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "test": "vitest run",
+    "package": "pnpm run build && electron-builder",
+    "package:dir": "pnpm run build && electron-builder --dir",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "build": {
+    "appId": "com.blockdevelop.ide",
+    "productName": "BlockDevelop IDE",
+    "directories": {
+      "output": "release/${version}"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*"
+    ],
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  },
+  "dependencies": {
+    "@blockdevelop/block-engine": "workspace:*",
+    "@blockdevelop/code-gen": "workspace:*",
+    "@blockdevelop/core": "workspace:*",
+    "@blockdevelop/ui": "workspace:*",
+    "clsx": "^2.1.0",
+    "immer": "^11.1.16",
+    "lucide-react": "^0.344.0",
+    "mitt": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.2.1",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.3",
+    "@types/react": "^18.2.61",
+    "@types/react-dom": "^18.2.19",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.18",
+    "electron": "^29.1.0",
+    "electron-builder": "^24.13.3",
+    "jsdom": "^30.0.1",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.1.4",
+    "vite-plugin-electron": "^0.28.2",
+    "vite-plugin-electron-renderer": "^0.14.5"
+  }
+}

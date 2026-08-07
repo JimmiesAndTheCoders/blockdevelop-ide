@@ -1,0 +1,44 @@
+{
+  "name": "blockdevelop-ide-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Free, open-source IDE for block-based programming inspired by FlashDevelop.",
+  "author": "BlockDevelop IDE Team",
+  "license": "MIT",
+  "packageManager": "pnpm@8.15.1",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css,scss}\"",
+    "typecheck": "turbo run typecheck",
+    "clean": "rimraf apps/desktop/dist packages/core/dist packages/block-engine/dist packages/code-gen/dist packages/ui/dist .turbo",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "turbo": "^1.12.4",
+    "typescript": "^5.3.3",
+    "vitest": "^4.1.10"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css,scss}": [
+      "prettier --write"
+    ]
+  }
+}
