@@ -6,10 +6,6 @@
   "private": true,
   "type": "module",
   "main": "dist-electron/main/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/YOUR_GITHUB_USERNAME/blockdevelop-ide.git"
-  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
@@ -26,9 +22,7 @@
       "output": "release/${version}"
     },
     "publish": {
-      "provider": "github",
-      "owner": "YOUR_GITHUB_USERNAME",
-      "repo": "blockdevelop-ide"
+      "provider": "github"
     },
     "files": [
       "dist/**/*",
