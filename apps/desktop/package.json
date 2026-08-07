@@ -37,15 +37,22 @@
     ],
     "mac": {
       "target": ["dmg", "zip"],
-      "category": "public.app-category.developer-tools"
+      "category": "public.app-category.developer-tools",
+      "artifactName": "BlockDevelop-IDE-macOS-${version}.${ext}"
     },
     "win": {
       "target": ["nsis", "portable"],
-      "forceCodeSigning": false
+      "forceCodeSigning": false,
+      "artifactName": "BlockDevelop-IDE-Windows-${version}.${ext}"
     },
     "linux": {
       "target": ["AppImage", "deb"],
-      "maintainer": "BlockDevelop IDE Team <contact@blockdevelop.dev>"
+      "maintainer": "BlockDevelop IDE Team <contact@blockdevelop.dev>",
+      "artifactName": "BlockDevelop-IDE-Linux-${version}.${ext}"
+    },
+    "deb": {
+      "packageName": "blockdevelop-ide",
+      "artifactName": "blockdevelop-ide_${version}_amd64.deb"
     }
   },
   "dependencies": {
