@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "description": "Free, open-source IDE for block-based programming inspired by FlashDevelop.",
-  "author": "BlockDevelop IDE Team",
+  "author": "Jimmy Santoyo",
   "license": "MIT",
   "packageManager": "pnpm@8.15.1",
   "scripts": {
