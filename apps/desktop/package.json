@@ -2,7 +2,7 @@
   "name": "@blockdevelop/desktop",
   "version": "0.1.0",
   "description": "Free open-source IDE for visual block-based programming.",
-  "author": "BlockDevelop IDE Team",
+  "author": "BlockDevelop IDE Team <contact@blockdevelop.dev>",
   "private": true,
   "type": "module",
   "main": "dist-electron/main/index.js",
@@ -44,7 +44,8 @@
       "forceCodeSigning": false
     },
     "linux": {
-      "target": ["AppImage", "deb"]
+      "target": ["AppImage", "deb"],
+      "maintainer": "BlockDevelop IDE Team <contact@blockdevelop.dev>"
     }
   },
   "dependencies": {
