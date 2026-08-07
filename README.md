@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/your-username/blockdevelop-ide/actions"><img src="https://img.shields.io/github/actions/workflow/status/your-username/blockdevelop-ide/ci.yml?branch=main&label=CI&style=flat-square" alt="CI Status" /></a>
+  <a href="https://github.com/JimmiesAndTheCoders/blockdevelop-ide/actions"><img src="https://img.shields.io/github/actions/workflow/status/JimmiesAndTheCoders/blockdevelop-ide/ci.yml?branch=main&label=CI&style=flat-square" alt="CI Status" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="MIT License" /></a>
   <a href="https://pnpm.io"><img src="https://img.shields.io/badge/package%20manager-pnpm-orange?style=flat-square" alt="pnpm" /></a>
   <a href="https://react.dev"><img src="https://img.shields.io/badge/React-18-cyan?style=flat-square" alt="React 18" /></a>
@@ -52,7 +52,7 @@ blockdevelop-ide/
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/your-username/blockdevelop-ide.git
+git clone https://github.com/JimmiesAndTheCoders/blockdevelop-ide.git
 cd blockdevelop-ide
 
 # 2. Install monorepo dependencies
