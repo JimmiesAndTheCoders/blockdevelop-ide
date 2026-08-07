@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   release:
     name: Build & Release (${{ matrix.os }})
@@ -33,11 +36,11 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Packages
+      - name: Build All Monorepo Packages
         run: pnpm run build
 
       - name: Build & Publish Desktop Executables
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm --filter @blockdevelop/desktop package
-        
+        run: pnpm --filter @blockdevelop/desktop exec electron-builder --publish always
