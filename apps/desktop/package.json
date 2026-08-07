@@ -42,8 +42,15 @@
     },
     "win": {
       "target": ["nsis", "portable"],
-      "forceCodeSigning": false,
-      "artifactName": "BlockDevelop-IDE-Windows-${version}.${ext}"
+      "forceCodeSigning": false
+    },
+    "nsis": {
+      "artifactName": "BlockDevelop-IDE-Setup-${version}.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "portable": {
+      "artifactName": "BlockDevelop-IDE-Portable-${version}.${ext}"
     },
     "linux": {
       "target": ["AppImage", "deb"],
