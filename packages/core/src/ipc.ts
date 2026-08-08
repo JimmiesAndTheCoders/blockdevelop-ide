@@ -24,7 +24,7 @@ export const IPC_CHANNELS = {
   PROCESS_ON_DATA: 'process:on-data',
 } as const;
 
-export type IPCChannel = typeof IPC_CHANNELS[keyof typeof IPC_CHANNELS];
+export type IPCChannel = (typeof IPC_CHANNELS)[keyof typeof IPC_CHANNELS];
 
 export interface SystemInfoResult {
   appVersion: string;
@@ -112,3 +112,43 @@ export interface IPCEventMap {
 
 export type IPCRequest<K extends keyof IPCEventMap> = IPCEventMap[K]['request'];
 export type IPCResponse<K extends keyof IPCEventMap> = IPCEventMap[K]['response'];
+
+export interface IPCSerializedError {
+  name: string;
+  message: string;
+  code: string;
+  channel?: string | undefined;
+  stack?: string | undefined;
+}
+
+export class IPCError extends Error {
+  public readonly code: string;
+  public readonly channel?: string | undefined;
+
+  constructor(message: string, code = 'UNKNOWN_IPC_ERROR', channel?: string | undefined) {
+    super(message);
+    this.name = 'IPCError';
+    this.code = code;
+    this.channel = channel;
+  }
+
+  public toJSON(): IPCSerializedError {
+    const result: IPCSerializedError = {
+      name: this.name,
+      message: this.message,
+      code: this.code,
+    };
+    if (this.channel !== undefined) result.channel = this.channel;
+    if (this.stack !== undefined) result.stack = this.stack;
+    return result;
+  }
+
+  public static fromJSON(serialized: IPCSerializedError): IPCError {
+    const err = new IPCError(serialized.message, serialized.code, serialized.channel);
+    err.name = serialized.name;
+    if (serialized.stack !== undefined) {
+      err.stack = serialized.stack;
+    }
+    return err;
+  }
+}

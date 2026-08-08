@@ -1,6 +1,6 @@
 {
   "name": "@blockdevelop/desktop",
-  "version": "0.2.0-beta.2",
+  "version": "0.2.0-beta.3",
   "description": "Free open-source IDE for visual block-based programming.",
   "author": "BlockDevelop IDE Team <contact@blockdevelop.dev>",
   "private": true,
