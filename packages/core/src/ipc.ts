@@ -6,6 +6,7 @@
 export const IPC_CHANNELS = {
   // System
   SYSTEM_GET_INFO: 'system:get-info',
+  SYSTEM_GET_METRICS: 'system:get-metrics',
   SYSTEM_DEEP_LINK: 'system:deep-link',
 
   // File System
@@ -23,6 +24,15 @@ export const IPC_CHANNELS = {
   PROCESS_KILL: 'process:kill',
   PROCESS_ON_DATA: 'process:on-data',
 } as const;
+
+export interface SystemMetricsResult {
+  cpuUsagePercent: number;
+  totalMemoryMB: number;
+  usedMemoryMB: number;
+  freeMemoryMB: number;
+  memoryUsagePercent: number;
+  appMemoryMB: number;
+}
 
 export type IPCChannel = (typeof IPC_CHANNELS)[keyof typeof IPC_CHANNELS];
 

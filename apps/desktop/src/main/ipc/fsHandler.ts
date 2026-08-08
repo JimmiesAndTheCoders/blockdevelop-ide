@@ -7,7 +7,7 @@ import {
   FileWriteOptions,
   DirReadResult,
 } from '@blockdevelop/core';
-import { assertObject, assertString, sanitizePath } from './validation';
+import { assertObject, assertString, assertPathWithinBoundary } from './validation';
 import { wrapIPCHandler } from './errorHandling';
 
 export function registerFSHandlers(): void {
@@ -15,7 +15,7 @@ export function registerFSHandlers(): void {
     IPC_CHANNELS.FS_READ_FILE,
     wrapIPCHandler(IPC_CHANNELS.FS_READ_FILE, async (_, options: FileReadOptions) => {
       assertObject(options, 'FileReadOptions');
-      const safePath = sanitizePath(options.filePath, 'filePath');
+      const safePath = assertPathWithinBoundary(options.filePath, undefined, 'filePath');
       const encoding = options.encoding ? assertString(options.encoding, 'encoding') : 'utf-8';
 
       return await fs.readFile(safePath, { encoding: encoding as BufferEncoding });
@@ -26,7 +26,7 @@ export function registerFSHandlers(): void {
     IPC_CHANNELS.FS_WRITE_FILE,
     wrapIPCHandler(IPC_CHANNELS.FS_WRITE_FILE, async (_, options: FileWriteOptions) => {
       assertObject(options, 'FileWriteOptions');
-      const safePath = sanitizePath(options.filePath, 'filePath');
+      const safePath = assertPathWithinBoundary(options.filePath, undefined, 'filePath');
       const content = assertString(options.content, 'content');
 
       await fs.mkdir(path.dirname(safePath), { recursive: true });
@@ -38,7 +38,7 @@ export function registerFSHandlers(): void {
   ipcMain.handle(
     IPC_CHANNELS.FS_READ_DIR,
     wrapIPCHandler(IPC_CHANNELS.FS_READ_DIR, async (_, dirPath: string): Promise<DirReadResult[]> => {
-      const safeDir = sanitizePath(dirPath, 'dirPath');
+      const safeDir = assertPathWithinBoundary(dirPath, undefined, 'dirPath');
       const entries = await fs.readdir(safeDir, { withFileTypes: true });
 
       return entries.map((entry) => ({
@@ -53,7 +53,7 @@ export function registerFSHandlers(): void {
     IPC_CHANNELS.FS_EXISTS,
     wrapIPCHandler(IPC_CHANNELS.FS_EXISTS, async (_, filePath: string) => {
       try {
-        const safePath = sanitizePath(filePath, 'filePath');
+        const safePath = assertPathWithinBoundary(filePath, undefined, 'filePath');
         await fs.access(safePath);
         return true;
       } catch {

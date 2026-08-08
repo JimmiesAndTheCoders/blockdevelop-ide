@@ -4,6 +4,7 @@ import {
   IPCError,
   IPCSerializedError,
   SystemInfoResult,
+  SystemMetricsResult,
   FileReadOptions,
   FileWriteOptions,
   DirReadResult,
@@ -26,6 +27,7 @@ export interface ParsedDeepLinkEvent {
 export interface BlockDevelopAPI {
   system: {
     getSystemInfo: () => Promise<SystemInfoResult>;
+    getSystemMetrics: () => Promise<SystemMetricsResult>;
     onDeepLink: (callback: (event: ParsedDeepLinkEvent) => void) => () => void;
   };
   fs: {
@@ -133,6 +135,7 @@ function deepFreeze<T extends object>(obj: T): Readonly<T> {
 const rawAPI: BlockDevelopAPI = {
   system: {
     getSystemInfo: () => invokeWithParsedError(IPC_CHANNELS.SYSTEM_GET_INFO),
+    getSystemMetrics: () => invokeWithParsedError(IPC_CHANNELS.SYSTEM_GET_METRICS),
     onDeepLink: (callback) => {
       const handler = (_: unknown, data: ParsedDeepLinkEvent) => callback(data);
       ipcRenderer.on(IPC_CHANNELS.SYSTEM_DEEP_LINK, handler);

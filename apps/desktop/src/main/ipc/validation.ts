@@ -58,3 +58,48 @@ export function sanitizePath(rawPath: unknown, paramName = 'filePath'): string {
   }
   return path.normalize(str);
 }
+
+export function assertPathWithinBoundary(targetPath: unknown, rootBoundary?: string, paramName = 'filePath'): string {
+  const normalizedTarget = sanitizePath(targetPath, paramName);
+  if (!rootBoundary) return normalizedTarget;
+
+  const normalizedRoot = path.normalize(rootBoundary);
+  const relative = path.relative(normalizedRoot, normalizedTarget);
+
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new IPCValidationError(
+      `Security Violation: Path parameter '${paramName}' (${normalizedTarget}) escapes root workspace boundary (${normalizedRoot}).`
+    );
+  }
+
+  return normalizedTarget;
+}
+
+/**
+ * Escapes CLI argument string for Windows / POSIX environments to prevent argument injection.
+ */
+export function escapeCLIArgument(arg: string): string {
+  if (typeof arg !== 'string') return '';
+  const cleaned = arg.replace(/[\0\r\n]/g, '');
+
+  if (process.platform === 'win32') {
+    if (!cleaned || /[\s\t"\\<>&|^]/.test(cleaned)) {
+      return `"${cleaned.replace(/(\\+)("|$)/g, '$1$1$2').replace(/"/g, '\\"')}"`;
+    }
+    return cleaned;
+  }
+  if (!cleaned || /[\s\t\n\r"'\\$`*?#~<>|&;()[\]{}]/.test(cleaned)) {
+    return `'${cleaned.replace(/'/g, "'\\''")}'`;
+  }
+  return cleaned;
+}
+
+/**
+ * Sanitizes an array of process arguments against null-byte and line-break injections.
+ */
+export function sanitizeCLIArguments(args: string[]): string[] {
+  return args.map((arg, idx) => {
+    const safeStr = assertString(arg, `args[${idx}]`).replace(/[\0\r\n]/g, '');
+    return safeStr;
+  });
+}
