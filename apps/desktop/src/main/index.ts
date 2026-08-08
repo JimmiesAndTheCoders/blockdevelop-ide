@@ -1,7 +1,12 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { enforceSecurityPolicies } from './security';
 import { registerAllIPCHandlers } from './ipc';
+
+// Re-create __dirname for ESM context
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let mainWindow: BrowserWindow | null = null;
 
