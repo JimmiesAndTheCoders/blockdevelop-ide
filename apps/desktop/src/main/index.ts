@@ -1,14 +1,18 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { enforceSecurityPolicies } from './security';
+import { enforceSecurityPolicies, setupWebviewSecurityGuardrails } from './security';
 import { registerAllIPCHandlers } from './ipc';
+import { registerPrivilegedSchemes, setupCustomProtocolHandler } from './protocol';
 
 // Re-create __dirname for ESM context
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 let mainWindow: BrowserWindow | null = null;
+
+// Register privileged schemes before ready
+registerPrivilegedSchemes();
 
 function createMainWindow(): void {
   mainWindow = new BrowserWindow({
@@ -46,8 +50,10 @@ function createMainWindow(): void {
 }
 
 app.whenReady().then(() => {
+  setupWebviewSecurityGuardrails();
   registerAllIPCHandlers();
   createMainWindow();
+  setupCustomProtocolHandler(() => mainWindow);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

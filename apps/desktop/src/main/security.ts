@@ -1,4 +1,4 @@
-import { BrowserWindow, shell, session } from 'electron';
+import { app, BrowserWindow, shell, session } from 'electron';
 
 export function enforceSecurityPolicies(window: BrowserWindow): void {
   // Prevent opening untrusted remote URLs directly in Electron
@@ -55,5 +55,32 @@ export function enforceSecurityPolicies(window: BrowserWindow): void {
   session.defaultSession.setPermissionCheckHandler((_webContents, permission) => {
     const allowedPermissions: string[] = [];
     return allowedPermissions.includes(permission);
+  });
+}
+
+/**
+ * Enforce strict sandbox, webPreferences, and popup restrictions on all dynamically created webviews and frames.
+ */
+export function setupWebviewSecurityGuardrails(): void {
+  app.on('web-contents-created', (_, contents) => {
+    // Intercept when a <webview> tag is attached in the renderer
+    contents.on('will-attach-webview', (_event, webPreferences, _params) => {
+      // Strip dangerous capabilities
+      delete webPreferences.preload;
+      webPreferences.nodeIntegration = false;
+      webPreferences.nodeIntegrationInSubFrames = false;
+      webPreferences.webSecurity = true;
+      webPreferences.contextIsolation = true;
+      webPreferences.sandbox = true;
+      webPreferences.allowRunningInsecureContent = false;
+    });
+
+    // Enforce window open handlers on child frames / preview webviews
+    contents.setWindowOpenHandler(({ url }) => {
+      if (url.startsWith('https:') || url.startsWith('http:')) {
+        shell.openExternal(url);
+      }
+      return { action: 'deny' };
+    });
   });
 }

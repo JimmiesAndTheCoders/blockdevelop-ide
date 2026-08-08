@@ -6,6 +6,7 @@
 export const IPC_CHANNELS = {
   // System
   SYSTEM_GET_INFO: 'system:get-info',
+  SYSTEM_DEEP_LINK: 'system:deep-link',
 
   // File System
   FS_READ_FILE: 'fs:read-file',
