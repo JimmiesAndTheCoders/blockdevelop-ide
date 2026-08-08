@@ -1,6 +1,6 @@
 {
   "name": "@blockdevelop/desktop",
-  "version": "0.1.0",
+  "version": "0.2.0-beta.1",
   "description": "Free open-source IDE for visual block-based programming.",
   "author": "BlockDevelop IDE Team <contact@blockdevelop.dev>",
   "private": true,
@@ -36,12 +36,18 @@
       "dist-electron/**/*"
     ],
     "mac": {
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "category": "public.app-category.developer-tools",
       "artifactName": "BlockDevelop-IDE-macOS-${version}.${ext}"
     },
     "win": {
-      "target": ["nsis", "portable"],
+      "target": [
+        "nsis",
+        "portable"
+      ],
       "forceCodeSigning": false
     },
     "nsis": {
@@ -53,7 +59,10 @@
       "artifactName": "BlockDevelop-IDE-Portable-${version}.${ext}"
     },
     "linux": {
-      "target": ["AppImage", "deb"],
+      "target": [
+        "AppImage",
+        "deb"
+      ],
       "maintainer": "BlockDevelop IDE Team <contact@blockdevelop.dev>",
       "artifactName": "BlockDevelop-IDE-Linux-${version}.${ext}"
     },
