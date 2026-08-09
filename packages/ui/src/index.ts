@@ -14,4 +14,7 @@ export * from './components/Toggle/Checkbox';
 export * from './components/Toggle/Switch';
 export * from './components/Badge/Badge';
 export * from './components/Tooltip/Tooltip';
+export * from './components/Modal/Modal';
+export * from './components/ContextMenu/ContextMenu';
+export * from './components/ContextMenu/useContextMenu';
 export * from './hooks/useIDEEvent';
