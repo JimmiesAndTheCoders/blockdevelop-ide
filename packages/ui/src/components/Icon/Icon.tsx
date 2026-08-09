@@ -136,6 +136,8 @@ export const Icon: FC<IconProps> = ({
     className
   );
 
+  const ariaProps = title ? { 'aria-label': title } : { 'aria-hidden': 'true' as const };
+
   // Check custom icon map first
   const CustomIcon = customIconMap[normalizedName];
   if (CustomIcon) {
@@ -144,7 +146,7 @@ export const Icon: FC<IconProps> = ({
         width={pixelSize}
         height={pixelSize}
         className={combinedClassName}
-        aria-label={title || name}
+        {...ariaProps}
         {...svgProps}
       />
     );
@@ -157,7 +159,7 @@ export const Icon: FC<IconProps> = ({
       <LucideComponent
         size={pixelSize}
         className={combinedClassName}
-        aria-label={title || name}
+        {...ariaProps}
         {...svgProps}
       />
     );
@@ -168,7 +170,7 @@ export const Icon: FC<IconProps> = ({
     <Box
       size={pixelSize}
       className={combinedClassName}
-      aria-label={title || `Unknown icon: ${name}`}
+      {...ariaProps}
       {...svgProps}
     />
   );
