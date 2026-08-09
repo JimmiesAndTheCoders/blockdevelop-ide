@@ -1,0 +1,115 @@
+/* ================================================
+   BlockDevelop IDE Core Theme Variables & Scrollbars
+   ================================================ */
+
+/* Dark Theme (Default) */
+:root,
+.theme-dark {
+  --ide-bg: #181818;
+  --ide-panel: #1f1f1f;
+  --ide-header: #2d2d2d;
+  --ide-tab-active: #1e1e1e;
+  --ide-tab-inactive: #2d2d2d;
+  --ide-sidebar: #181818;
+  --ide-statusbar: #007acc;
+  --ide-border: #3c3c3c;
+  --ide-border-light: #454545;
+  --ide-border-focus: #007acc;
+  --ide-text: #e0e0e0;
+  --ide-muted: #858585;
+  --ide-selection: #094771;
+  --ide-accent: #007acc;
+  --ide-accent-hover: #1e90ff;
+  --ide-error: #f87171;
+  --ide-warning: #fbbf24;
+  --ide-success: #34d399;
+  --ide-info: #60a5fa;
+  --ide-scrollbar-thumb: rgba(121, 121, 121, 0.4);
+  --ide-scrollbar-thumb-hover: rgba(160, 160, 160, 0.7);
+  color-scheme: dark;
+}
+
+/* Light Theme */
+.theme-light {
+  --ide-bg: #f3f3f3;
+  --ide-panel: #ffffff;
+  --ide-header: #e8e8e8;
+  --ide-tab-active: #ffffff;
+  --ide-tab-inactive: #ececec;
+  --ide-sidebar: #f3f3f3;
+  --ide-statusbar: #007acc;
+  --ide-border: #cccccc;
+  --ide-border-light: #e0e0e0;
+  --ide-border-focus: #007acc;
+  --ide-text: #1e1e1e;
+  --ide-muted: #616161;
+  --ide-selection: #add6ff;
+  --ide-accent: #007acc;
+  --ide-accent-hover: #005999;
+  --ide-error: #e53e3e;
+  --ide-warning: #dd6b20;
+  --ide-success: #38a169;
+  --ide-info: #3182ce;
+  --ide-scrollbar-thumb: rgba(100, 100, 100, 0.3);
+  --ide-scrollbar-thumb-hover: rgba(100, 100, 100, 0.6);
+  color-scheme: light;
+}
+
+/* High Contrast Theme */
+.theme-high-contrast {
+  --ide-bg: #000000;
+  --ide-panel: #000000;
+  --ide-header: #000000;
+  --ide-tab-active: #000000;
+  --ide-tab-inactive: #000000;
+  --ide-sidebar: #000000;
+  --ide-statusbar: #000000;
+  --ide-border: #6fc06d;
+  --ide-border-light: #ffffff;
+  --ide-border-focus: #ffff00;
+  --ide-text: #ffffff;
+  --ide-muted: #ffff00;
+  --ide-selection: #1a85ff;
+  --ide-accent: #f38518;
+  --ide-accent-hover: #ffa500;
+  --ide-error: #ff0000;
+  --ide-warning: #ffaa00;
+  --ide-success: #00ff00;
+  --ide-info: #00ffff;
+  --ide-scrollbar-thumb: #6fc06d;
+  --ide-scrollbar-thumb-hover: #ffffff;
+  color-scheme: dark;
+}
+
+/* ================================================
+   Cross-Browser High-Density IDE Scrollbars
+   ================================================ */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ide-scrollbar-thumb) transparent;
+}
+
+/* WebKit / Electron / Chromium / Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ide-scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ide-scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

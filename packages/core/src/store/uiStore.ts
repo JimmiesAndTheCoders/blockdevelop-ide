@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 
-export type UITheme = 'dark' | 'light' | 'high-contrast';
+export type UITheme = 'dark' | 'light' | 'high-contrast' | 'system';
 
 export interface UIState {
   theme: UITheme;

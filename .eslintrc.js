@@ -31,4 +31,12 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
   },
+  overrides: [
+    {
+      files: ['*.js', '*.cjs', '*.mjs'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
+    },
+  ],
 };
