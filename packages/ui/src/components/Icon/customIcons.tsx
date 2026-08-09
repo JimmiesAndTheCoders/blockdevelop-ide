@@ -1,6 +1,6 @@
-import React from 'react';
+import type { FC, SVGProps } from 'react';
 
-export const customIconMap: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
+export const customIconMap: Record<string, FC<SVGProps<SVGSVGElement>>> = {
   haxe: (props) => (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
       <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.24l7.6 3.8v7.92L12 19.76l-7.6-3.8V8.04L12 4.24zM8.5 8v8h2v-3h3v3h2V8h-2v3h-3V8h-2z" />

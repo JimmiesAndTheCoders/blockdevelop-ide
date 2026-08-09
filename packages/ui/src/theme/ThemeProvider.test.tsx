@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
-import React from 'react';
+import '@testing-library/jest-dom';
 import { ThemeProvider, useTheme } from './ThemeProvider';
 import { useUIStore } from '@blockdevelop/core';
 
-const ThemeTester: React.FC = () => {
+const ThemeTester = () => {
   const { theme, resolvedTheme, setTheme } = useTheme();
   return (
     <div>

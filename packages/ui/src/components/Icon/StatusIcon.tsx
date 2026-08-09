@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import { clsx } from 'clsx';
 import { Icon, IconProps } from './Icon';
 import { Lock, RefreshCw, AlertCircle, AlertTriangle, CheckCircle2 } from 'lucide-react';
@@ -17,9 +17,9 @@ export type StatusOverlayType =
 export type BadgePosition = 'top-right' | 'bottom-right' | 'top-left' | 'bottom-left';
 
 export interface StatusIconProps extends IconProps {
-  status?: StatusOverlayType;
-  badgePosition?: BadgePosition;
-  statusTitle?: string;
+  status?: StatusOverlayType | undefined;
+  badgePosition?: BadgePosition | undefined;
+  statusTitle?: string | undefined;
 }
 
 const positionClassesMap: Record<BadgePosition, string> = {
@@ -32,7 +32,7 @@ const positionClassesMap: Record<BadgePosition, string> = {
 /**
  * StatusIcon wraps base Icon with status badge overlays (unsaved dot, lock, sync spinner, error/warning/success indicators).
  */
-export const StatusIcon: React.FC<StatusIconProps> = ({
+export const StatusIcon: FC<StatusIconProps> = ({
   name,
   size = 'md',
   color = 'inherit',

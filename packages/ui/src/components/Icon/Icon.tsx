@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC, SVGProps } from 'react';
 import { clsx } from 'clsx';
 import {
   Play,
@@ -49,16 +49,16 @@ export type IconColor =
   | 'muted'
   | 'inherit';
 
-export interface IconProps extends Omit<React.SVGProps<SVGSVGElement>, 'color' | 'size'> {
+export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'color' | 'size'> {
   name: string;
-  size?: IconSize;
-  color?: IconColor;
-  spin?: boolean;
-  className?: string;
-  title?: string;
+  size?: IconSize | undefined;
+  color?: IconColor | undefined;
+  spin?: boolean | undefined;
+  className?: string | undefined;
+  title?: string | undefined;
 }
 
-const lucideIconMap: Record<string, React.FC<LucideProps>> = {
+const lucideIconMap: Record<string, FC<LucideProps>> = {
   play: Play,
   pause: Pause,
   stop: Square,
@@ -115,7 +115,7 @@ const colorClassesMap: Record<IconColor, string> = {
 /**
  * Unified Icon component wrapping Lucide icons & custom FlashDevelop/HaxeDevelop SVGs.
  */
-export const Icon: React.FC<IconProps> = ({
+export const Icon: FC<IconProps> = ({
   name,
   size = 'md',
   color = 'inherit',
