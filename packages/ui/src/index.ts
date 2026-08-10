@@ -13,6 +13,17 @@ export const FLEXLAYOUT_THEME_PATH = '@blockdevelop/ui/flexlayout-theme.css';
 // Dockable Layout Core
 export * from './components/DockLayout/defaultLayout';
 export * from './components/DockLayout/layoutSanitizer';
+export * from './components/DockLayout/panelTypes';
+export * from './components/DockLayout/panelRegistry';
+export * from './components/DockLayout/views/ExplorerPanelView';
+export * from './components/DockLayout/views/EditorPanelView';
+export * from './components/DockLayout/views/PropertiesPanelView';
+export * from './components/DockLayout/views/TerminalPanelView';
+export * from './components/DockLayout/views/ProblemsPanelView';
+export * from './components/DockLayout/views/ToolboxPanelView';
+export * from './components/DockLayout/views/PreviewPanelView';
+export * from './components/DockLayout/PanelErrorBoundary';
+export * from './components/DockLayout/TabNodeHeader';
 
 // Atomic UI Components
 export * from './components/Icon/Icon';
