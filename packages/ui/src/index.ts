@@ -10,6 +10,10 @@ export * from './theme/themeUtils';
 // FlexLayout CSS Path Constant
 export const FLEXLAYOUT_THEME_PATH = '@blockdevelop/ui/flexlayout-theme.css';
 
+// Dockable Layout Core
+export * from './components/DockLayout/defaultLayout';
+export * from './components/DockLayout/layoutSanitizer';
+
 // Atomic UI Components
 export * from './components/Icon/Icon';
 export * from './components/Icon/StatusIcon';
