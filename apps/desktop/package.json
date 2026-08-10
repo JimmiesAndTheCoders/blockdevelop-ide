@@ -1,6 +1,6 @@
 {
   "name": "@blockdevelop/desktop",
-  "version": "0.3.0",
+  "version": "0.4.0-beta.1",
   "description": "Free open-source IDE for visual block-based programming.",
   "author": "BlockDevelop IDE Team <contact@blockdevelop.dev>",
   "private": true,
@@ -77,6 +77,7 @@
     "@blockdevelop/core": "workspace:*",
     "@blockdevelop/ui": "workspace:*",
     "clsx": "^2.1.0",
+    "flexlayout-react": "^0.7.12",
     "lucide-react": "^0.344.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

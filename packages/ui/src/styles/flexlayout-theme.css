@@ -1,0 +1,277 @@
+/* ==========================================================================
+   BlockDevelop IDE - FlexLayout Theme Overrides
+   Full Dark, Light, & High-Contrast Theme Configuration
+   ========================================================================== */
+
+/* Main Layout Shell */
+.flexlayout__layout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--ide-bg);
+  color: var(--ide-text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 0.75rem;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Panel Content Container */
+.flexlayout__tab {
+  position: absolute;
+  overflow: auto;
+  background-color: var(--ide-panel);
+  color: var(--ide-text);
+  border: 1px solid var(--ide-border);
+  box-sizing: border-box;
+}
+
+/* Tabset Shell */
+.flexlayout__tabset {
+  background-color: var(--ide-panel);
+  border: 1px solid var(--ide-border);
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* Tabset Header Bar */
+.flexlayout__tabset_header {
+  background-color: var(--ide-header);
+  border-bottom: 1px solid var(--ide-border);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
+  padding: 0 4px;
+}
+
+.flexlayout__tabset_header_content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Tab Buttons */
+.flexlayout__tab_button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  background-color: var(--ide-header);
+  color: var(--ide-muted);
+  border-right: 1px solid var(--ide-border);
+  border-top: 2px solid transparent;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  box-sizing: border-box;
+}
+
+.flexlayout__tab_button:hover {
+  background-color: var(--ide-panel);
+  color: var(--ide-text);
+}
+
+.flexlayout__tab_button--selected {
+  background-color: var(--ide-panel);
+  color: var(--ide-text);
+  font-weight: 600;
+  border-top: 2px solid var(--ide-accent);
+}
+
+/* Tab Icon (Leading Slot) */
+.flexlayout__tab_button_leading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ide-muted);
+}
+
+.flexlayout__tab_button--selected .flexlayout__tab_button_leading {
+  color: var(--ide-accent);
+}
+
+/* Tab Label Text */
+.flexlayout__tab_button_textbox {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+/* Tab Close Button (Trailing Slot) */
+.flexlayout__tab_button_trailing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  color: var(--ide-muted);
+  transition: background-color 100ms ease, color 100ms ease;
+  margin-left: 4px;
+}
+
+.flexlayout__tab_button_trailing:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--ide-text);
+}
+
+/* Splitter Dividers & Resizing Hitboxes */
+.flexlayout__splitter {
+  background-color: var(--ide-bg);
+  transition: background-color 150ms ease;
+  z-index: 10;
+}
+
+.flexlayout__splitter:hover {
+  background-color: var(--ide-accent);
+}
+
+.flexlayout__splitter_drag {
+  background-color: var(--ide-accent-hover) !important;
+  z-index: 100;
+}
+
+.flexlayout__splitter_extra {
+  cursor: col-resize;
+}
+
+.flexlayout__splitter_extra_row {
+  cursor: row-resize;
+}
+
+/* Drag & Drop Target Overlays */
+.flexlayout__outline_rect {
+  position: absolute;
+  cursor: move;
+  box-sizing: border-box;
+  border: 2px solid var(--ide-accent);
+  background-color: rgba(0, 122, 204, 0.18);
+  border-radius: 4px;
+  z-index: 1000;
+  pointer-events: none;
+  transition: all 100ms ease-out;
+}
+
+.flexlayout__outline_rect_edge {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px dashed var(--ide-accent);
+  background-color: rgba(0, 122, 204, 0.28);
+  z-index: 1001;
+  pointer-events: none;
+}
+
+/* Tabset Toolbar Buttons */
+.flexlayout__tabset_toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-left: 4px;
+}
+
+.flexlayout__tabset_toolbar_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  color: var(--ide-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 100ms ease, color 100ms ease;
+}
+
+.flexlayout__tabset_toolbar_button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--ide-text);
+}
+
+/* Floating Window Popout Border */
+.flexlayout__floating_window {
+  border: 1px solid var(--ide-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  background-color: var(--ide-bg);
+}
+
+/* ==========================================================================
+   THEME SPECIFIC OVERRIDES
+   ========================================================================== */
+
+/* Dark Theme Overrides */
+.theme-dark .flexlayout__outline_rect,
+.dark .flexlayout__outline_rect {
+  border-color: #007acc;
+  background-color: rgba(0, 122, 204, 0.2);
+}
+
+.theme-dark .flexlayout__tab_button_trailing:hover,
+.dark .flexlayout__tab_button_trailing:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Light Theme Overrides */
+.theme-light .flexlayout__tab_button,
+.light .flexlayout__tab_button {
+  background-color: var(--ide-header);
+  color: var(--ide-muted);
+}
+
+.theme-light .flexlayout__tab_button:hover,
+.light .flexlayout__tab_button:hover {
+  background-color: #e0e0e0;
+  color: #1e1e1e;
+}
+
+.theme-light .flexlayout__tab_button--selected,
+.light .flexlayout__tab_button--selected {
+  background-color: var(--ide-panel);
+  color: var(--ide-text);
+  border-top-color: var(--ide-accent);
+}
+
+.theme-light .flexlayout__tab_button_trailing:hover,
+.light .flexlayout__tab_button_trailing:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #1e1e1e;
+}
+
+.theme-light .flexlayout__outline_rect,
+.light .flexlayout__outline_rect {
+  border-color: #007acc;
+  background-color: rgba(0, 122, 204, 0.15);
+}
+
+/* High Contrast Theme Overrides */
+.theme-high-contrast .flexlayout__tabset,
+.theme-high-contrast .flexlayout__tab {
+  border: 2px solid var(--ide-border);
+}
+
+.theme-high-contrast .flexlayout__tab_button--selected {
+  border-top: 3px solid var(--ide-border-focus);
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.theme-high-contrast .flexlayout__outline_rect {
+  border: 3px solid var(--ide-border-focus);
+  background-color: rgba(255, 255, 0, 0.25);
+}
+
+.theme-high-contrast .flexlayout__splitter:hover {
+  background-color: var(--ide-border-focus);
+}

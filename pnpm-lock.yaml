@@ -68,6 +68,9 @@ importers:
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
+      flexlayout-react:
+        specifier: ^0.7.12
+        version: 0.7.15(react-dom@18.3.1)(react@18.3.1)
       lucide-react:
         specifier: ^0.344.0
         version: 0.344.0(react@18.3.1)
@@ -162,6 +165,9 @@ importers:
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
+      flexlayout-react:
+        specifier: ^0.7.12
+        version: 0.7.15(react-dom@18.3.1)(react@18.3.1)
       lucide-react:
         specifier: ^0.344.0
         version: 0.344.0(react@18.3.1)
@@ -3274,6 +3280,16 @@ packages:
   /flatted@3.4.4:
     resolution: {integrity: sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q==}
     dev: true
+
+  /flexlayout-react@0.7.15(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-ydTMdEoQO5BniylxVkSxa59rEY0+96lqqRII+QK+yq6028eHywPuxZawt4g45y5pMb9ptP4N9HPAQXAFsxwowQ==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
 
   /for-each@0.3.5:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
