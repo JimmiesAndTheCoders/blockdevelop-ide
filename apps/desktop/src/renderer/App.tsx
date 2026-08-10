@@ -1,130 +1,202 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { IDE_METADATA } from '@blockdevelop/core';
 import { initializeBlockEngine } from '@blockdevelop/block-engine';
 import { getGeneratorVersion } from '@blockdevelop/code-gen';
-import { Box, Code, Cpu, FileCode, FolderOpen, Terminal } from 'lucide-react';
+import {
+  PanelHeader,
+  PanelSection,
+  Button,
+  TextInput,
+  SearchInput,
+  Select,
+  Switch,
+  Badge,
+  Tag,
+  Kbd,
+  ProgressBar,
+  Spinner,
+  Tooltip,
+  ContextMenu,
+  useContextMenu,
+  useTheme,
+  type UITheme,
+  type TabItemData,
+  TabBar,
+} from '@blockdevelop/ui';
 
 export const App: React.FC = () => {
-  const [systemInfo, setSystemInfo] = useState<{
-    appVersion: string;
-    electronVersion: string;
-    nodeVersion: string;
-  } | null>(null);
+  const { theme, setTheme } = useTheme();
+  const [targetPlatform, setTargetPlatform] = useState('html5');
+  const [isBuilding, setIsBuilding] = useState(false);
+  const [autoSave, setAutoSave] = useState(true);
+  const [activeTab, setActiveTab] = useState('tab-1');
 
-  const [selectedFile, setSelectedFile] = useState<string | null>(null);
-  const [processLog, setProcessLog] = useState<string[]>([]);
+  const { isOpen, position, handleContextMenu, closeContextMenu } = useContextMenu();
 
-  useEffect(() => {
-    if (window.blockDevelopAPI?.system) {
-      window.blockDevelopAPI.system.getSystemInfo().then(setSystemInfo);
-    }
-  }, []);
+  const sampleTabs: TabItemData[] = [
+    { id: 'tab-1', title: 'Main.hx', icon: 'file-code', isDirty: false },
+    { id: 'tab-2', title: 'Player.block', icon: 'block', isDirty: true },
+  ];
 
-  const handleOpenFile = async () => {
-    if (!window.blockDevelopAPI?.dialog) {
-      console.warn('IPC Dialog API not available yet');
-      return;
-    }
-    const file = await window.blockDevelopAPI.dialog.openFile({
-      title: 'Select a Block Project File',
-      filters: [{ name: 'BlockDevelop Projects', extensions: ['blockproj', 'json'] }],
-    });
-    if (file) {
-      setSelectedFile(file);
-    }
-  };
-
-  const handleTestProcess = async () => {
-    if (!window.blockDevelopAPI?.process) {
-      console.warn('IPC Process API not available yet');
-      return;
-    }
-    setProcessLog((prev) => [...prev, 'Spawning test ping process...']);
-    const pid = await window.blockDevelopAPI.process.spawn({
-      command: 'node',
-      args: ['-v'],
-    });
-
-    if (pid) {
-      window.blockDevelopAPI.process.onData((event) => {
-        setProcessLog((prev) => [...prev, `[PID ${event.pid}] ${event.type}: ${event.data}`]);
-      });
-    }
+  const handleBuild = () => {
+    setIsBuilding(true);
+    setTimeout(() => setIsBuilding(false), 2000);
   };
 
   return (
-    <div className="flex flex-col h-screen bg-workspace-dark text-gray-200">
-      <header className="h-10 bg-workspace-header border-b border-workspace-border flex items-center px-4 justify-between">
-        <div className="flex items-center space-x-2 font-bold text-workspace-accent">
-          <Box className="w-5 h-5 text-workspace-accent" />
-          <span>{IDE_METADATA.NAME}</span>
-          <span className="text-xs text-gray-400 font-normal">v{IDE_METADATA.VERSION}</span>
-        </div>
-        <div className="text-xs text-gray-400">Phase 0.4: Safe IPC Bridge Engaged</div>
-      </header>
+    <div
+      onContextMenu={handleContextMenu}
+      className="flex flex-col h-screen bg-workspace-dark text-gray-200 font-sans overflow-hidden select-none"
+    >
+      {/* Top Application Header */}
+      <PanelHeader
+        title={IDE_METADATA.NAME}
+        icon="box"
+        badge={<Badge variant="haxe">v{IDE_METADATA.VERSION}</Badge>}
+        actions={
+          <div className="flex items-center gap-2">
+            <Select
+              size="xs"
+              value={theme}
+              onChange={(val) => setTheme(val as UITheme)}
+              options={[
+                { value: 'dark', label: 'Dark Theme' },
+                { value: 'light', label: 'Light Theme' },
+                { value: 'high-contrast', label: 'High Contrast' },
+                { value: 'system', label: 'System Theme' },
+              ]}
+              className="w-36"
+            />
+            <Tooltip content="Quick Command Palette" shortcut="Ctrl+Shift+P">
+              <Kbd shortcut="Ctrl+P" />
+            </Tooltip>
+          </div>
+        }
+      />
 
-      <main className="flex-1 flex p-6 gap-6 overflow-auto">
-        <div className="flex-1 bg-workspace-panel border border-workspace-border rounded-lg p-6 flex flex-col justify-between shadow-xl">
+      {/* Editor Tab Bar */}
+      <TabBar
+        tabs={sampleTabs}
+        activeTabId={activeTab}
+        onTabSelect={setActiveTab}
+        actions={
+          <Badge variant="platform" size="xs">
+            {targetPlatform.toUpperCase()}
+          </Badge>
+        }
+      />
+
+      {/* Main Workspace Layout */}
+      <main className="flex-1 flex p-4 gap-4 overflow-auto">
+        {/* Sidebar Panel */}
+        <aside className="w-72 bg-workspace-panel border border-workspace-border rounded-lg flex flex-col shrink-0 shadow-lg">
+          <PanelHeader title="Project Explorer" icon="folder" />
+
+          <PanelSection title="Target Platform" icon="globe">
+            <Select
+              size="sm"
+              value={targetPlatform}
+              onChange={setTargetPlatform}
+              options={[
+                { value: 'html5', label: 'HTML5 Web App' },
+                { value: 'node', label: 'Node.js Server' },
+                { value: 'python', label: 'Python Engine' },
+                { value: 'haxe', label: 'Haxe Compiler' },
+                { value: 'cpp', label: 'C++ Native' },
+                { value: 'arduino', label: 'Arduino Board' },
+              ]}
+            />
+          </PanelSection>
+
+          <PanelSection title="Editor Preferences" icon="settings">
+            <div className="space-y-3 pt-1">
+              <Switch
+                label="Auto-Save Files"
+                description="Automatically save unsaved tabs"
+                checked={autoSave}
+                onChange={setAutoSave}
+              />
+              <SearchInput size="sm" placeholder="Search preferences..." />
+            </div>
+          </PanelSection>
+
+          <PanelSection title="Build Status" icon="cpu">
+            <div className="space-y-2">
+              <ProgressBar
+                value={isBuilding ? undefined : 100}
+                variant={isBuilding ? 'haxe' : 'success'}
+                size="sm"
+                label={isBuilding ? 'Compiling Haxe code...' : 'Build Ready'}
+                showPercentage={!isBuilding}
+              />
+              {isBuilding && (
+                <div className="flex items-center gap-2 text-2xs text-brand-haxeOrange font-mono pt-1">
+                  <Spinner size="xs" variant="haxe" /> Executing Haxe compiler pipeline...
+                </div>
+              )}
+            </div>
+          </PanelSection>
+        </aside>
+
+        {/* Central Workspace Canvas */}
+        <section className="flex-1 bg-workspace-panel border border-workspace-border rounded-lg p-6 flex flex-col justify-between shadow-xl">
           <div>
-            <h1 className="text-2xl font-bold mb-2 flex items-center gap-2 text-white">
-              <Cpu className="text-workspace-accent" /> Visual Block Develop IDE
-            </h1>
-            <p className="text-gray-400 text-sm mb-6">
-              Inspired by FlashDevelop & HaxeDevelop — Safe IPC Bridges Activated (`fs`, `dialog`, `process`, `system`).
+            <div className="flex items-center justify-between mb-4">
+              <h1 className="text-xl font-bold flex items-center gap-2 text-white">
+                <Tag variant="brand">Phase 2: Design System Active</Tag>
+              </h1>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="accent"
+                  size="sm"
+                  leftIcon="play"
+                  isLoading={isBuilding}
+                  onClick={handleBuild}
+                >
+                  Compile & Run
+                </Button>
+              </div>
+            </div>
+
+            <p className="text-gray-400 text-xs mb-6">
+              Right-click anywhere on the workspace canvas to trigger the custom IDE Context Menu.
             </p>
 
-            <div className="space-y-3 font-mono text-sm mb-6">
-              <div className="p-3 bg-workspace-dark rounded border border-workspace-border flex items-center gap-2">
-                <Box className="w-4 h-4 text-emerald-400" />
-                <span className="text-gray-300">{initializeBlockEngine()}</span>
+            <div className="space-y-3 font-mono text-xs mb-6">
+              <div className="p-3 bg-workspace-dark rounded border border-workspace-border text-emerald-400">
+                ✓ {initializeBlockEngine()}
               </div>
-              <div className="p-3 bg-workspace-dark rounded border border-workspace-border flex items-center gap-2">
-                <Code className="w-4 h-4 text-amber-400" />
-                <span className="text-gray-300">{getGeneratorVersion()}</span>
+              <div className="p-3 bg-workspace-dark rounded border border-workspace-border text-amber-400">
+                ✓ {getGeneratorVersion()}
               </div>
             </div>
 
-            {/* Test Interactive IPC API Buttons */}
-            <div className="flex flex-wrap gap-4 mb-6">
-              <button
-                onClick={handleOpenFile}
-                className="px-4 py-2 bg-workspace-accent hover:bg-workspace-accentHover text-white text-xs font-semibold rounded flex items-center gap-2 transition"
-              >
-                <FolderOpen className="w-4 h-4" /> Test Native Dialog (`dialog.openFile`)
-              </button>
-              <button
-                onClick={handleTestProcess}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-xs font-semibold rounded flex items-center gap-2 transition"
-              >
-                <Terminal className="w-4 h-4 text-emerald-400" /> Test Process Spawn (`process.spawn`)
-              </button>
+            <div className="flex items-center gap-3">
+              <TextInput size="sm" defaultValue="main.hx" variant="code" className="max-w-xs" />
+              <Tooltip content="Save Document" shortcut="Ctrl+S">
+                <Button variant="secondary" size="sm" leftIcon="file-code">
+                  Save
+                </Button>
+              </Tooltip>
             </div>
-
-            {selectedFile && (
-              <div className="p-3 bg-workspace-dark rounded border border-workspace-border text-xs font-mono text-cyan-400 mb-4 flex items-center gap-2">
-                <FileCode className="w-4 h-4" /> Selected File: {selectedFile}
-              </div>
-            )}
-
-            {processLog.length > 0 && (
-              <div className="p-3 bg-workspace-dark rounded border border-workspace-border text-xs font-mono text-gray-300 max-h-32 overflow-y-auto space-y-1">
-                {processLog.map((log, idx) => (
-                  <div key={idx}>{log}</div>
-                ))}
-              </div>
-            )}
           </div>
-
-          {systemInfo && (
-            <div className="border-t border-workspace-border pt-4 flex items-center justify-between text-xs text-gray-400 font-mono">
-              <span className="flex items-center gap-1">
-                <Terminal className="w-3.5 h-3.5 text-workspace-accent" /> Electron v{systemInfo.electronVersion}
-              </span>
-              <span>Node v{systemInfo.nodeVersion}</span>
-            </div>
-          )}
-        </div>
+        </section>
       </main>
+
+      {/* Right-Click Context Menu */}
+      <ContextMenu
+        isOpen={isOpen}
+        position={position}
+        onClose={closeContextMenu}
+        items={[
+          { id: 'run', label: 'Compile & Run', icon: 'play', shortcut: 'F5', onClick: handleBuild },
+          { id: 'div-1', divider: true },
+          { id: 'copy', label: 'Copy Block', icon: 'copy', shortcut: 'Ctrl+C' },
+          { id: 'paste', label: 'Paste Block', icon: 'copy', shortcut: 'Ctrl+V', disabled: true },
+          { id: 'div-2', divider: true },
+          { id: 'delete', label: 'Delete Selected', icon: 'trash', danger: true },
+        ]}
+      />
     </div>
   );
 };

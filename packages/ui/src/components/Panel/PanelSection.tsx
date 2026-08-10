@@ -1,4 +1,4 @@
-import { useState, type FC, type ReactNode } from 'react';
+import { useState, type FC, type ReactNode, type KeyboardEvent } from 'react';
 import { clsx } from 'clsx';
 import { Icon } from '../Icon/Icon';
 
@@ -47,6 +47,13 @@ export const PanelSection: FC<PanelSectionProps> = ({
     }
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleToggle();
+    }
+  };
+
   const renderIconSlot = (iconItem: string | ReactNode) => {
     if (typeof iconItem === 'string') {
       return <Icon name={iconItem} size="xs" color="muted" />;
@@ -58,9 +65,13 @@ export const PanelSection: FC<PanelSectionProps> = ({
     <div className={clsx('flex flex-col border-b border-workspace-border font-sans', className)}>
       {/* Section Header */}
       <div
+        role="button"
+        tabIndex={0}
+        aria-expanded={!collapsed}
         onClick={handleToggle}
+        onKeyDown={handleKeyDown}
         className={clsx(
-          'h-6 px-2 bg-workspace-dark hover:bg-workspace-hover border-b border-workspace-border/50 flex items-center justify-between text-2xs text-gray-300 font-semibold uppercase tracking-wider select-none cursor-pointer transition-colors',
+          'h-6 px-2 bg-workspace-dark hover:bg-workspace-hover border-b border-workspace-border/50 flex items-center justify-between text-2xs text-gray-300 font-semibold uppercase tracking-wider select-none cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-blue',
           headerClassName
         )}
       >

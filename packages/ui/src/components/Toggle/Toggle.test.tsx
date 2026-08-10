@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Checkbox } from './Checkbox';
 import { Switch } from './Switch';
@@ -13,12 +13,13 @@ describe('Toggle & Checkbox Components', () => {
       const checkbox = screen.getByRole<HTMLInputElement>('checkbox');
       expect(checkbox).not.toBeChecked();
 
-      // Trigger native click & DOM property update for React 18 ValueTracker
-      checkbox.click();
-      if (handleChange.mock.calls.length === 0) {
-        checkbox.checked = true;
-        fireEvent.change(checkbox);
-      }
+      act(() => {
+        checkbox.click();
+        if (handleChange.mock.calls.length === 0) {
+          checkbox.checked = true;
+          fireEvent.change(checkbox);
+        }
+      });
 
       expect(handleChange).toHaveBeenCalled();
     });
@@ -41,7 +42,10 @@ describe('Toggle & Checkbox Components', () => {
       const toggle = screen.getByRole('switch');
       expect(toggle.getAttribute('aria-checked')).toBe('false');
 
-      fireEvent.click(toggle);
+      act(() => {
+        fireEvent.click(toggle);
+      });
+
       expect(handleChange).toHaveBeenCalledWith(true);
     });
 
@@ -52,7 +56,10 @@ describe('Toggle & Checkbox Components', () => {
       const toggle = screen.getByRole('switch');
       expect(toggle).toBeDisabled();
 
-      fireEvent.click(toggle);
+      act(() => {
+        fireEvent.click(toggle);
+      });
+
       expect(handleChange).not.toHaveBeenCalled();
     });
   });
