@@ -40,17 +40,24 @@ export const App: React.FC = () => {
   const [isBuilding, setIsBuilding] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
   const [activeTab, setActiveTab] = useState('tab-1');
-
-  const { isOpen, position, handleContextMenu, closeContextMenu } = useContextMenu();
-
-  const sampleTabs: TabItemData[] = [
+  const [tabs, setTabs] = useState<TabItemData[]>([
     { id: 'tab-1', title: 'Main.hx', icon: 'file-code', isDirty: false },
     { id: 'tab-2', title: 'Player.block', icon: 'block', isDirty: true },
-  ];
+  ]);
+
+  const { isOpen, position, handleContextMenu, closeContextMenu } = useContextMenu();
 
   const handleBuild = () => {
     setIsBuilding(true);
     setTimeout(() => setIsBuilding(false), 2000);
+  };
+
+  const handleTabClose = (tabId: string) => {
+    setTabs((prev) => prev.filter((t) => t.id !== tabId));
+    if (activeTab === tabId) {
+      const remaining = tabs.filter((t) => t.id !== tabId);
+      setActiveTab(remaining[0]?.id || '');
+    }
   };
 
   const handlePresetChange = (presetKey: string) => {
@@ -63,6 +70,10 @@ export const App: React.FC = () => {
     useLayoutStore.getState().loadLayout(presetJson as unknown as LoadLayoutParam);
   };
 
+  /**
+   * Reset Window Layout Command
+   * Clears saved persistent layout, resets store to DEFAULT_WORKSPACE_LAYOUT, and updates UI status.
+   */
   const handleResetLayout = () => {
     LayoutPersistenceManager.clearSavedLayout();
     const defaultJson = LayoutModelFactory.createDefaultJson();
@@ -135,9 +146,10 @@ export const App: React.FC = () => {
 
       {/* Editor Tab Bar */}
       <TabBar
-        tabs={sampleTabs}
+        tabs={tabs}
         activeTabId={activeTab}
         onTabSelect={setActiveTab}
+        onTabClose={handleTabClose}
         actions={
           <Badge variant="platform" size="xs">
             {targetPlatform.toUpperCase()}

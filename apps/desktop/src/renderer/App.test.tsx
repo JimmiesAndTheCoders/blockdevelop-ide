@@ -57,16 +57,12 @@ describe('Desktop App Component & Dock Layout Integration Suite', () => {
       expect(screen.getByText('Player.block')).toBeInTheDocument();
     });
 
-    // Select second tab
-    const secondTab = screen.getByText('Player.block');
-    fireEvent.click(secondTab);
-
-    // Close second tab
-    const closeBtn = screen.getByLabelText('Close tab Player.block');
+    // Close first tab (Main.hx)
+    const closeBtn = screen.getByLabelText('Close tab Main.hx');
     fireEvent.click(closeBtn);
 
     await waitFor(() => {
-      expect(screen.queryByText('Player.block')).not.toBeInTheDocument();
+      expect(screen.queryByText('Main.hx')).not.toBeInTheDocument();
     });
   });
 
