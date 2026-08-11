@@ -99,23 +99,61 @@ export type LayoutPresetType =
   | 'code-centric'
   | 'debugger';
 
+export interface LayoutPresetMetadata {
+  id: LayoutPresetType;
+  name: string;
+  description: string;
+  icon: string;
+}
+
+export const LAYOUT_PRESETS: Record<LayoutPresetType, LayoutPresetMetadata> = {
+  'default': {
+    id: 'default',
+    name: 'Default Workspace',
+    description: 'Full IDE view with Explorer, Editor, Properties, and Terminal.',
+    icon: 'layout',
+  },
+  'visual-builder': {
+    id: 'visual-builder',
+    name: 'Visual Builder',
+    description: 'Maximized Blockly block canvas with Toolbox and minimal sidebar.',
+    icon: 'box',
+  },
+  'code-centric': {
+    id: 'code-centric',
+    name: 'Code Centric',
+    description: 'Maximized code editor view with file explorer and side terminal.',
+    icon: 'code',
+  },
+  'debugger': {
+    id: 'debugger',
+    name: 'Debugger & Runner',
+    description: 'Focused view on execution stack, variable inspector, and output console.',
+    icon: 'bug',
+  },
+};
+
 /**
- * Default IDE Workspace Layout Configuration
- * Enforces tabSetMinWidth (180px) & tabSetMinHeight (120px) to prevent UI panel collapse.
+ * Common Global Constraints for all IDE Layout Presets
+ */
+const BASELINE_GLOBAL_CONFIG = {
+  tabEnableClose: true,
+  tabEnableFloat: true,
+  tabEnableRename: false,
+  tabSetEnableClose: false,
+  tabSetEnableDrop: true,
+  tabSetEnableSingleTabStretch: false,
+  tabSetMinWidth: 180,
+  tabSetMinHeight: 120,
+  splitterSize: 6,
+  splitterExtra: 4,
+};
+
+/**
+ * 🎨 1. Default Workspace Layout Configuration
  */
 export const DEFAULT_WORKSPACE_LAYOUT_JSON: IJsonModel = {
-  global: {
-    tabEnableClose: true,
-    tabEnableFloat: true,
-    tabEnableRename: false,
-    tabSetEnableClose: false,
-    tabSetEnableDrop: true,
-    tabSetEnableSingleTabStretch: false,
-    tabSetMinWidth: 180,
-    tabSetMinHeight: 120,
-    splitterSize: 6,
-    splitterExtra: 4,
-  },
+  global: BASELINE_GLOBAL_CONFIG,
   borders: [],
   layout: {
     type: 'row',
@@ -212,10 +250,11 @@ export const DEFAULT_WORKSPACE_LAYOUT_JSON: IJsonModel = {
 };
 
 /**
- * Visual Builder Preset: Focuses on Blockly canvas and block toolbox.
+ * 🧩 2. Visual Builder Mode: Focuses on Blockly canvas and block toolbox.
  */
 export const VISUAL_BUILDER_LAYOUT_JSON: IJsonModel = {
-  ...DEFAULT_WORKSPACE_LAYOUT_JSON,
+  global: BASELINE_GLOBAL_CONFIG,
+  borders: [],
   layout: {
     type: 'row',
     weight: 100,
@@ -223,17 +262,9 @@ export const VISUAL_BUILDER_LAYOUT_JSON: IJsonModel = {
       {
         type: 'tabset',
         id: 'tabset-left',
-        weight: 25,
-        selected: 1, // Select Block Toolbox
+        weight: 22,
+        selected: 0,
         children: [
-          {
-            type: 'tab',
-            id: BASELINE_PANELS.explorer.id,
-            name: BASELINE_PANELS.explorer.name,
-            component: BASELINE_PANELS.explorer.component,
-            icon: BASELINE_PANELS.explorer.icon,
-            enableClose: BASELINE_PANELS.explorer.enableClose,
-          },
           {
             type: 'tab',
             id: BASELINE_PANELS.toolbox.id,
@@ -242,12 +273,20 @@ export const VISUAL_BUILDER_LAYOUT_JSON: IJsonModel = {
             icon: BASELINE_PANELS.toolbox.icon,
             enableClose: BASELINE_PANELS.toolbox.enableClose,
           },
+          {
+            type: 'tab',
+            id: BASELINE_PANELS.explorer.id,
+            name: BASELINE_PANELS.explorer.name,
+            component: BASELINE_PANELS.explorer.component,
+            icon: BASELINE_PANELS.explorer.icon,
+            enableClose: BASELINE_PANELS.explorer.enableClose,
+          },
         ],
       },
       {
         type: 'tabset',
         id: 'tabset-main',
-        weight: 75,
+        weight: 78,
         selected: 0,
         children: [
           {
@@ -257,6 +296,160 @@ export const VISUAL_BUILDER_LAYOUT_JSON: IJsonModel = {
             component: BASELINE_PANELS.editor.component,
             icon: BASELINE_PANELS.editor.icon,
             enableClose: BASELINE_PANELS.editor.enableClose,
+          },
+        ],
+      },
+    ],
+  },
+};
+
+/**
+ * 💻 3. Code Centric Mode: Maximizes editor view with side file explorer and side console.
+ */
+export const CODE_CENTRIC_LAYOUT_JSON: IJsonModel = {
+  global: BASELINE_GLOBAL_CONFIG,
+  borders: [],
+  layout: {
+    type: 'row',
+    weight: 100,
+    children: [
+      {
+        type: 'tabset',
+        id: 'tabset-left',
+        weight: 18,
+        selected: 0,
+        children: [
+          {
+            type: 'tab',
+            id: BASELINE_PANELS.explorer.id,
+            name: BASELINE_PANELS.explorer.name,
+            component: BASELINE_PANELS.explorer.component,
+            icon: BASELINE_PANELS.explorer.icon,
+            enableClose: BASELINE_PANELS.explorer.enableClose,
+          },
+        ],
+      },
+      {
+        type: 'tabset',
+        id: 'tabset-main',
+        weight: 60,
+        selected: 0,
+        children: [
+          {
+            type: 'tab',
+            id: BASELINE_PANELS.editor.id,
+            name: BASELINE_PANELS.editor.name,
+            component: BASELINE_PANELS.editor.component,
+            icon: BASELINE_PANELS.editor.icon,
+            enableClose: BASELINE_PANELS.editor.enableClose,
+          },
+        ],
+      },
+      {
+        type: 'tabset',
+        id: 'tabset-right',
+        weight: 22,
+        selected: 0,
+        children: [
+          {
+            type: 'tab',
+            id: BASELINE_PANELS.terminal.id,
+            name: BASELINE_PANELS.terminal.name,
+            component: BASELINE_PANELS.terminal.component,
+            icon: BASELINE_PANELS.terminal.icon,
+            enableClose: BASELINE_PANELS.terminal.enableClose,
+          },
+          {
+            type: 'tab',
+            id: BASELINE_PANELS.problems.id,
+            name: BASELINE_PANELS.problems.name,
+            component: BASELINE_PANELS.problems.component,
+            icon: BASELINE_PANELS.problems.icon,
+            enableClose: BASELINE_PANELS.problems.enableClose,
+          },
+        ],
+      },
+    ],
+  },
+};
+
+/**
+ * 🐞 4. Debugger / Runner Mode: Focused execution stack, variable inspector, and console.
+ */
+export const DEBUGGER_LAYOUT_JSON: IJsonModel = {
+  global: BASELINE_GLOBAL_CONFIG,
+  borders: [],
+  layout: {
+    type: 'row',
+    weight: 100,
+    children: [
+      {
+        type: 'row',
+        weight: 70,
+        children: [
+          {
+            type: 'tabset',
+            id: 'tabset-main',
+            weight: 70,
+            selected: 0,
+            children: [
+              {
+                type: 'tab',
+                id: BASELINE_PANELS.editor.id,
+                name: BASELINE_PANELS.editor.name,
+                component: BASELINE_PANELS.editor.component,
+                icon: BASELINE_PANELS.editor.icon,
+                enableClose: BASELINE_PANELS.editor.enableClose,
+              },
+            ],
+          },
+          {
+            type: 'tabset',
+            id: 'tabset-right',
+            weight: 30,
+            selected: 0,
+            children: [
+              {
+                type: 'tab',
+                id: BASELINE_PANELS.properties.id,
+                name: 'Variables & Scope',
+                component: BASELINE_PANELS.properties.component,
+                icon: BASELINE_PANELS.properties.icon,
+                enableClose: BASELINE_PANELS.properties.enableClose,
+              },
+              {
+                type: 'tab',
+                id: BASELINE_PANELS.explorer.id,
+                name: BASELINE_PANELS.explorer.name,
+                component: BASELINE_PANELS.explorer.component,
+                icon: BASELINE_PANELS.explorer.icon,
+                enableClose: BASELINE_PANELS.explorer.enableClose,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'tabset',
+        id: 'tabset-bottom',
+        weight: 30,
+        selected: 0,
+        children: [
+          {
+            type: 'tab',
+            id: BASELINE_PANELS.terminal.id,
+            name: BASELINE_PANELS.terminal.name,
+            component: BASELINE_PANELS.terminal.component,
+            icon: BASELINE_PANELS.terminal.icon,
+            enableClose: BASELINE_PANELS.terminal.enableClose,
+          },
+          {
+            type: 'tab',
+            id: BASELINE_PANELS.problems.id,
+            name: BASELINE_PANELS.problems.name,
+            component: BASELINE_PANELS.problems.component,
+            icon: BASELINE_PANELS.problems.icon,
+            enableClose: BASELINE_PANELS.problems.enableClose,
           },
         ],
       },
@@ -281,7 +474,9 @@ export class LayoutModelFactory {
       case 'visual-builder':
         return JSON.parse(JSON.stringify(VISUAL_BUILDER_LAYOUT_JSON)) as IJsonModel;
       case 'code-centric':
+        return JSON.parse(JSON.stringify(CODE_CENTRIC_LAYOUT_JSON)) as IJsonModel;
       case 'debugger':
+        return JSON.parse(JSON.stringify(DEBUGGER_LAYOUT_JSON)) as IJsonModel;
       case 'default':
       default:
         return this.createDefaultJson();

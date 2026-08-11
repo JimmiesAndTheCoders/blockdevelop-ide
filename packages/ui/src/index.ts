@@ -10,8 +10,25 @@ export * from './theme/themeUtils';
 // FlexLayout CSS Path Constant
 export const FLEXLAYOUT_THEME_PATH = '@blockdevelop/ui/flexlayout-theme.css';
 
-// Dockable Layout Core
-export * from './components/DockLayout/defaultLayout';
+// Dockable Layout Core & Presets
+export {
+  BASELINE_PANELS,
+  COMPONENT_KEYS,
+  PANEL_IDS,
+  LAYOUT_PRESETS,
+  DEFAULT_WORKSPACE_LAYOUT_JSON,
+  VISUAL_BUILDER_LAYOUT_JSON,
+  CODE_CENTRIC_LAYOUT_JSON,
+  DEBUGGER_LAYOUT_JSON,
+  LayoutModelFactory,
+  type PanelId,
+  type ComponentKey,
+  type PanelMetadata,
+  type BaselinePanelsMap,
+  type LayoutPresetType,
+  type LayoutPresetMetadata,
+} from './components/DockLayout/defaultLayout';
+
 export * from './components/DockLayout/layoutSanitizer';
 export * from './components/DockLayout/panelTypes';
 export * from './components/DockLayout/panelRegistry';

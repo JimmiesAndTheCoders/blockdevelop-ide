@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IDE_METADATA } from '@blockdevelop/core';
+import { IDE_METADATA, useLayoutStore } from '@blockdevelop/core';
 import { initializeBlockEngine } from '@blockdevelop/block-engine';
 import { getGeneratorVersion } from '@blockdevelop/code-gen';
 import {
@@ -22,11 +22,16 @@ import {
   type UITheme,
   type TabItemData,
   TabBar,
+  LAYOUT_PRESETS,
+  LayoutModelFactory,
+  type LayoutPresetType,
+  type LayoutPresetMetadata,
 } from '@blockdevelop/ui';
 
 export const App: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const [targetPlatform, setTargetPlatform] = useState('html5');
+  const [activePreset, setActivePreset] = useState<LayoutPresetType>('default');
   const [isBuilding, setIsBuilding] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
   const [activeTab, setActiveTab] = useState('tab-1');
@@ -43,6 +48,16 @@ export const App: React.FC = () => {
     setTimeout(() => setIsBuilding(false), 2000);
   };
 
+  const handlePresetChange = (presetKey: string) => {
+    const key = presetKey as LayoutPresetType;
+    setActivePreset(key);
+
+    // Instantiate preset layout model & load into layout store
+    const presetJson = LayoutModelFactory.createPresetJson(key);
+    type LoadLayoutParam = Parameters<ReturnType<typeof useLayoutStore.getState>['loadLayout']>[0];
+    useLayoutStore.getState().loadLayout(presetJson as unknown as LoadLayoutParam);
+  };
+
   return (
     <div
       onContextMenu={handleContextMenu}
@@ -55,6 +70,24 @@ export const App: React.FC = () => {
         badge={<Badge variant="haxe">v{IDE_METADATA.VERSION}</Badge>}
         actions={
           <div className="flex items-center gap-2">
+            {/* Workspace Layout Preset Switcher */}
+            <Select
+              size="xs"
+              value={activePreset}
+              onChange={handlePresetChange}
+              leftIcon="layers"
+              options={(Object.values(LAYOUT_PRESETS) as LayoutPresetMetadata[]).map(
+                (preset: LayoutPresetMetadata) => ({
+                  value: preset.id,
+                  label: preset.name,
+                  description: preset.description,
+                  icon: preset.icon,
+                })
+              )}
+              className="w-44"
+            />
+
+            {/* UI Theme Switcher */}
             <Select
               size="xs"
               value={theme}
@@ -67,6 +100,7 @@ export const App: React.FC = () => {
               ]}
               className="w-36"
             />
+
             <Tooltip content="Quick Command Palette" shortcut="Ctrl+Shift+P">
               <Kbd shortcut="Ctrl+P" />
             </Tooltip>
@@ -143,7 +177,7 @@ export const App: React.FC = () => {
           <div>
             <div className="flex items-center justify-between mb-4">
               <h1 className="text-xl font-bold flex items-center gap-2 text-white">
-                <Tag variant="brand">Phase 2: Design System Active</Tag>
+                <Tag variant="brand">Phase 3 Layout Engine Active</Tag>
               </h1>
               <div className="flex items-center gap-2">
                 <Button

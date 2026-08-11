@@ -9,7 +9,7 @@ Object.defineProperty(window, 'blockDevelopAPI', {
   value: {
     system: {
       getSystemInfo: vi.fn().mockResolvedValue({
-        appVersion: '0.3.0',
+        appVersion: '0.4.0-beta.4',
         electronVersion: '29.1.0',
         chromeVersion: '122.0.0.0',
         nodeVersion: '20.11.0',
@@ -45,6 +45,13 @@ describe('App Component Sanity Suite', () => {
     renderWithProviders(<App />);
     await waitFor(() => {
       expect(screen.getByText(/Block Engine Initialized/i)).toBeInTheDocument();
+    });
+  });
+
+  it('should render layout preset switcher dropdown in top header', async () => {
+    renderWithProviders(<App />);
+    await waitFor(() => {
+      expect(screen.getByText('Default Workspace')).toBeInTheDocument();
     });
   });
 });

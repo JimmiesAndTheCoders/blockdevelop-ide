@@ -23,7 +23,7 @@ export interface SerializedLayoutNode {
  * Serialized layout JSON structure compatible with FlexLayout IJsonModel.
  */
 export interface SerializedLayoutModel {
-  global?: Record<string, unknown>;
+  global?: unknown;
   borders?: unknown[];
   layout: SerializedLayoutNode | Record<string, unknown>;
 }
@@ -38,11 +38,11 @@ export interface LayoutState {
   closePanel: (panelId: string) => void;
   togglePanel: (panelId: string) => void;
   setActiveTab: (tabId: string | null) => void;
-  resetLayout: (defaultLayoutJson?: SerializedLayoutModel) => void;
+  resetLayout: (defaultLayoutJson?: SerializedLayoutModel | unknown) => void;
   saveLayout: () => SerializedLayoutModel | null;
-  loadLayout: (json: SerializedLayoutModel) => void;
+  loadLayout: (json: SerializedLayoutModel | unknown) => void;
   setHiddenPanels: (panels: string[]) => void;
-  setLayoutModel: (model: SerializedLayoutModel | null) => void;
+  setLayoutModel: (model: SerializedLayoutModel | null | unknown) => void;
 }
 
 export const useLayoutStore: UseBoundStore<StoreApi<LayoutState>> = create<LayoutState>()(
@@ -83,19 +83,21 @@ export const useLayoutStore: UseBoundStore<StoreApi<LayoutState>> = create<Layou
 
     resetLayout: (defaultLayoutJson) =>
       set((state) => {
-        state.layoutModel = defaultLayoutJson ? JSON.parse(JSON.stringify(defaultLayoutJson)) : null;
+        state.layoutModel = defaultLayoutJson
+          ? (JSON.parse(JSON.stringify(defaultLayoutJson)) as SerializedLayoutModel)
+          : null;
         state.hiddenPanels = [];
         state.activeTabId = null;
       }),
 
     saveLayout: () => {
       const model = get().layoutModel;
-      return model ? JSON.parse(JSON.stringify(model)) : null;
+      return model ? (JSON.parse(JSON.stringify(model)) as SerializedLayoutModel) : null;
     },
 
     loadLayout: (json) =>
       set((state) => {
-        state.layoutModel = JSON.parse(JSON.stringify(json));
+        state.layoutModel = JSON.parse(JSON.stringify(json)) as SerializedLayoutModel;
         state.hiddenPanels = [];
       }),
 
@@ -106,7 +108,9 @@ export const useLayoutStore: UseBoundStore<StoreApi<LayoutState>> = create<Layou
 
     setLayoutModel: (model) =>
       set((state) => {
-        state.layoutModel = model ? JSON.parse(JSON.stringify(model)) : null;
+        state.layoutModel = model
+          ? (JSON.parse(JSON.stringify(model)) as SerializedLayoutModel)
+          : null;
       }),
   }))
 );
