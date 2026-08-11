@@ -83,9 +83,14 @@ export const useLayoutStore: UseBoundStore<StoreApi<LayoutState>> = create<Layou
 
     resetLayout: (defaultLayoutJson) =>
       set((state) => {
-        state.layoutModel = defaultLayoutJson
-          ? (JSON.parse(JSON.stringify(defaultLayoutJson)) as SerializedLayoutModel)
-          : null;
+        try {
+          state.layoutModel = defaultLayoutJson
+            ? (JSON.parse(JSON.stringify(defaultLayoutJson)) as SerializedLayoutModel)
+            : null;
+        } catch (err) {
+          console.error('[LayoutStore] Reset layout failed, auto-recovering:', err);
+          state.layoutModel = null;
+        }
         state.hiddenPanels = [];
         state.activeTabId = null;
       }),
@@ -97,8 +102,20 @@ export const useLayoutStore: UseBoundStore<StoreApi<LayoutState>> = create<Layou
 
     loadLayout: (json) =>
       set((state) => {
-        state.layoutModel = JSON.parse(JSON.stringify(json)) as SerializedLayoutModel;
-        state.hiddenPanels = [];
+        try {
+          if (!json || typeof json !== 'object') {
+            throw new Error('Invalid layout JSON structure');
+          }
+          state.layoutModel = JSON.parse(JSON.stringify(json)) as SerializedLayoutModel;
+          state.hiddenPanels = [];
+        } catch (err) {
+          console.error(
+            '[LayoutStore] Failed to load layout JSON, auto-recovering to default state:',
+            err
+          );
+          state.layoutModel = null;
+          state.hiddenPanels = [];
+        }
       }),
 
     setHiddenPanels: (panels) =>
@@ -108,9 +125,14 @@ export const useLayoutStore: UseBoundStore<StoreApi<LayoutState>> = create<Layou
 
     setLayoutModel: (model) =>
       set((state) => {
-        state.layoutModel = model
-          ? (JSON.parse(JSON.stringify(model)) as SerializedLayoutModel)
-          : null;
+        try {
+          state.layoutModel = model
+            ? (JSON.parse(JSON.stringify(model)) as SerializedLayoutModel)
+            : null;
+        } catch (err) {
+          console.error('[LayoutStore] setLayoutModel failed, auto-recovering:', err);
+          state.layoutModel = null;
+        }
       }),
   }))
 );

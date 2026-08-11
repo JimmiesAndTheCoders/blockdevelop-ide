@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IDE_METADATA, useLayoutStore } from '@blockdevelop/core';
+import { IDE_METADATA, useLayoutStore, useUIStore } from '@blockdevelop/core';
 import { initializeBlockEngine } from '@blockdevelop/block-engine';
 import { getGeneratorVersion } from '@blockdevelop/code-gen';
 import {
@@ -24,6 +24,7 @@ import {
   TabBar,
   LAYOUT_PRESETS,
   LayoutModelFactory,
+  LayoutPersistenceManager,
   type LayoutPresetType,
   type LayoutPresetMetadata,
 } from '@blockdevelop/ui';
@@ -58,6 +59,19 @@ export const App: React.FC = () => {
     useLayoutStore.getState().loadLayout(presetJson as unknown as LoadLayoutParam);
   };
 
+  /**
+   * Reset Window Layout Command
+   * Clears saved persistent layout, resets store to DEFAULT_WORKSPACE_LAYOUT, and updates UI status.
+   */
+  const handleResetLayout = () => {
+    LayoutPersistenceManager.clearSavedLayout();
+    const defaultJson = LayoutModelFactory.createDefaultJson();
+    type ResetLayoutParam = Parameters<ReturnType<typeof useLayoutStore.getState>['resetLayout']>[0];
+    useLayoutStore.getState().resetLayout(defaultJson as unknown as ResetLayoutParam);
+    setActivePreset('default');
+    useUIStore.getState().setStatusMessage('Workspace window layout reset to default.');
+  };
+
   return (
     <div
       onContextMenu={handleContextMenu}
@@ -86,6 +100,17 @@ export const App: React.FC = () => {
               )}
               className="w-44"
             />
+
+            {/* Reset Window Layout Quick Button */}
+            <Tooltip content="Reset Window Layout">
+              <Button
+                variant="ghost"
+                size="xs"
+                leftIcon="refresh"
+                onClick={handleResetLayout}
+                aria-label="Reset Window Layout"
+              />
+            </Tooltip>
 
             {/* UI Theme Switcher */}
             <Select
@@ -228,6 +253,8 @@ export const App: React.FC = () => {
           { id: 'copy', label: 'Copy Block', icon: 'copy', shortcut: 'Ctrl+C' },
           { id: 'paste', label: 'Paste Block', icon: 'copy', shortcut: 'Ctrl+V', disabled: true },
           { id: 'div-2', divider: true },
+          { id: 'reset-layout', label: 'Reset Window Layout', icon: 'refresh', onClick: handleResetLayout },
+          { id: 'div-3', divider: true },
           { id: 'delete', label: 'Delete Selected', icon: 'trash', danger: true },
         ]}
       />

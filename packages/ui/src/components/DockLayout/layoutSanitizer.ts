@@ -1,7 +1,9 @@
 import { IJsonModel, Model, IJsonTabNode, IJsonRowNode, IJsonTabSetNode } from 'flexlayout-react';
-import { LayoutModelFactory, COMPONENT_KEYS } from './defaultLayout';
+import { COMPONENT_KEYS } from './panelConstants';
 
-export const KNOWN_COMPONENT_KEYS = new Set<string>(Object.values(COMPONENT_KEYS));
+export function getKnownComponentKeys(): Set<string> {
+  return new Set<string>(Object.values(COMPONENT_KEYS));
+}
 
 export interface SanitizeLayoutOptions {
   knownComponents?: Set<string> | string[];
@@ -87,19 +89,45 @@ export class LayoutSanitizer {
   ): IJsonModel {
     const knownKeys = options.knownComponents
       ? new Set(options.knownComponents)
-      : KNOWN_COMPONENT_KEYS;
+      : getKnownComponentKeys();
 
-    const fallback = options.fallbackJson || LayoutModelFactory.createDefaultJson();
+    const fallback: IJsonModel = {
+      global: {
+        tabEnableClose: true,
+        tabEnableFloat: true,
+        tabEnableRename: false,
+        tabSetEnableClose: false,
+        tabSetEnableDrop: true,
+        tabSetEnableSingleTabStretch: false,
+        tabSetMinWidth: 180,
+        tabSetMinHeight: 120,
+        splitterSize: 6,
+        splitterExtra: 4,
+      },
+      borders: [],
+      layout: {
+        type: 'row',
+        weight: 100,
+        children: [
+          {
+            type: 'tabset',
+            id: 'tabset-main',
+            weight: 100,
+            children: [{ type: 'tab', id: 'editor-main', name: 'Main.block', component: 'editor' }],
+          },
+        ],
+      },
+    };
 
     if (!rawJson || typeof rawJson !== 'object' || Array.isArray(rawJson)) {
-      console.warn('[LayoutSanitizer] Invalid raw layout state, reverting to default layout.');
+      console.warn('[LayoutSanitizer] Invalid raw layout state, reverting to fallback layout.');
       return fallback;
     }
 
     const candidate = JSON.parse(JSON.stringify(rawJson)) as Partial<IJsonModel>;
 
     if (!candidate.layout || typeof candidate.layout !== 'object') {
-      console.warn('[LayoutSanitizer] Layout configuration missing root layout node, reverting to default.');
+      console.warn('[LayoutSanitizer] Layout configuration missing root layout node, reverting to fallback.');
       return fallback;
     }
 

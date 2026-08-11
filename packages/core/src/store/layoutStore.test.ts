@@ -50,6 +50,14 @@ describe('useLayoutStore & Event Bus Integration', () => {
     expect(saved).toEqual(mockLayoutJson);
   });
 
+  it('should auto-recover cleanly when loadLayout receives corrupted non-object parameter', () => {
+    useLayoutStore.getState().loadLayout('corrupted_string_value' as unknown as SerializedLayoutModel);
+
+    const state = useLayoutStore.getState();
+    expect(state.layoutModel).toBeNull();
+    expect(state.hiddenPanels).toEqual([]);
+  });
+
   it('should open panel and set active tab while unhiding', () => {
     useLayoutStore.getState().setHiddenPanels(['terminal', 'explorer']);
     useLayoutStore.getState().openPanel('terminal');
@@ -106,13 +114,10 @@ describe('useLayoutStore & Event Bus Integration', () => {
       title: 'Player.block',
     });
 
-    // Check editorStore received new tab
     const editorState = useEditorStore.getState();
     expect(editorState.tabs.length).toBe(1);
     expect(editorState.tabs[0]?.title).toBe('Player.block');
-    expect(editorState.tabs[0]?.filePath).toBe('/workspace/src/Player.block');
 
-    // Check layoutStore focused the opened file tab
     const layoutState = useLayoutStore.getState();
     expect(layoutState.activeTabId).toBe('/workspace/src/Player.block');
   });

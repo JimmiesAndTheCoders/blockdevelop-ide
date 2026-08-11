@@ -1,32 +1,8 @@
 import { IJsonModel, Model } from 'flexlayout-react';
+import { PANEL_IDS, COMPONENT_KEYS, PanelId, ComponentKey } from './panelConstants';
+import { LayoutSanitizer } from './layoutSanitizer';
 
-/**
- * Baseline Panel Node Identifiers
- */
-export const PANEL_IDS = {
-  EXPLORER: 'explorer',
-  TOOLBOX: 'block-toolbox',
-  EDITOR: 'editor-main',
-  TERMINAL: 'terminal-panel',
-  PROBLEMS: 'problems-panel',
-  PROPERTIES: 'properties-panel',
-} as const;
-
-export type PanelId = (typeof PANEL_IDS)[keyof typeof PANEL_IDS];
-
-/**
- * Component keys mapped by PanelRegistry
- */
-export const COMPONENT_KEYS = {
-  EXPLORER: 'explorer',
-  TOOLBOX: 'toolbox',
-  EDITOR: 'editor',
-  TERMINAL: 'terminal',
-  PROBLEMS: 'problems',
-  PROPERTIES: 'properties',
-} as const;
-
-export type ComponentKey = (typeof COMPONENT_KEYS)[keyof typeof COMPONENT_KEYS];
+export { PANEL_IDS, COMPONENT_KEYS, type PanelId, type ComponentKey };
 
 export interface PanelMetadata {
   id: string;
@@ -458,7 +434,7 @@ export const DEBUGGER_LAYOUT_JSON: IJsonModel = {
 };
 
 /**
- * LayoutModelFactory creates FlexLayout Model instances from presets or JSON specs.
+ * LayoutModelFactory creates FlexLayout Model instances from presets or JSON specs with auto-recovery protection.
  */
 export class LayoutModelFactory {
   public static createDefaultJson(): IJsonModel {
@@ -485,5 +461,44 @@ export class LayoutModelFactory {
 
   public static createPresetModel(preset: LayoutPresetType): Model {
     return Model.fromJson(this.createPresetJson(preset));
+  }
+
+  /**
+   * Safely instantiates a FlexLayout Model from raw JSON.
+   * Auto-recovers to default layout if parsing or structure throws an exception.
+   */
+  public static safeCreateModel(rawJson?: unknown): Model {
+    try {
+      if (!rawJson) {
+        return this.createDefaultModel();
+      }
+      const sanitized = LayoutSanitizer.sanitize(rawJson);
+      return Model.fromJson(sanitized);
+    } catch (err) {
+      console.error(
+        '[LayoutModelFactory] Model creation failed, auto-recovering to DEFAULT_WORKSPACE_LAYOUT:',
+        err
+      );
+      return this.createDefaultModel();
+    }
+  }
+
+  /**
+   * Safely sanitizes raw JSON structure.
+   * Auto-recovers to default layout JSON if sanitization fails.
+   */
+  public static safeCreateJson(rawJson?: unknown): IJsonModel {
+    try {
+      if (!rawJson) {
+        return this.createDefaultJson();
+      }
+      return LayoutSanitizer.sanitize(rawJson);
+    } catch (err) {
+      console.error(
+        '[LayoutModelFactory] JSON sanitization failed, auto-recovering to DEFAULT_WORKSPACE_LAYOUT:',
+        err
+      );
+      return this.createDefaultJson();
+    }
   }
 }

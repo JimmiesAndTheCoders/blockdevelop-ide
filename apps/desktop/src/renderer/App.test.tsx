@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import React from 'react';
 import { ThemeProvider } from '@blockdevelop/ui';
 import { App } from './App';
@@ -53,5 +53,17 @@ describe('App Component Sanity Suite', () => {
     await waitFor(() => {
       expect(screen.getByText('Default Workspace')).toBeInTheDocument();
     });
+  });
+
+  it('should trigger reset window layout command when reset button is clicked', async () => {
+    renderWithProviders(<App />);
+
+    await waitFor(() => {
+      const resetBtn = screen.getByLabelText('Reset Window Layout');
+      expect(resetBtn).toBeInTheDocument();
+      fireEvent.click(resetBtn);
+    });
+
+    expect(screen.getByText('Default Workspace')).toBeInTheDocument();
   });
 });
