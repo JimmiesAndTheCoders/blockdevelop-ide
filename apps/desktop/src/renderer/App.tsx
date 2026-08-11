@@ -19,6 +19,7 @@ import {
   ContextMenu,
   useContextMenu,
   useTheme,
+  useKeyboardShortcuts,
   type UITheme,
   type TabItemData,
   TabBar,
@@ -30,6 +31,9 @@ import {
 } from '@blockdevelop/ui';
 
 export const App: React.FC = () => {
+  // Mount global keyboard navigation shortcuts (Ctrl+B, Ctrl+`, Ctrl+Shift+E, Ctrl+W)
+  useKeyboardShortcuts();
+
   const { theme, setTheme } = useTheme();
   const [targetPlatform, setTargetPlatform] = useState('html5');
   const [activePreset, setActivePreset] = useState<LayoutPresetType>('default');
@@ -59,10 +63,6 @@ export const App: React.FC = () => {
     useLayoutStore.getState().loadLayout(presetJson as unknown as LoadLayoutParam);
   };
 
-  /**
-   * Reset Window Layout Command
-   * Clears saved persistent layout, resets store to DEFAULT_WORKSPACE_LAYOUT, and updates UI status.
-   */
   const handleResetLayout = () => {
     LayoutPersistenceManager.clearSavedLayout();
     const defaultJson = LayoutModelFactory.createDefaultJson();

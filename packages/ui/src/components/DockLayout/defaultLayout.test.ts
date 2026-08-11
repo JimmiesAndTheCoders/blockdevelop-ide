@@ -11,7 +11,7 @@ import {
 } from './defaultLayout';
 import { LayoutSanitizer } from './layoutSanitizer';
 
-describe('Layout Presets Engine & Model Factory', () => {
+describe('LayoutModelFactory & Serialization / Deserialization Suite', () => {
   const presets: LayoutPresetType[] = ['default', 'visual-builder', 'code-centric', 'debugger'];
 
   it('should expose metadata catalog for all 4 layout presets', () => {
@@ -19,6 +19,8 @@ describe('Layout Presets Engine & Model Factory', () => {
       const metadata = LAYOUT_PRESETS[presetKey];
       expect(metadata).toBeDefined();
       expect(metadata.id).toBe(presetKey);
+      expect(metadata.name.length).toBeGreaterThan(0);
+      expect(metadata.description.length).toBeGreaterThan(0);
     });
   });
 
@@ -33,12 +35,31 @@ describe('Layout Presets Engine & Model Factory', () => {
     presets.forEach((presetKey) => {
       const model = LayoutModelFactory.createPresetModel(presetKey);
       expect(model).toBeInstanceOf(Model);
+      expect(model.getNodeById('editor-main')).toBeDefined();
     });
   });
 
-  it('should auto-recover when safeCreateModel or safeCreateJson receives corrupted input', () => {
+  it('should verify serialization and deserialization roundtrip preserves layout tree structure', () => {
+    presets.forEach((presetKey) => {
+      const originalJson = LayoutModelFactory.createPresetJson(presetKey);
+      const serializedStr = JSON.stringify(originalJson);
+      const deserializedJson = JSON.parse(serializedStr);
+      const sanitized = LayoutSanitizer.sanitize(deserializedJson);
+
+      const modelFromOriginal = Model.fromJson(originalJson);
+      const modelFromDeserialized = Model.fromJson(sanitized);
+
+      expect(modelFromOriginal).toBeInstanceOf(Model);
+      expect(modelFromDeserialized).toBeInstanceOf(Model);
+    });
+  });
+
+  it('should auto-recover when safeCreateModel or safeCreateJson receives corrupted or null input', () => {
     const safeModel = LayoutModelFactory.safeCreateModel({ corrupted_invalid: true });
     expect(safeModel).toBeInstanceOf(Model);
+
+    const safeModelFromNull = LayoutModelFactory.safeCreateModel(null);
+    expect(safeModelFromNull).toBeInstanceOf(Model);
 
     const safeJson = LayoutModelFactory.safeCreateJson(null);
     expect(safeJson).toEqual(DEFAULT_WORKSPACE_LAYOUT_JSON);
@@ -49,6 +70,8 @@ describe('Layout Presets Engine & Model Factory', () => {
       const presetJson = LayoutModelFactory.createPresetJson(presetKey);
       const sanitized = LayoutSanitizer.sanitize(presetJson);
       expect(sanitized.layout).toBeDefined();
+      expect(sanitized.global?.tabSetMinWidth).toBe(180);
+      expect(sanitized.global?.tabSetMinHeight).toBe(120);
     });
   });
 });

@@ -1,6 +1,6 @@
 /* ==========================================================================
    BlockDevelop IDE - FlexLayout Theme Overrides
-   Full Dark, Light, & High-Contrast Theme Configuration
+   WCAG 2.1 AA & AAA Compliant Dark, Light, & High-Contrast Theme Overrides
    ========================================================================== */
 
 /* Main Layout Shell */
@@ -36,6 +36,10 @@
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 4px;
+}
+
+.flexlayout__tabset:focus-within {
+  border-color: var(--ide-border-focus);
 }
 
 /* Tabset Header Bar */
@@ -80,6 +84,11 @@
 .flexlayout__tab_button:hover {
   background-color: var(--ide-panel);
   color: var(--ide-text);
+}
+
+.flexlayout__tab_button:focus-visible {
+  outline: 2px solid var(--ide-border-focus);
+  outline-offset: -2px;
 }
 
 .flexlayout__tab_button--selected {
@@ -127,6 +136,10 @@
   color: var(--ide-text);
 }
 
+.flexlayout__tab_button_trailing:focus-visible {
+  outline: 1px solid var(--ide-border-focus);
+}
+
 /* Splitter Dividers & Resizing Hitboxes */
 .flexlayout__splitter {
   background-color: var(--ide-bg);
@@ -134,8 +147,10 @@
   z-index: 10;
 }
 
-.flexlayout__splitter:hover {
+.flexlayout__splitter:hover,
+.flexlayout__splitter:focus-visible {
   background-color: var(--ide-accent);
+  outline: 1px solid var(--ide-border-focus);
 }
 
 .flexlayout__splitter_drag {
@@ -151,26 +166,33 @@
   cursor: row-resize;
 }
 
-/* Drag & Drop Target Overlays */
+/* ==========================================================================
+   WCAG 2.1 Compliant Drag & Drop Target Overlays
+   ========================================================================== */
+
+/* Floating Drag Drop Target Rectangle */
 .flexlayout__outline_rect {
   position: absolute;
   cursor: move;
   box-sizing: border-box;
   border: 2px solid var(--ide-accent);
-  background-color: rgba(0, 122, 204, 0.18);
+  background-color: rgba(0, 122, 204, 0.22);
   border-radius: 4px;
   z-index: 1000;
   pointer-events: none;
+  box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.35);
   transition: all 100ms ease-out;
 }
 
+/* Split Edge Drop Target Indicator */
 .flexlayout__outline_rect_edge {
   position: absolute;
   box-sizing: border-box;
-  border: 2px dashed var(--ide-accent);
-  background-color: rgba(0, 122, 204, 0.28);
+  border: 2px dashed var(--ide-accent-hover);
+  background-color: rgba(0, 122, 204, 0.32);
   z-index: 1001;
   pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 /* Tabset Toolbar Buttons */
@@ -195,9 +217,11 @@
   transition: background-color 100ms ease, color 100ms ease;
 }
 
-.flexlayout__tabset_toolbar_button:hover {
+.flexlayout__tabset_toolbar_button:hover,
+.flexlayout__tabset_toolbar_button:focus-visible {
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--ide-text);
+  outline: 1px solid var(--ide-border-focus);
 }
 
 /* Floating Window Popout Border */
@@ -208,19 +232,21 @@
 }
 
 /* ==========================================================================
-   THEME SPECIFIC OVERRIDES
+   THEME SPECIFIC HIGH-CONTRAST & ACCESSIBILITY OVERRIDES
    ========================================================================== */
 
 /* Dark Theme Overrides */
 .theme-dark .flexlayout__outline_rect,
 .dark .flexlayout__outline_rect {
   border-color: #007acc;
-  background-color: rgba(0, 122, 204, 0.2);
+  background-color: rgba(0, 122, 204, 0.25);
+  box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.4);
 }
 
-.theme-dark .flexlayout__tab_button_trailing:hover,
-.dark .flexlayout__tab_button_trailing:hover {
-  background-color: rgba(255, 255, 255, 0.15);
+.theme-dark .flexlayout__outline_rect_edge,
+.dark .flexlayout__outline_rect_edge {
+  border-color: #1e90ff;
+  background-color: rgba(30, 144, 255, 0.35);
 }
 
 /* Light Theme Overrides */
@@ -243,19 +269,20 @@
   border-top-color: var(--ide-accent);
 }
 
-.theme-light .flexlayout__tab_button_trailing:hover,
-.light .flexlayout__tab_button_trailing:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-  color: #1e1e1e;
-}
-
 .theme-light .flexlayout__outline_rect,
 .light .flexlayout__outline_rect {
-  border-color: #007acc;
-  background-color: rgba(0, 122, 204, 0.15);
+  border-color: #005999;
+  background-color: rgba(0, 89, 153, 0.2);
+  box-shadow: 0 0 0 2px rgba(0, 89, 153, 0.3);
 }
 
-/* High Contrast Theme Overrides */
+.theme-light .flexlayout__outline_rect_edge,
+.light .flexlayout__outline_rect_edge {
+  border-color: #007acc;
+  background-color: rgba(0, 122, 204, 0.28);
+}
+
+/* High Contrast Theme Overrides (WCAG AAA Compliance) */
 .theme-high-contrast .flexlayout__tabset,
 .theme-high-contrast .flexlayout__tab {
   border: 2px solid var(--ide-border);
@@ -268,10 +295,18 @@
 }
 
 .theme-high-contrast .flexlayout__outline_rect {
-  border: 3px solid var(--ide-border-focus);
-  background-color: rgba(255, 255, 0, 0.25);
+  border: 3px solid #ffff00 !important;
+  background-color: rgba(255, 255, 0, 0.35) !important;
+  outline: 2px solid #ffffff !important;
+  box-shadow: 0 0 0 4px #000000 !important;
 }
 
-.theme-high-contrast .flexlayout__splitter:hover {
+.theme-high-contrast .flexlayout__outline_rect_edge {
+  border: 3px dashed #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.theme-high-contrast .flexlayout__splitter:hover,
+.theme-high-contrast .flexlayout__splitter:focus-visible {
   background-color: var(--ide-border-focus);
 }

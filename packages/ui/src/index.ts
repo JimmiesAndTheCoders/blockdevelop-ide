@@ -69,6 +69,7 @@ export * from './components/Kbd/Kbd';
 
 // Hooks
 export * from './hooks/useIDEEvent';
+export * from './hooks/useKeyboardShortcuts';
 
 // Theme Constants & Types
 export const UI_THEMES = ['dark', 'light', 'high-contrast', 'system'] as const;

@@ -18,7 +18,7 @@ const mockLayoutJson: SerializedLayoutModel = {
   },
 };
 
-describe('useLayoutStore & Event Bus Integration', () => {
+describe('useLayoutStore & Event Bus Integration Suite', () => {
   let unsubscribeEvents: (() => void) | null = null;
 
   beforeEach(() => {

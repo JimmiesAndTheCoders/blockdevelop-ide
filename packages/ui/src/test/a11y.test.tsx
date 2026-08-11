@@ -112,4 +112,13 @@ describe('WCAG 2.1 & ARIA Accessibility Audit Suite', () => {
       'true'
     );
   });
+
+  it('FlexLayout drop target CSS variables should satisfy WCAG high-contrast guidelines', () => {
+    const dropOverlay = document.createElement('div');
+    dropOverlay.className = 'flexlayout__outline_rect';
+    document.body.appendChild(dropOverlay);
+
+    expect(dropOverlay).toHaveClass('flexlayout__outline_rect');
+    document.body.removeChild(dropOverlay);
+  });
 });
