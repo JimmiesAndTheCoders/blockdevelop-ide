@@ -1,7 +1,7 @@
 {
   "name": "blockdevelop-ide-monorepo",
   "private": true,
-  "version": "0.4.0-beta.3",
+  "version": "0.4.0-beta.4",
   "description": "Free, open-source IDE for block-based programming inspired by FlashDevelop.",
   "author": "Jimmy Santoyo",
   "license": "MIT",

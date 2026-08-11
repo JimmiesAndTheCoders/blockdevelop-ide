@@ -10,6 +10,9 @@ export type IDEEventTypes = {
   'project:closed': void;
   'project:target-changed': { target: TargetPlatform };
 
+  // File Events
+  'file:opened': { filePath: string; fileId?: string; title?: string };
+
   // Block & Workspace Events
   'block:selected': { blockId: string; blockType: string };
   'block:changed': { fileId: string; blockCount: number };
@@ -20,9 +23,11 @@ export type IDEEventTypes = {
   'build:log': { text: string; stream: 'stdout' | 'stderr' };
   'build:complete': { success: boolean; durationMs: number };
 
-  // Notification Events
+  // UI & Layout Panel Events
   'ui:notify': { message: string; type: 'info' | 'warning' | 'error' };
   'ui:toggle-palette': void;
+  'ui:toggle-panel': { panelId: string };
+  'ui:reset-layout': void;
 };
 
 export type IDEEventBus = Emitter<IDEEventTypes>;

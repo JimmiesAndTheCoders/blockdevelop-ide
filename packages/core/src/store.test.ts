@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { useProjectStore, useUIStore, useEditorStore, useTerminalStore } from './store';
+import { useProjectStore, useUIStore, useEditorStore, useTerminalStore, useLayoutStore } from './store';
 
 describe('State Store Initial State Sanity Suite', () => {
   beforeEach(() => {
@@ -7,6 +7,7 @@ describe('State Store Initial State Sanity Suite', () => {
     useUIStore.getState().setTheme('dark');
     useEditorStore.getState().setZoomLevel(1.0);
     useTerminalStore.getState().clearLogs();
+    useLayoutStore.getState().resetLayout();
   });
 
   it('should initialize useProjectStore with closed project defaults', () => {
@@ -40,5 +41,12 @@ describe('State Store Initial State Sanity Suite', () => {
     store.appendLog('Test log message', 'stdout');
     expect(useTerminalStore.getState().logs.length).toBe(1);
     expect(useTerminalStore.getState().logs[0]?.text).toBe('Test log message');
+  });
+
+  it('should initialize useLayoutStore with default null layout state', () => {
+    const state = useLayoutStore.getState();
+    expect(state.layoutModel).toBeNull();
+    expect(state.activeTabId).toBeNull();
+    expect(state.hiddenPanels).toEqual([]);
   });
 });
