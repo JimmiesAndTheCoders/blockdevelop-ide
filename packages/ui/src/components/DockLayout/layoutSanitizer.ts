@@ -10,6 +10,114 @@ export interface SanitizeLayoutOptions {
   fallbackJson?: IJsonModel;
 }
 
+const DEFAULT_FALLBACK_LAYOUT: IJsonModel = {
+  global: {
+    tabEnableClose: true,
+    tabEnableFloat: true,
+    tabEnableRename: false,
+    tabSetEnableClose: false,
+    tabSetEnableDrop: true,
+    tabSetEnableSingleTabStretch: false,
+    tabSetMinWidth: 180,
+    tabSetMinHeight: 120,
+    splitterSize: 6,
+    splitterExtra: 4,
+  },
+  borders: [],
+  layout: {
+    type: 'row',
+    weight: 100,
+    children: [
+      {
+        type: 'tabset',
+        id: 'tabset-left',
+        weight: 20,
+        selected: 0,
+        children: [
+          {
+            type: 'tab',
+            id: 'explorer',
+            name: 'Project Explorer',
+            component: 'explorer',
+            icon: 'folder',
+            enableClose: false,
+          },
+          {
+            type: 'tab',
+            id: 'block-toolbox',
+            name: 'Block Toolbox',
+            component: 'toolbox',
+            icon: 'box',
+            enableClose: false,
+          },
+        ],
+      },
+      {
+        type: 'row',
+        weight: 60,
+        children: [
+          {
+            type: 'tabset',
+            id: 'tabset-main',
+            weight: 70,
+            selected: 0,
+            children: [
+              {
+                type: 'tab',
+                id: 'editor-main',
+                name: 'Main.block',
+                component: 'editor',
+                icon: 'block',
+                enableClose: true,
+              },
+            ],
+          },
+          {
+            type: 'tabset',
+            id: 'tabset-bottom',
+            weight: 30,
+            selected: 0,
+            children: [
+              {
+                type: 'tab',
+                id: 'terminal-panel',
+                name: 'Terminal',
+                component: 'terminal',
+                icon: 'terminal',
+                enableClose: false,
+              },
+              {
+                type: 'tab',
+                id: 'problems-panel',
+                name: 'Problems & Diagnostics',
+                component: 'problems',
+                icon: 'bug',
+                enableClose: false,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        type: 'tabset',
+        id: 'tabset-right',
+        weight: 20,
+        selected: 0,
+        children: [
+          {
+            type: 'tab',
+            id: 'properties-panel',
+            name: 'Properties',
+            component: 'properties',
+            icon: 'settings',
+            enableClose: false,
+          },
+        ],
+      },
+    ],
+  },
+};
+
 function cleanTabNode(rawTab: unknown, knownKeys: Set<string>): IJsonTabNode | null {
   if (!rawTab || typeof rawTab !== 'object') return null;
   const tab = rawTab as IJsonTabNode;
@@ -91,33 +199,7 @@ export class LayoutSanitizer {
       ? new Set(options.knownComponents)
       : getKnownComponentKeys();
 
-    const fallback: IJsonModel = {
-      global: {
-        tabEnableClose: true,
-        tabEnableFloat: true,
-        tabEnableRename: false,
-        tabSetEnableClose: false,
-        tabSetEnableDrop: true,
-        tabSetEnableSingleTabStretch: false,
-        tabSetMinWidth: 180,
-        tabSetMinHeight: 120,
-        splitterSize: 6,
-        splitterExtra: 4,
-      },
-      borders: [],
-      layout: {
-        type: 'row',
-        weight: 100,
-        children: [
-          {
-            type: 'tabset',
-            id: 'tabset-main',
-            weight: 100,
-            children: [{ type: 'tab', id: 'editor-main', name: 'Main.block', component: 'editor' }],
-          },
-        ],
-      },
-    };
+    const fallback: IJsonModel = options.fallbackJson || DEFAULT_FALLBACK_LAYOUT;
 
     if (!rawJson || typeof rawJson !== 'object' || Array.isArray(rawJson)) {
       console.warn('[LayoutSanitizer] Invalid raw layout state, reverting to fallback layout.');

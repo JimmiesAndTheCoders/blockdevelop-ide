@@ -6,9 +6,32 @@ import {
 import { DEFAULT_WORKSPACE_LAYOUT_JSON } from './defaultLayout';
 
 describe('LayoutPersistenceManager Suite', () => {
+  let store: Record<string, string> = {};
+
   beforeEach(() => {
     vi.useFakeTimers();
-    localStorage.clear();
+    store = {};
+
+    const localStorageMock = {
+      getItem: (key: string) => store[key] ?? null,
+      setItem: (key: string, value: string) => {
+        store[key] = value;
+      },
+      removeItem: (key: string) => {
+        delete store[key];
+      },
+      clear: () => {
+        store = {};
+      },
+      length: 0,
+      key: () => null,
+    };
+
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+      writable: true,
+      configurable: true,
+    });
   });
 
   afterEach(() => {
@@ -25,11 +48,11 @@ describe('LayoutPersistenceManager Suite', () => {
     const sampleLayout = { global: {}, layout: { type: 'row', children: [] } };
 
     LayoutPersistenceManager.saveLayout(sampleLayout, 300);
-    expect(localStorage.getItem(LAYOUT_STORAGE_KEY)).toBeNull();
+    expect(window.localStorage.getItem(LAYOUT_STORAGE_KEY)).toBeNull();
 
     vi.advanceTimersByTime(300);
 
-    const stored = localStorage.getItem(LAYOUT_STORAGE_KEY);
+    const stored = window.localStorage.getItem(LAYOUT_STORAGE_KEY);
     expect(stored).not.toBeNull();
     expect(JSON.parse(stored!)).toEqual(sampleLayout);
   });
@@ -39,27 +62,27 @@ describe('LayoutPersistenceManager Suite', () => {
 
     LayoutPersistenceManager.saveLayoutSync(sampleLayout);
 
-    const stored = localStorage.getItem(LAYOUT_STORAGE_KEY);
+    const stored = window.localStorage.getItem(LAYOUT_STORAGE_KEY);
     expect(stored).not.toBeNull();
     expect(JSON.parse(stored!)).toEqual(sampleLayout);
   });
 
   it('should handle corrupted layout JSON gracefully and auto-recover to default layout', () => {
     // Inject invalid JSON string into localStorage
-    localStorage.setItem(LAYOUT_STORAGE_KEY, '{{corrupted_json_syntax');
+    window.localStorage.setItem(LAYOUT_STORAGE_KEY, '{{corrupted_json_syntax');
 
     const layout = LayoutPersistenceManager.loadSavedLayout();
 
     // Auto-recovery should fallback to default layout and clear corrupted entry
     expect(layout).toEqual(DEFAULT_WORKSPACE_LAYOUT_JSON);
-    expect(localStorage.getItem(LAYOUT_STORAGE_KEY)).toBeNull();
+    expect(window.localStorage.getItem(LAYOUT_STORAGE_KEY)).toBeNull();
   });
 
   it('should clear saved layout from localStorage', () => {
-    localStorage.setItem(LAYOUT_STORAGE_KEY, JSON.stringify({ key: 'val' }));
-    expect(localStorage.getItem(LAYOUT_STORAGE_KEY)).not.toBeNull();
+    window.localStorage.setItem(LAYOUT_STORAGE_KEY, JSON.stringify({ key: 'val' }));
+    expect(window.localStorage.getItem(LAYOUT_STORAGE_KEY)).not.toBeNull();
 
     LayoutPersistenceManager.clearSavedLayout();
-    expect(localStorage.getItem(LAYOUT_STORAGE_KEY)).toBeNull();
+    expect(window.localStorage.getItem(LAYOUT_STORAGE_KEY)).toBeNull();
   });
 });
