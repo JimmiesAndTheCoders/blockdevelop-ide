@@ -26,6 +26,10 @@ export interface BlockArgument {
   width?: number | undefined;
   height?: number | undefined;
   alt?: string | undefined;
+  variable?: string | undefined;
+  variableTypes?: string[] | undefined;
+  defaultType?: string | undefined;
+  [key: string]: unknown;
 }
 
 /**
@@ -37,6 +41,12 @@ export interface CustomBlockDefinition {
   args0?: BlockArgument[] | undefined;
   message1?: string | undefined;
   args1?: BlockArgument[] | undefined;
+  message2?: string | undefined;
+  args2?: BlockArgument[] | undefined;
+  message3?: string | undefined;
+  args3?: BlockArgument[] | undefined;
+  message4?: string | undefined;
+  args4?: BlockArgument[] | undefined;
   output?: string | string[] | null | undefined;
   previousStatement?: string | string[] | null | undefined;
   nextStatement?: string | string[] | null | undefined;
@@ -47,6 +57,7 @@ export interface CustomBlockDefinition {
   inputsInline?: boolean | undefined;
   mutator?: string | undefined;
   extensions?: string[] | undefined;
+  [key: string]: unknown;
 }
 
 /**
