@@ -138,6 +138,9 @@ importers:
       '@blockdevelop/core':
         specifier: workspace:*
         version: link:../core
+      '@blockdevelop/ui':
+        specifier: workspace:*
+        version: link:../ui
       blockly:
         specifier: ^11.1.1
         version: 11.2.2
