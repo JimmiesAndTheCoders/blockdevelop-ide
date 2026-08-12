@@ -17,5 +17,5 @@ export interface IDEProjectConfig {
 
 export const IDE_METADATA = {
   NAME: 'BlockDevelop IDE',
-  VERSION: '0.5.0-alpha.6',
+  VERSION: '0.5.0-beta.6',
 } as const;
