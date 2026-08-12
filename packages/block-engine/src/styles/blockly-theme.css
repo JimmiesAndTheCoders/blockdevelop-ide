@@ -1,0 +1,66 @@
+/* ==========================================================================
+   BlockDevelop IDE - Custom Toolbox & Category Navigation Sidebar
+   Matching @blockdevelop/ui Panel Aesthetics
+   ========================================================================== */
+
+/* Category Navigation Sidebar Container */
+.blocklyToolboxDiv {
+  background-color: #1f1f1f !important;
+  border-right: 1px solid #3c3c3c !important;
+  color: #e0e0e0 !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 12px !important;
+  padding: 6px 0 !important;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3) !important;
+  user-select: none !important;
+}
+
+/* Category Row Items */
+.blocklyTreeRow {
+  height: 28px !important;
+  line-height: 28px !important;
+  padding: 0 10px !important;
+  border-radius: 4px !important;
+  margin: 2px 6px !important;
+  cursor: pointer !important;
+  transition: background-color 150ms ease, color 150ms ease !important;
+  border-left: 2px solid transparent !important;
+}
+
+/* Hover State */
+.blocklyTreeRow:hover {
+  background-color: #2a2d2e !important;
+  color: #ffffff !important;
+}
+
+/* Selected Category State */
+.blocklyTreeSelected {
+  background-color: #094771 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-left-color: #007acc !important;
+}
+
+/* Category Icon & Label Typography */
+.blocklyTreeIcon {
+  margin-right: 6px !important;
+}
+
+.blocklyTreeLabel {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: inherit !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* BlockDevelop Custom Category Enhancements */
+.blockdevelop-toolbox-category {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.blockdevelop-toolbox-category-selected {
+  border-left: 3px solid #007acc !important;
+}

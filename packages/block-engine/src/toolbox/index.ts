@@ -1,3 +1,6 @@
+export * from './category';
+export * from './search';
+
 import type { ToolboxDefinition } from '../types';
 
 export const DEFAULT_TOOLBOX_DEFINITION: ToolboxDefinition = {

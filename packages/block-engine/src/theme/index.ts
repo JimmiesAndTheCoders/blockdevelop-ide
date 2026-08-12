@@ -1,34 +1,58 @@
 import * as Blockly from 'blockly/core';
+import { IDE_DESIGN_TOKENS, BLOCKDEVELOP_DARK_PALETTE } from './tokens';
 
-export const BLOCKDEVELOP_DARK_PALETTE = {
-  bg: '#181818',
-  panel: '#1f1f1f',
-  header: '#2d2d2d',
-  border: '#3c3c3c',
-  text: '#e0e0e0',
-  accent: '#007acc',
-  selection: '#094771',
-  logic: '#007acc',
-  math: '#8a2be2',
-  textCategory: '#10b981',
-  variables: '#ea8220',
-  functions: '#e11d48',
-  events: '#06b6d4',
-  target: '#f59e0b',
-} as const;
+export * from './tokens';
+export * from './grid';
 
+/**
+ * Instantiates the High-Contrast `blockdevelop-dark` Blockly Theme instance.
+ */
 export function createBlockDevelopDarkTheme(): Blockly.Theme {
   return Blockly.Theme.defineTheme('blockdevelop-dark', {
     name: 'blockdevelop-dark',
     base: Blockly.Themes.Classic,
     blockStyles: {
-      logic_blocks: { colourPrimary: BLOCKDEVELOP_DARK_PALETTE.logic },
-      math_blocks: { colourPrimary: BLOCKDEVELOP_DARK_PALETTE.math },
-      text_blocks: { colourPrimary: BLOCKDEVELOP_DARK_PALETTE.textCategory },
-      variable_blocks: { colourPrimary: BLOCKDEVELOP_DARK_PALETTE.variables },
-      procedure_blocks: { colourPrimary: BLOCKDEVELOP_DARK_PALETTE.functions },
-      event_blocks: { colourPrimary: BLOCKDEVELOP_DARK_PALETTE.events },
-      target_blocks: { colourPrimary: BLOCKDEVELOP_DARK_PALETTE.target },
+      logic_blocks: {
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.logic,
+        colourSecondary: '#005999',
+        colourTertiary: '#003e6b',
+      },
+      loop_blocks: {
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.logic,
+        colourSecondary: '#005999',
+        colourTertiary: '#003e6b',
+      },
+      math_blocks: {
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.math,
+        colourSecondary: '#6b21a8',
+        colourTertiary: '#4c1d95',
+      },
+      text_blocks: {
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.textCategory,
+        colourSecondary: '#047857',
+        colourTertiary: '#065f46',
+      },
+      variable_blocks: {
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.variables,
+        colourSecondary: '#c2410c',
+        colourTertiary: '#9a3412',
+      },
+      procedure_blocks: {
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.functions,
+        colourSecondary: '#be123c',
+        colourTertiary: '#9f1239',
+      },
+      event_blocks: {
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.events,
+        colourSecondary: '#0e7490',
+        colourTertiary: '#155e75',
+        hat: 'cap',
+      },
+      target_blocks: {
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.target,
+        colourSecondary: '#d97706',
+        colourTertiary: '#b45309',
+      },
     },
     categoryStyles: {
       logic_category: { colour: BLOCKDEVELOP_DARK_PALETTE.logic },
@@ -40,17 +64,26 @@ export function createBlockDevelopDarkTheme(): Blockly.Theme {
       target_category: { colour: BLOCKDEVELOP_DARK_PALETTE.target },
     },
     componentStyles: {
-      workspaceBackgroundColour: BLOCKDEVELOP_DARK_PALETTE.bg,
-      toolboxBackgroundColour: BLOCKDEVELOP_DARK_PALETTE.panel,
-      toolboxForegroundColour: BLOCKDEVELOP_DARK_PALETTE.text,
-      flyoutBackgroundColour: BLOCKDEVELOP_DARK_PALETTE.panel,
-      flyoutForegroundColour: BLOCKDEVELOP_DARK_PALETTE.text,
+      workspaceBackgroundColour: IDE_DESIGN_TOKENS.workspaceBg,
+      toolboxBackgroundColour: IDE_DESIGN_TOKENS.panelBg,
+      toolboxForegroundColour: IDE_DESIGN_TOKENS.textPrimary,
+      flyoutBackgroundColour: IDE_DESIGN_TOKENS.panelBg,
+      flyoutForegroundColour: IDE_DESIGN_TOKENS.textPrimary,
       flyoutOpacity: 0.95,
-      scrollbarColour: '#797979',
-      scrollbarOpacity: 0.4,
-      insertionMarkerColour: BLOCKDEVELOP_DARK_PALETTE.accent,
-      insertionMarkerOpacity: 0.3,
-      cursorColour: BLOCKDEVELOP_DARK_PALETTE.accent,
+      scrollbarColour: IDE_DESIGN_TOKENS.gridBorder,
+      scrollbarOpacity: 0.6,
+      insertionMarkerColour: IDE_DESIGN_TOKENS.accentBlue,
+      insertionMarkerOpacity: 0.45,
+      markerColour: IDE_DESIGN_TOKENS.accentBlue,
+      cursorColour: IDE_DESIGN_TOKENS.accentBlue,
+      selectedGlowColour: IDE_DESIGN_TOKENS.accentBlue,
+      selectedGlowOpacity: 0.85,
+      replacementGlowColour: IDE_DESIGN_TOKENS.haxeOrange,
+      replacementGlowOpacity: 0.85,
+    },
+    fontStyle: {
+      family: 'JetBrains Mono, Consolas, monospace',
+      size: 12,
     },
   });
 }

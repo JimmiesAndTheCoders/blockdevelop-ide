@@ -1,17 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import * as Blockly from 'blockly/core';
-import { createBlockDevelopDarkTheme } from '../theme';
+import { createBlockDevelopDarkTheme, createIDEGridConfig, IDEGridOptions } from '../theme';
 import { registerBlockDefinitions } from '../blocks';
 import { DEFAULT_TOOLBOX_DEFINITION } from '../toolbox';
 import { registerCustomContextMenuOptions } from '../contextmenu';
 
 export interface BlocklyCanvasProps {
   initialXml?: string;
+  gridOptions?: IDEGridOptions;
   onWorkspaceChange?: (workspace: Blockly.WorkspaceSvg) => void;
   className?: string;
 }
 
 export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
+  gridOptions,
   onWorkspaceChange,
   className = 'w-full h-full min-h-[400px]',
 }: BlocklyCanvasProps) => {
@@ -24,16 +26,12 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
     registerBlockDefinitions();
     registerCustomContextMenuOptions();
     const darkTheme = createBlockDevelopDarkTheme();
+    const gridConfig = createIDEGridConfig(gridOptions);
 
     const workspace = Blockly.inject(containerRef.current, {
       toolbox: DEFAULT_TOOLBOX_DEFINITION as unknown as Blockly.utils.toolbox.ToolboxDefinition,
       theme: darkTheme,
-      grid: {
-        spacing: 20,
-        length: 3,
-        colour: '#3c3c3c',
-        snap: true,
-      },
+      grid: gridConfig,
       zoom: {
         controls: true,
         wheel: true,
@@ -69,7 +67,7 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
       workspace.dispose();
       workspaceRef.current = null;
     };
-  }, [onWorkspaceChange]);
+  }, [gridOptions, onWorkspaceChange]);
 
   return <div ref={containerRef} className={className} />;
 };
