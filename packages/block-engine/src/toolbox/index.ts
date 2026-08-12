@@ -10,7 +10,6 @@ export const DEFAULT_TOOLBOX_DEFINITION: ToolboxDefinition = {
       kind: 'category',
       name: 'Events',
       colour: '#06b6d4',
-      categorystyle: 'event_category',
       contents: [
         { kind: 'block', type: 'event_on_start' },
         { kind: 'block', type: 'event_on_update' },
@@ -21,7 +20,6 @@ export const DEFAULT_TOOLBOX_DEFINITION: ToolboxDefinition = {
       kind: 'category',
       name: 'Logic & Control',
       colour: '#007acc',
-      categorystyle: 'logic_category',
       contents: [
         { kind: 'block', type: 'controls_if' },
         { kind: 'block', type: 'logic_if_else' },
@@ -39,7 +37,6 @@ export const DEFAULT_TOOLBOX_DEFINITION: ToolboxDefinition = {
       kind: 'category',
       name: 'Mathematics',
       colour: '#8a2be2',
-      categorystyle: 'math_category',
       contents: [
         { kind: 'block', type: 'math_number' },
         { kind: 'block', type: 'math_arithmetic' },
@@ -54,7 +51,6 @@ export const DEFAULT_TOOLBOX_DEFINITION: ToolboxDefinition = {
       kind: 'category',
       name: 'Text & Strings',
       colour: '#10b981',
-      categorystyle: 'text_category',
       contents: [
         { kind: 'block', type: 'text_literal' },
         { kind: 'block', type: 'text_join_custom' },
@@ -68,7 +64,6 @@ export const DEFAULT_TOOLBOX_DEFINITION: ToolboxDefinition = {
       kind: 'category',
       name: 'Variables',
       colour: '#ea8220',
-      categorystyle: 'variable_category',
       custom: 'VARIABLE',
       contents: [
         { kind: 'block', type: 'variables_get_custom' },
@@ -82,7 +77,6 @@ export const DEFAULT_TOOLBOX_DEFINITION: ToolboxDefinition = {
       kind: 'category',
       name: 'Functions',
       colour: '#e11d48',
-      categorystyle: 'procedure_category',
       custom: 'PROCEDURE',
       contents: [
         { kind: 'block', type: 'procedure_defnoreturn_custom' },

@@ -38,6 +38,8 @@ export const WorkspaceMinimap: React.FC<WorkspaceMinimapProps> = ({
     if (!workspace || !canvasRef.current || isCollapsed) return;
 
     const canvas = canvasRef.current;
+    if (!canvas || typeof canvas.getContext !== 'function') return;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
