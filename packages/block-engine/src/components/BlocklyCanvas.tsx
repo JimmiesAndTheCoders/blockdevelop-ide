@@ -1,24 +1,33 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as Blockly from 'blockly/core';
 import { createBlockDevelopDarkTheme, createIDEGridConfig, IDEGridOptions } from '../theme';
 import { registerBlockDefinitions } from '../blocks';
 import { DEFAULT_TOOLBOX_DEFINITION } from '../toolbox';
 import { registerCustomContextMenuOptions } from '../contextmenu';
+import { ZoomControlsBar } from './ZoomControlsBar';
+import { WorkspaceMinimap } from './WorkspaceMinimap';
+import { GridSnapToolbar } from './GridSnapToolbar';
 
 export interface BlocklyCanvasProps {
   initialXml?: string;
   gridOptions?: IDEGridOptions;
+  showZoomControls?: boolean;
+  showMinimap?: boolean;
+  showGridControls?: boolean;
   onWorkspaceChange?: (workspace: Blockly.WorkspaceSvg) => void;
   className?: string;
 }
 
 export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
   gridOptions,
+  showZoomControls = true,
+  showMinimap = true,
+  showGridControls = true,
   onWorkspaceChange,
-  className = 'w-full h-full min-h-[400px]',
+  className = 'relative w-full h-full min-h-[400px]',
 }: BlocklyCanvasProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const workspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
+  const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -28,12 +37,12 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
     const darkTheme = createBlockDevelopDarkTheme();
     const gridConfig = createIDEGridConfig(gridOptions);
 
-    const workspace = Blockly.inject(containerRef.current, {
+    const ws = Blockly.inject(containerRef.current, {
       toolbox: DEFAULT_TOOLBOX_DEFINITION as unknown as Blockly.utils.toolbox.ToolboxDefinition,
       theme: darkTheme,
       grid: gridConfig,
       zoom: {
-        controls: true,
+        controls: false, // Replaced by custom ZoomControlsBar HUD
         wheel: true,
         startScale: 1.0,
         maxScale: 3,
@@ -52,22 +61,29 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
       trashcan: true,
     });
 
-    workspaceRef.current = workspace;
+    setWorkspace(ws);
 
     const listener = () => {
-      if (onWorkspaceChange && workspaceRef.current) {
-        onWorkspaceChange(workspaceRef.current);
+      if (onWorkspaceChange) {
+        onWorkspaceChange(ws);
       }
     };
 
-    workspace.addChangeListener(listener);
+    ws.addChangeListener(listener);
 
     return () => {
-      workspace.removeChangeListener(listener);
-      workspace.dispose();
-      workspaceRef.current = null;
+      ws.removeChangeListener(listener);
+      ws.dispose();
+      setWorkspace(null);
     };
   }, [gridOptions, onWorkspaceChange]);
 
-  return <div ref={containerRef} className={className} />;
+  return (
+    <div className={className}>
+      <div ref={containerRef} className="w-full h-full" />
+      {showGridControls && workspace && <GridSnapToolbar workspace={workspace} />}
+      {showMinimap && workspace && <WorkspaceMinimap workspace={workspace} />}
+      {showZoomControls && workspace && <ZoomControlsBar workspace={workspace} />}
+    </div>
+  );
 };
