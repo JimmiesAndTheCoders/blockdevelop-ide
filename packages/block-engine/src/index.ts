@@ -3,6 +3,13 @@
  * Custom Blockly integration, workspace management, themes, and block definitions.
  */
 
+import * as Blockly from 'blockly/core';
+import * as En from 'blockly/msg/en';
+import 'blockly/blocks';
+
+// Globally register English locale for all Blockly block messages
+Blockly.setLocale(En as unknown as Record<string, string>);
+
 export * from './types';
 export * from './theme';
 export * from './blocks';

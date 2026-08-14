@@ -1,18 +1,35 @@
 /* ==========================================================================
-   BlockDevelop IDE - Custom Toolbox & Category Navigation Sidebar
-   Matching @blockdevelop/ui Panel Aesthetics
+   BlockDevelop IDE - Custom Toolbox, Flyout & Workspace Scrollbars
    ========================================================================== */
 
-/* Category Navigation Sidebar Container */
+/* Category Navigation Sidebar */
 .blocklyToolboxDiv {
   background-color: #1f1f1f !important;
-  border-right: 1px solid #3c3c3c !important;
+  border-right: none !important;
   color: #e0e0e0 !important;
   font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
   font-size: 12px !important;
-  padding: 6px 0 !important;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3) !important;
+  padding: 4px 0 !important;
   user-select: none !important;
+  z-index: 40 !important;
+}
+
+/* Hide toolbox container if empty */
+.blocklyToolboxDiv:empty {
+  display: none !important;
+  border: none !important;
+}
+
+/* Flyout Drawer Panel */
+.blocklyFlyout {
+  z-index: 30 !important;
+}
+
+.blocklyFlyoutBackground {
+  fill: #1a1a1a !important;
+  fill-opacity: 0.95 !important;
+  stroke: #2d2d2d !important;
+  stroke-width: 1px !important;
 }
 
 /* Category Row Items */
@@ -21,19 +38,17 @@
   line-height: 28px !important;
   padding: 0 10px !important;
   border-radius: 4px !important;
-  margin: 2px 6px !important;
+  margin: 2px 4px !important;
   cursor: pointer !important;
   transition: background-color 150ms ease, color 150ms ease !important;
-  border-left: 2px solid transparent !important;
+  border-left: 3px solid transparent !important;
 }
 
-/* Hover State */
 .blocklyTreeRow:hover {
   background-color: #2a2d2e !important;
   color: #ffffff !important;
 }
 
-/* Selected Category State */
 .blocklyTreeSelected {
   background-color: #094771 !important;
   color: #ffffff !important;
@@ -41,26 +56,26 @@
   border-left-color: #007acc !important;
 }
 
-/* Category Icon & Label Typography */
-.blocklyTreeIcon {
-  margin-right: 6px !important;
-}
-
 .blocklyTreeLabel {
   font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
   font-size: 11px !important;
   font-weight: 500 !important;
   color: inherit !important;
-  letter-spacing: 0.01em !important;
 }
 
-/* BlockDevelop Custom Category Enhancements */
-.blockdevelop-toolbox-category {
-  display: flex !important;
-  align-items: center !important;
-  gap: 6px !important;
+/* Dark Theme Workspace Scrollbars */
+.blocklyScrollbarHandle {
+  fill: #3c3c3c !important;
+  fill-opacity: 0.7 !important;
+  rx: 3px !important;
+  ry: 3px !important;
 }
 
-.blockdevelop-toolbox-category-selected {
-  border-left: 3px solid #007acc !important;
+.blocklyScrollbarHandle:hover {
+  fill: #007acc !important;
+  fill-opacity: 0.9 !important;
+}
+
+.blocklyScrollbarBackground {
+  fill: transparent !important;
 }

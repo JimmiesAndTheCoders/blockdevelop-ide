@@ -1,41 +1,64 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
 import { ideEventBus, useUIStore } from '@blockdevelop/core';
 import { BlocklyCanvas } from './BlocklyCanvas';
 
-describe('BlocklyCanvas Lifecycle, State Sync & Event Bus Suite', () => {
+describe('BlocklyCanvas React Component Suite', () => {
+  let mockObserve: ReturnType<typeof vi.fn>;
+  let mockDisconnect: ReturnType<typeof vi.fn>;
+  let mockUnobserve: ReturnType<typeof vi.fn>;
+
   beforeEach(() => {
     useUIStore.getState().setStatusMessage('Ready');
-    if (typeof window !== 'undefined' && !window.ResizeObserver) {
-      window.ResizeObserver = class {
-        observe() {}
-        unobserve() {}
-        disconnect() {}
-      } as unknown as typeof ResizeObserver;
-    }
+
+    mockObserve = vi.fn();
+    mockDisconnect = vi.fn();
+    mockUnobserve = vi.fn();
+
+    window.ResizeObserver = vi.fn().mockImplementation(() => ({
+      observe: mockObserve,
+      unobserve: mockUnobserve,
+      disconnect: mockDisconnect,
+    })) as unknown as typeof ResizeObserver;
   });
 
-  it('should render container div and mount workspace without throwing', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('should render container element and attach ResizeObserver on mount', () => {
+    const { container } = render(<BlocklyCanvas fileId="main.block" />);
+
+    expect(container.firstChild).toBeInTheDocument();
+    expect(window.ResizeObserver).toHaveBeenCalledTimes(1);
+    expect(mockObserve).toHaveBeenCalledTimes(1);
+  });
+
+  it('should disconnect ResizeObserver and cleanup workspace on unmount', () => {
+    const { unmount } = render(<BlocklyCanvas fileId="main.block" />);
+
+    expect(mockObserve).toHaveBeenCalledTimes(1);
+
+    unmount();
+
+    expect(mockDisconnect).toHaveBeenCalledTimes(1);
+  });
+
+  it('should accept onWorkspaceChange and onBlockSelect prop callbacks', () => {
     const handleWorkspaceChange = vi.fn();
-    const { container, unmount } = render(
-      <BlocklyCanvas onWorkspaceChange={handleWorkspaceChange} />
+    const handleBlockSelect = vi.fn();
+
+    const { container } = render(
+      <BlocklyCanvas
+        onWorkspaceChange={handleWorkspaceChange}
+        onBlockSelect={handleBlockSelect}
+      />
     );
 
     expect(container.firstChild).toBeInTheDocument();
-    expect(() => unmount()).not.toThrow();
   });
 
-  it('should handle Ctrl+Z and Ctrl+Y keyboard undo/redo shortcuts', () => {
-    render(<BlocklyCanvas fileId="test-file.block" />);
-
-    fireEvent.keyDown(window, { key: 'z', ctrlKey: true });
-    expect(useUIStore.getState().statusMessage).toContain('undone');
-
-    fireEvent.keyDown(window, { key: 'y', ctrlKey: true });
-    expect(useUIStore.getState().statusMessage).toContain('redone');
-  });
-
-  it('should allow emitting block:selected and block:changed events over ideEventBus', () => {
+  it('should emit block:selected and block:changed events over ideEventBus', () => {
     const handleBlockSelected = vi.fn();
     const handleBlockChanged = vi.fn();
 
@@ -56,5 +79,15 @@ describe('BlocklyCanvas Lifecycle, State Sync & Event Bus Suite', () => {
 
     ideEventBus.off('block:selected', handleBlockSelected);
     ideEventBus.off('block:changed', handleBlockChanged);
+  });
+
+  it('should handle Ctrl+Z undo and Ctrl+Y redo keyboard triggers', () => {
+    render(<BlocklyCanvas fileId="main.block" />);
+
+    fireEvent.keyDown(window, { key: 'z', ctrlKey: true });
+    expect(useUIStore.getState().statusMessage).toContain('undone');
+
+    fireEvent.keyDown(window, { key: 'y', ctrlKey: true });
+    expect(useUIStore.getState().statusMessage).toContain('redone');
   });
 });

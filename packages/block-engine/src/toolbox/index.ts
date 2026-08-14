@@ -65,25 +65,12 @@ export const DEFAULT_TOOLBOX_DEFINITION: ToolboxDefinition = {
       name: 'Variables',
       colour: '#ea8220',
       custom: 'VARIABLE',
-      contents: [
-        { kind: 'block', type: 'variables_get_custom' },
-        { kind: 'block', type: 'variables_set_custom' },
-        { kind: 'block', type: 'variables_declare_scoped' },
-        { kind: 'block', type: 'variables_get_scoped' },
-        { kind: 'block', type: 'variables_set_scoped' },
-      ],
     },
     {
       kind: 'category',
       name: 'Functions',
       colour: '#e11d48',
       custom: 'PROCEDURE',
-      contents: [
-        { kind: 'block', type: 'procedure_defnoreturn_custom' },
-        { kind: 'block', type: 'procedure_defreturn_custom' },
-        { kind: 'block', type: 'procedure_callnoreturn_custom' },
-        { kind: 'block', type: 'procedure_callreturn_custom' },
-      ],
     },
   ],
 };

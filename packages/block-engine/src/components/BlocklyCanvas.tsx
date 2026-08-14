@@ -1,13 +1,31 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as Blockly from 'blockly/core';
+import * as En from 'blockly/msg/en';
+import 'blockly/blocks';
+
 import { ideEventBus, useUIStore, useEditorStore } from '@blockdevelop/core';
+import { ContextMenu, useContextMenu, type ContextMenuItem } from '@blockdevelop/ui';
 import { createBlockDevelopDarkTheme, createIDEGridConfig, IDEGridOptions } from '../theme';
 import { registerBlockDefinitions } from '../blocks';
 import { DEFAULT_TOOLBOX_DEFINITION } from '../toolbox';
-import { registerCustomContextMenuOptions } from '../contextmenu';
+import { registerCustomContextMenuOptions, buildIDEContextMenuItems } from '../contextmenu';
 import { ZoomControlsBar } from './ZoomControlsBar';
 import { WorkspaceMinimap } from './WorkspaceMinimap';
 import { GridSnapToolbar } from './GridSnapToolbar';
+
+// Ensure English locale is set
+Blockly.setLocale(En as unknown as Record<string, string>);
+
+// Suppress Blockly's default unstyled context menu in favor of @blockdevelop/ui ContextMenu
+Blockly.ContextMenu.show = () => {};
+
+// Default prompt dialog handler for "Create a Variable" button
+if (typeof Blockly.dialog?.setPrompt === 'function') {
+  Blockly.dialog.setPrompt((message, defaultValue, callback) => {
+    const result = prompt(message, defaultValue);
+    callback(result);
+  });
+}
 
 export interface BlocklyCanvasProps {
   fileId?: string;
@@ -22,10 +40,6 @@ export interface BlocklyCanvasProps {
   className?: string;
 }
 
-/**
- * React wrapper component managing Blockly Workspace SVG rendering, ResizeObserver auto-resizing,
- * state synchronization with @blockdevelop/core stores, ideEventBus events, and Undo/Redo stack handling.
- */
 export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
   fileId,
   gridOptions,
@@ -40,8 +54,36 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
 
+  const { isOpen, position, handleContextMenu: openContextMenu, closeContextMenu } = useContextMenu();
+  const [contextMenuItems, setContextMenuItems] = useState<ContextMenuItem[]>([]);
+
   const activeTabId = useEditorStore((state) => state.activeTabId);
   const currentFileId = fileId || activeTabId || 'main.block';
+
+  // Handle right-click on Blockly Canvas to display single IDE ContextMenu
+  const handleCanvasContextMenu = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (!workspace) return;
+
+      let targetBlock: Blockly.BlockSvg | undefined = undefined;
+      const selected = Blockly.common.getSelected() as Blockly.BlockSvg | null;
+      if (selected && selected.workspace === workspace) {
+        targetBlock = selected;
+      }
+
+      const items = buildIDEContextMenuItems({
+        block: targetBlock,
+        workspace,
+      });
+
+      setContextMenuItems(items);
+      openContextMenu(e);
+    },
+    [workspace, openContextMenu]
+  );
 
   // Keyboard Undo/Redo Actions
   const handleUndo = useCallback(() => {
@@ -58,7 +100,6 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
     }
   }, [workspace]);
 
-  // Keyboard Undo/Redo Shortcuts Listener (Ctrl+Z, Ctrl+Y, Ctrl+Shift+Z)
   useEffect(() => {
     if (!workspace) return;
 
@@ -75,14 +116,12 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
 
       const ctrlKey = e.ctrlKey || e.metaKey;
 
-      // Ctrl+Z -> Undo
       if (ctrlKey && !e.shiftKey && e.key.toLowerCase() === 'z') {
         e.preventDefault();
         handleUndo();
         return;
       }
 
-      // Ctrl+Y or Ctrl+Shift+Z -> Redo
       if (
         (ctrlKey && !e.shiftKey && e.key.toLowerCase() === 'y') ||
         (ctrlKey && e.shiftKey && e.key.toLowerCase() === 'z')
@@ -114,7 +153,7 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
       theme: darkTheme,
       grid: gridConfig,
       zoom: {
-        controls: false, // Replaced by custom ZoomControlsBar HUD
+        controls: false,
         wheel: true,
         startScale: 1.0,
         maxScale: 3,
@@ -128,14 +167,13 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
           vertical: true,
         },
         drag: true,
-        wheel: true,
+        wheel: false,
       },
       trashcan: true,
     });
 
     setWorkspace(ws);
 
-    // 1. Automatic ResizeObserver for responsive FlexLayout tab resizing
     let resizeObserver: ResizeObserver | null = null;
     if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
       resizeObserver = new ResizeObserver(() => {
@@ -146,7 +184,6 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
       resizeObserver.observe(containerRef.current);
     }
 
-    // 2. Change Listeners for Workspace Events & Event Bus Sync
     const changeListener = (e: Blockly.Events.Abstract) => {
       if (isDisposed) return;
 
@@ -154,7 +191,6 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
         onWorkspaceChange(ws);
       }
 
-      // Handle Block Selection Event & Store Sync
       if (e.type === Blockly.Events.SELECTED || e.type === 'selected') {
         const selectedEvent = e as unknown as { newElementId: string | null };
         const selectedId = selectedEvent.newElementId ?? null;
@@ -163,13 +199,11 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
           const selectedBlock = ws.getBlockById(selectedId);
           const blockType = selectedBlock ? selectedBlock.type : 'unknown';
 
-          // Emit block:selected event to ideEventBus
           ideEventBus.emit('block:selected', {
             blockId: selectedId,
             blockType,
           });
 
-          // Sync status message with uiStore
           useUIStore
             .getState()
             .setStatusMessage(`Selected Block: ${blockType} [${selectedId.substring(0, 6)}]`);
@@ -182,7 +216,6 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
         }
       }
 
-      // Handle Block Change Event & Emit block:changed to ideEventBus
       if (
         e.type === Blockly.Events.BLOCK_CHANGE ||
         e.type === Blockly.Events.BLOCK_CREATE ||
@@ -196,7 +229,6 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
         const allBlocks = ws.getAllBlocks(false);
         const blockCount = allBlocks.length;
 
-        // Emit block:changed event to ideEventBus
         ideEventBus.emit('block:changed', {
           fileId: currentFileId,
           blockCount,
@@ -216,7 +248,6 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
 
     ws.addChangeListener(changeListener);
 
-    // 3. Clean Lifecycle Cleanup on Unmount
     return () => {
       isDisposed = true;
       if (resizeObserver) {
@@ -229,11 +260,19 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
   }, [gridOptions, currentFileId, onWorkspaceChange, onBlockSelect, onXmlChange]);
 
   return (
-    <div className={className}>
+    <div className={className} onContextMenu={handleCanvasContextMenu}>
       <div ref={containerRef} className="w-full h-full" />
       {showGridControls && workspace && <GridSnapToolbar workspace={workspace} />}
       {showMinimap && workspace && <WorkspaceMinimap workspace={workspace} />}
       {showZoomControls && workspace && <ZoomControlsBar workspace={workspace} />}
+
+      {/* Custom IDE Context Menu */}
+      <ContextMenu
+        isOpen={isOpen}
+        position={position}
+        onClose={closeContextMenu}
+        items={contextMenuItems}
+      />
     </div>
   );
 };

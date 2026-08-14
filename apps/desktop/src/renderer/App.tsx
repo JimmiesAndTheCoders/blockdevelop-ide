@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { IDE_METADATA, useLayoutStore, useUIStore } from '@blockdevelop/core';
-import { initializeBlockEngine } from '@blockdevelop/block-engine';
-import { getGeneratorVersion } from '@blockdevelop/code-gen';
+import { BlocklyCanvas } from '@blockdevelop/block-engine';
 import {
   PanelHeader,
   PanelSection,
   Button,
-  TextInput,
   SearchInput,
   Select,
   Switch,
   Badge,
-  Tag,
   Kbd,
   ProgressBar,
   Spinner,
@@ -41,7 +38,7 @@ export const App: React.FC = () => {
   const [autoSave, setAutoSave] = useState(true);
   const [activeTab, setActiveTab] = useState('tab-1');
   const [tabs, setTabs] = useState<TabItemData[]>([
-    { id: 'tab-1', title: 'Main.hx', icon: 'file-code', isDirty: false },
+    { id: 'tab-1', title: 'Main.block', icon: 'block', isDirty: false },
     { id: 'tab-2', title: 'Player.block', icon: 'block', isDirty: true },
   ]);
 
@@ -64,16 +61,11 @@ export const App: React.FC = () => {
     const key = presetKey as LayoutPresetType;
     setActivePreset(key);
 
-    // Instantiate preset layout model & load into layout store
     const presetJson = LayoutModelFactory.createPresetJson(key);
     type LoadLayoutParam = Parameters<ReturnType<typeof useLayoutStore.getState>['loadLayout']>[0];
     useLayoutStore.getState().loadLayout(presetJson as unknown as LoadLayoutParam);
   };
 
-  /**
-   * Reset Window Layout Command
-   * Clears saved persistent layout, resets store to DEFAULT_WORKSPACE_LAYOUT, and updates UI status.
-   */
   const handleResetLayout = () => {
     LayoutPersistenceManager.clearSavedLayout();
     const defaultJson = LayoutModelFactory.createDefaultJson();
@@ -151,16 +143,27 @@ export const App: React.FC = () => {
         onTabSelect={setActiveTab}
         onTabClose={handleTabClose}
         actions={
-          <Badge variant="platform" size="xs">
-            {targetPlatform.toUpperCase()}
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Badge variant="platform" size="xs">
+              {targetPlatform.toUpperCase()}
+            </Badge>
+            <Button
+              variant="accent"
+              size="xs"
+              leftIcon="play"
+              isLoading={isBuilding}
+              onClick={handleBuild}
+            >
+              Compile & Run
+            </Button>
+          </div>
         }
       />
 
       {/* Main Workspace Layout */}
-      <main className="flex-1 flex p-4 gap-4 overflow-auto">
+      <main className="flex-1 flex p-2 gap-2 overflow-hidden">
         {/* Sidebar Panel */}
-        <aside className="w-72 bg-workspace-panel border border-workspace-border rounded-lg flex flex-col shrink-0 shadow-lg">
+        <aside className="w-64 bg-workspace-panel border border-workspace-border rounded-lg flex flex-col shrink-0 shadow-lg overflow-y-auto">
           <PanelHeader title="Project Explorer" icon="folder" />
 
           <PanelSection title="Target Platform" icon="globe">
@@ -202,55 +205,22 @@ export const App: React.FC = () => {
               />
               {isBuilding && (
                 <div className="flex items-center gap-2 text-2xs text-brand-haxeOrange font-mono pt-1">
-                  <Spinner size="xs" variant="haxe" /> Executing Haxe compiler pipeline...
+                  <Spinner size="xs" variant="haxe" /> Executing compiler...
                 </div>
               )}
             </div>
           </PanelSection>
         </aside>
 
-        {/* Central Workspace Canvas */}
-        <section className="flex-1 bg-workspace-panel border border-workspace-border rounded-lg p-6 flex flex-col justify-between shadow-xl">
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h1 className="text-xl font-bold flex items-center gap-2 text-white">
-                <Tag variant="brand">Phase 3 Layout Engine Active</Tag>
-              </h1>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="accent"
-                  size="sm"
-                  leftIcon="play"
-                  isLoading={isBuilding}
-                  onClick={handleBuild}
-                >
-                  Compile & Run
-                </Button>
-              </div>
-            </div>
-
-            <p className="text-gray-400 text-xs mb-6">
-              Right-click anywhere on the workspace canvas to trigger the custom IDE Context Menu.
-            </p>
-
-            <div className="space-y-3 font-mono text-xs mb-6">
-              <div className="p-3 bg-workspace-dark rounded border border-workspace-border text-emerald-400">
-                ✓ {initializeBlockEngine()}
-              </div>
-              <div className="p-3 bg-workspace-dark rounded border border-workspace-border text-amber-400">
-                ✓ {getGeneratorVersion()}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <TextInput size="sm" defaultValue="main.hx" variant="code" className="max-w-xs" />
-              <Tooltip content="Save Document" shortcut="Ctrl+S">
-                <Button variant="secondary" size="sm" leftIcon="file-code">
-                  Save
-                </Button>
-              </Tooltip>
-            </div>
-          </div>
+        {/* Central Workspace - Interactive Blockly Canvas */}
+        <section className="flex-1 bg-workspace-panel border border-workspace-border rounded-lg shadow-xl relative overflow-hidden flex flex-col">
+          <BlocklyCanvas
+            fileId={activeTab}
+            showZoomControls={true}
+            showMinimap={true}
+            showGridControls={true}
+            className="w-full h-full relative"
+          />
         </section>
       </main>
 

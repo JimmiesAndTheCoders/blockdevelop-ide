@@ -7,16 +7,12 @@ export interface ZoomControlsBarProps {
   className?: string;
 }
 
-/**
- * High-density IDE Workspace Zoom Controls HUD overlay with zoom percentage display and keyboard shortcut listeners.
- */
 export const ZoomControlsBar: React.FC<ZoomControlsBarProps> = ({
   workspace,
   className = 'absolute bottom-4 right-4 z-20 flex items-center gap-1 bg-workspace-panel/90 backdrop-blur border border-workspace-border p-1 rounded-md shadow-lg',
 }) => {
   const [currentZoomPercent, setCurrentZoomPercent] = useState<number>(100);
 
-  // Update zoom percentage indicator when workspace viewport scale changes
   useEffect(() => {
     if (!workspace) return;
 
@@ -43,22 +39,26 @@ export const ZoomControlsBar: React.FC<ZoomControlsBarProps> = ({
   const handleZoomIn = useCallback(() => {
     if (!workspace) return;
     workspace.zoomCenter(1);
+    workspace.markFocused();
   }, [workspace]);
 
   const handleZoomOut = useCallback(() => {
     if (!workspace) return;
     workspace.zoomCenter(-1);
+    workspace.markFocused();
   }, [workspace]);
 
   const handleResetZoom = useCallback(() => {
     if (!workspace) return;
     workspace.setScale(1.0);
     workspace.scrollCenter();
+    workspace.markFocused();
   }, [workspace]);
 
   const handleFitToView = useCallback(() => {
     if (!workspace) return;
     workspace.zoomToFit();
+    workspace.markFocused();
   }, [workspace]);
 
   // Global Keyboard Shortcuts Listener
@@ -78,14 +78,12 @@ export const ZoomControlsBar: React.FC<ZoomControlsBarProps> = ({
 
       const ctrlKey = e.ctrlKey || e.metaKey;
 
-      // Ctrl+0 -> Reset Zoom to 100%
       if (ctrlKey && e.key === '0') {
         e.preventDefault();
         handleResetZoom();
         return;
       }
 
-      // Shift+1 -> Fit All Blocks to View
       if (e.shiftKey && e.key === '1') {
         e.preventDefault();
         handleFitToView();
@@ -105,7 +103,6 @@ export const ZoomControlsBar: React.FC<ZoomControlsBarProps> = ({
 
   return (
     <div className={className} role="toolbar" aria-label="Workspace Zoom Controls">
-      {/* Zoom In */}
       <Tooltip content="Zoom In" shortcut="+">
         <Button
           variant="ghost"
@@ -116,7 +113,6 @@ export const ZoomControlsBar: React.FC<ZoomControlsBarProps> = ({
         />
       </Tooltip>
 
-      {/* Zoom Out */}
       <Tooltip content="Zoom Out" shortcut="-">
         <Button
           variant="ghost"
@@ -127,7 +123,6 @@ export const ZoomControlsBar: React.FC<ZoomControlsBarProps> = ({
         />
       </Tooltip>
 
-      {/* Current Zoom Percent / Reset */}
       <Tooltip content="Reset Zoom to 100%" shortcut="Ctrl+0">
         <Button
           variant="ghost"
@@ -142,7 +137,6 @@ export const ZoomControlsBar: React.FC<ZoomControlsBarProps> = ({
 
       <div className="w-px h-4 bg-workspace-border my-auto mx-0.5" />
 
-      {/* Fit All Blocks to View */}
       <Tooltip content="Fit All Blocks to View" shortcut="Shift+1">
         <Button
           variant="ghost"

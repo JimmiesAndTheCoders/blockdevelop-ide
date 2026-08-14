@@ -1,10 +1,16 @@
 import * as Blockly from 'blockly/core';
+import * as En from 'blockly/msg/en';
+import 'blockly/blocks';
+
 import type { CustomBlockDefinition } from '../types';
 import { registerLogicBlocks, LOGIC_BLOCK_DEFINITIONS } from './logic';
 import { registerMathBlocks, MATH_BLOCK_DEFINITIONS } from './math';
 import { registerTextBlocks, TEXT_BLOCK_DEFINITIONS } from './text';
 import { registerVariableBlocks, VARIABLE_BLOCK_DEFINITIONS } from './variables';
 import { registerFunctionBlocks, FUNCTION_BLOCK_DEFINITIONS } from './functions';
+
+// Set English locale globally
+Blockly.setLocale(En as unknown as Record<string, string>);
 
 export * from './logic';
 export * from './math';
