@@ -39,26 +39,34 @@ export const ZoomControlsBar: React.FC<ZoomControlsBarProps> = ({
   const handleZoomIn = useCallback(() => {
     if (!workspace) return;
     workspace.zoomCenter(1);
-    workspace.markFocused();
+    if (typeof workspace.markFocused === 'function') {
+      workspace.markFocused();
+    }
   }, [workspace]);
 
   const handleZoomOut = useCallback(() => {
     if (!workspace) return;
     workspace.zoomCenter(-1);
-    workspace.markFocused();
+    if (typeof workspace.markFocused === 'function') {
+      workspace.markFocused();
+    }
   }, [workspace]);
 
   const handleResetZoom = useCallback(() => {
     if (!workspace) return;
     workspace.setScale(1.0);
     workspace.scrollCenter();
-    workspace.markFocused();
+    if (typeof workspace.markFocused === 'function') {
+      workspace.markFocused();
+    }
   }, [workspace]);
 
   const handleFitToView = useCallback(() => {
     if (!workspace) return;
     workspace.zoomToFit();
-    workspace.markFocused();
+    if (typeof workspace.markFocused === 'function') {
+      workspace.markFocused();
+    }
   }, [workspace]);
 
   // Global Keyboard Shortcuts Listener

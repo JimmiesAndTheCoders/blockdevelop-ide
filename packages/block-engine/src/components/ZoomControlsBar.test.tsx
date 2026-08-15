@@ -10,6 +10,7 @@ describe('ZoomControlsBar HUD & Keyboard Shortcuts Suite', () => {
     setScale: ReturnType<typeof vi.fn>;
     scrollCenter: ReturnType<typeof vi.fn>;
     zoomToFit: ReturnType<typeof vi.fn>;
+    markFocused: ReturnType<typeof vi.fn>;
     addChangeListener: ReturnType<typeof vi.fn>;
     removeChangeListener: ReturnType<typeof vi.fn>;
   };
@@ -21,6 +22,7 @@ describe('ZoomControlsBar HUD & Keyboard Shortcuts Suite', () => {
       setScale: vi.fn(),
       scrollCenter: vi.fn(),
       zoomToFit: vi.fn(),
+      markFocused: vi.fn(),
       addChangeListener: vi.fn(),
       removeChangeListener: vi.fn(),
     };
