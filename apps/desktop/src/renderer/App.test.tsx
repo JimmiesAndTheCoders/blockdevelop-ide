@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import React from 'react';
 import { ThemeProvider } from '@blockdevelop/ui';
-import { useLayoutStore, useEditorStore, useUIStore } from '@blockdevelop/core';
+import { useLayoutStore, useEditorStore, useUIStore, IDE_METADATA } from '@blockdevelop/core';
 import { App } from './App';
 
 // Mock window.blockDevelopAPI bridge
@@ -10,7 +10,7 @@ Object.defineProperty(window, 'blockDevelopAPI', {
   value: {
     system: {
       getSystemInfo: vi.fn().mockResolvedValue({
-        appVersion: '0.4.0-beta.6',
+        appVersion: '0.5.1',
         electronVersion: '29.1.0',
         chromeVersion: '122.0.0.0',
         nodeVersion: '20.11.0',
@@ -45,7 +45,7 @@ describe('Desktop App Component & Dock Layout Integration Suite', () => {
     renderWithProviders(<App />);
     await waitFor(() => {
       expect(screen.getByText('BlockDevelop IDE')).toBeInTheDocument();
-      expect(screen.getByText(/Block Engine Initialized/i)).toBeInTheDocument();
+      expect(screen.getByText(`v${IDE_METADATA.VERSION}`)).toBeInTheDocument();
     });
   });
 
@@ -53,16 +53,16 @@ describe('Desktop App Component & Dock Layout Integration Suite', () => {
     renderWithProviders(<App />);
 
     await waitFor(() => {
-      expect(screen.getByText('Main.hx')).toBeInTheDocument();
+      expect(screen.getByText('Main.block')).toBeInTheDocument();
       expect(screen.getByText('Player.block')).toBeInTheDocument();
     });
 
-    // Close first tab (Main.hx)
-    const closeBtn = screen.getByLabelText('Close tab Main.hx');
+    // Close first tab (Main.block)
+    const closeBtn = screen.getByLabelText('Close tab Main.block');
     fireEvent.click(closeBtn);
 
     await waitFor(() => {
-      expect(screen.queryByText('Main.hx')).not.toBeInTheDocument();
+      expect(screen.queryByText('Main.block')).not.toBeInTheDocument();
     });
   });
 
