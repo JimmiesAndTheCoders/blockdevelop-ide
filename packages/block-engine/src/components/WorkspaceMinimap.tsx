@@ -8,14 +8,11 @@ export interface WorkspaceMinimapProps {
   className?: string;
 }
 
-/**
- * Embedded workspace minimap component showing block bounds and current camera view rect with drag-to-pan navigation.
- */
 export const WorkspaceMinimap: React.FC<WorkspaceMinimapProps> = ({
   workspace,
   width = 160,
   height = 100,
-  className = 'absolute bottom-4 right-32 z-20 bg-workspace-panel/90 backdrop-blur border border-workspace-border rounded-md shadow-lg overflow-hidden select-none',
+  className = 'absolute top-16 right-4 z-30 bg-workspace-panel/90 backdrop-blur border border-workspace-border rounded-md shadow-lg overflow-hidden select-none',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDraggingRef = useRef<boolean>(false);

@@ -79,3 +79,75 @@
 .blocklyScrollbarBackground {
   fill: transparent !important;
 }
+
+/* ==========================================================================
+   CSS Framework / Tailwind Reset Overrides for Blockly SVG Elements
+   ========================================================================== */
+
+/* Prevent global CSS resets from overriding SVG display="none" */
+.blocklySvg [display='none'],
+.blocklyScrollbar[display='none'],
+.blocklyFlyoutScrollbar[display='none'],
+.blocklyScrollbarHandle[display='none'],
+.blocklyScrollbarBackground[display='none'],
+.blocklyScrollbar[style*='display: none'],
+.blocklyFlyoutScrollbar[style*='display: none'],
+.blocklyScrollbarVertical[style*='display: none'],
+.blocklyScrollbarHorizontal[style*='display: none'],
+.blocklyHidden {
+  display: none !important;
+}
+
+.blocklySvg [visibility='hidden'],
+.blocklyScrollbar[visibility='hidden'],
+.blocklyFlyoutScrollbar[visibility='hidden'],
+.blocklyScrollbar[style*='visibility: hidden'],
+.blocklyFlyoutScrollbar[style*='visibility: hidden'] {
+  visibility: hidden !important;
+}
+
+/* Hide flyout scrollbar when flyout is closed or not rendered */
+.blocklyFlyout[style*='display: none'] ~ .blocklyFlyoutScrollbar,
+.blocklyFlyout[display='none'] ~ .blocklyFlyoutScrollbar,
+.blocklyFlyout:not(.blocklyFlyoutVisible) ~ .blocklyFlyoutScrollbar {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Trashcan & Built-in Zoom Controls Visibility, Sizing & Spritesheet Protection
+   ========================================================================== */
+
+/* Prevent Tailwind Preflight from collapsing SVG <image> dimensions in clipPath */
+.blocklySvg image,
+.blocklyTrash image,
+.blocklyZoom image {
+  display: inline !important;
+  max-width: none !important;
+  max-height: none !important;
+  box-sizing: content-box !important;
+}
+
+/* Ensure the Trashcan icon is clearly visible and responsive to hover */
+.blocklyTrash {
+  opacity: 0.85 !important;
+  transition: opacity 150ms ease, transform 150ms ease !important;
+  cursor: pointer !important;
+}
+
+.blocklyTrash:hover,
+.blocklyTrashActive {
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 6px rgba(0, 122, 204, 0.6)) !important;
+}
+
+/* Ensure built-in Blockly zoom controls are styled with dark theme visibility */
+.blocklyZoom {
+  opacity: 0.85 !important;
+  transition: opacity 150ms ease !important;
+  cursor: pointer !important;
+}
+
+.blocklyZoom:hover {
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 6px rgba(0, 122, 204, 0.6)) !important;
+}

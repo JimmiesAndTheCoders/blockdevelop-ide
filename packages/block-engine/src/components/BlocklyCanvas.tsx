@@ -9,7 +9,6 @@ import { createBlockDevelopDarkTheme, createIDEGridConfig, IDEGridOptions } from
 import { registerBlockDefinitions } from '../blocks';
 import { DEFAULT_TOOLBOX_DEFINITION } from '../toolbox';
 import { registerCustomContextMenuOptions, buildIDEContextMenuItems } from '../contextmenu';
-import { ZoomControlsBar } from './ZoomControlsBar';
 import { WorkspaceMinimap } from './WorkspaceMinimap';
 import { GridSnapToolbar } from './GridSnapToolbar';
 
@@ -31,6 +30,7 @@ export interface BlocklyCanvasProps {
   fileId?: string;
   initialXml?: string;
   gridOptions?: IDEGridOptions;
+  media?: string;
   showZoomControls?: boolean;
   showMinimap?: boolean;
   showGridControls?: boolean;
@@ -43,6 +43,7 @@ export interface BlocklyCanvasProps {
 export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
   fileId,
   gridOptions,
+  media = 'blockly-media/',
   showZoomControls = true,
   showMinimap = true,
   showGridControls = true,
@@ -130,6 +131,19 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
         handleRedo();
         return;
       }
+
+      if (ctrlKey && e.key === '0') {
+        e.preventDefault();
+        workspace.setScale(1.0);
+        workspace.scrollCenter();
+        return;
+      }
+
+      if (e.shiftKey && e.key === '1') {
+        e.preventDefault();
+        workspace.zoomToFit();
+        return;
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -152,8 +166,9 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
       toolbox: DEFAULT_TOOLBOX_DEFINITION as unknown as Blockly.utils.toolbox.ToolboxDefinition,
       theme: darkTheme,
       grid: gridConfig,
+      media,
       zoom: {
-        controls: false,
+        controls: showZoomControls,
         wheel: true,
         startScale: 1.0,
         maxScale: 3,
@@ -183,6 +198,12 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
       });
       resizeObserver.observe(containerRef.current);
     }
+
+    requestAnimationFrame(() => {
+      if (!isDisposed && ws) {
+        Blockly.svgResize(ws);
+      }
+    });
 
     const changeListener = (e: Blockly.Events.Abstract) => {
       if (isDisposed) return;
@@ -257,14 +278,13 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
       ws.dispose();
       setWorkspace(null);
     };
-  }, [gridOptions, currentFileId, onWorkspaceChange, onBlockSelect, onXmlChange]);
+  }, [gridOptions, media, showZoomControls, currentFileId, onWorkspaceChange, onBlockSelect, onXmlChange]);
 
   return (
     <div className={className} onContextMenu={handleCanvasContextMenu}>
       <div ref={containerRef} className="w-full h-full" />
       {showGridControls && workspace && <GridSnapToolbar workspace={workspace} />}
       {showMinimap && workspace && <WorkspaceMinimap workspace={workspace} />}
-      {showZoomControls && workspace && <ZoomControlsBar workspace={workspace} />}
 
       {/* Custom IDE Context Menu */}
       <ContextMenu

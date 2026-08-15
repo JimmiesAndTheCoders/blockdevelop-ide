@@ -9,7 +9,7 @@ export interface ZoomControlsBarProps {
 
 export const ZoomControlsBar: React.FC<ZoomControlsBarProps> = ({
   workspace,
-  className = 'absolute bottom-4 right-4 z-20 flex items-center gap-1 bg-workspace-panel/90 backdrop-blur border border-workspace-border p-1 rounded-md shadow-lg',
+  className = 'absolute bottom-4 right-24 z-30 flex items-center gap-1 bg-workspace-panel/90 backdrop-blur border border-workspace-border p-1 rounded-md shadow-lg',
 }) => {
   const [currentZoomPercent, setCurrentZoomPercent] = useState<number>(100);
 

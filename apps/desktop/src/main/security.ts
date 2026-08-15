@@ -27,7 +27,8 @@ export function enforceSecurityPolicies(window: BrowserWindow): void {
           " script-src 'self' 'unsafe-inline';" +
           " style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;" +
           " font-src 'self' https://fonts.gstatic.com data:;" +
-          " img-src 'self' data: blob:;" +
+          " img-src 'self' data: blob: https:;" +
+          " media-src 'self' data: blob: https:;" +
           " connect-src 'self' ws: http: https:;" +
           " object-src 'none';" +
           " base-uri 'self';" +

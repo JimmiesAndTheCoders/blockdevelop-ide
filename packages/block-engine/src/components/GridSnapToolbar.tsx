@@ -13,7 +13,7 @@ export interface GridSnapToolbarProps {
  */
 export const GridSnapToolbar: React.FC<GridSnapToolbarProps> = ({
   workspace,
-  className = 'absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-workspace-panel/90 backdrop-blur border border-workspace-border p-1 rounded-md shadow-lg text-xs text-gray-200 select-none',
+  className = 'absolute top-4 right-4 z-30 flex items-center gap-1.5 bg-workspace-panel/90 backdrop-blur border border-workspace-border p-1 rounded-md shadow-lg text-xs text-gray-200 select-none',
 }) => {
   const [gridMode, setGridMode] = useState<GridDisplayMode>('dots');
   const [isSnapEnabled, setIsSnapEnabled] = useState<boolean>(true);
