@@ -8,6 +8,12 @@ import { registerMathBlocks, MATH_BLOCK_DEFINITIONS } from './math';
 import { registerTextBlocks, TEXT_BLOCK_DEFINITIONS } from './text';
 import { registerVariableBlocks, VARIABLE_BLOCK_DEFINITIONS } from './variables';
 import { registerFunctionBlocks, FUNCTION_BLOCK_DEFINITIONS } from './functions';
+import {
+  registerTypeBlocks,
+  TYPE_BLOCK_DEFINITIONS,
+  registerScopedVariableBlocks,
+  SCOPED_VARIABLE_BLOCK_DEFINITIONS,
+} from './scoping';
 
 // Set English locale globally
 Blockly.setLocale(En as unknown as Record<string, string>);
@@ -17,6 +23,7 @@ export * from './math';
 export * from './text';
 export * from './variables';
 export * from './functions';
+export * from './scoping';
 
 export const CORE_EVENT_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
   {
@@ -39,6 +46,8 @@ export const CORE_EVENT_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
 
 export const CORE_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
   ...CORE_EVENT_BLOCK_DEFINITIONS,
+  ...TYPE_BLOCK_DEFINITIONS,
+  ...SCOPED_VARIABLE_BLOCK_DEFINITIONS,
   ...LOGIC_BLOCK_DEFINITIONS,
   ...MATH_BLOCK_DEFINITIONS,
   ...TEXT_BLOCK_DEFINITIONS,
@@ -47,6 +56,8 @@ export const CORE_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
 ];
 
 export function registerBlockDefinitions(definitions = CORE_BLOCK_DEFINITIONS): void {
+  registerTypeBlocks();
+  registerScopedVariableBlocks();
   registerLogicBlocks();
   registerMathBlocks();
   registerTextBlocks();

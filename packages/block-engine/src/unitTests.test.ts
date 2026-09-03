@@ -107,9 +107,17 @@ describe('Phase 4.8 Unit Test Suite - Core Engine, Schemas & Serialization', () 
       // Verify Variables Category
       expect(Blockly.Blocks['variables_get_custom']).toBeDefined();
       expect(Blockly.Blocks['variables_set_custom']).toBeDefined();
-      expect(Blockly.Blocks['variables_declare_scoped']).toBeDefined();
-      expect(Blockly.Blocks['variables_get_scoped']).toBeDefined();
-      expect(Blockly.Blocks['variables_set_scoped']).toBeDefined();
+      expect(Blockly.Blocks['variable_declare_typed']).toBeDefined();
+      expect(Blockly.Blocks['variable_declare_inferred']).toBeDefined();
+      expect(Blockly.Blocks['variable_declare_local']).toBeDefined();
+      expect(Blockly.Blocks['variable_get_scoped_typed']).toBeDefined();
+      expect(Blockly.Blocks['variable_assign_op']).toBeDefined();
+      expect(Blockly.Blocks['variable_increment_decrement']).toBeDefined();
+      expect(Blockly.Blocks['type_primitive']).toBeDefined();
+      expect(Blockly.Blocks['type_array_of']).toBeDefined();
+      expect(Blockly.Blocks['type_map_of']).toBeDefined();
+      expect(Blockly.Blocks['type_custom']).toBeDefined();
+      expect(Blockly.Blocks['type_nullable']).toBeDefined();
 
       // Verify Functions & Events Category
       expect(Blockly.Blocks['procedure_defnoreturn_custom']).toBeDefined();

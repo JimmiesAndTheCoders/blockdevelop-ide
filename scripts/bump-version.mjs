@@ -8,9 +8,9 @@ const rootDir = path.resolve(__dirname, '..');
 
 const targetVersion = process.argv[2];
 
-if (!targetVersion || !/^\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?$/.test(targetVersion)) {
+if (!targetVersion || !/^\d+\.\d+\.\d+(?:\.\d+)?(?:-[a-zA-Z0-9.]+)?$/.test(targetVersion)) {
   console.error('\n❌ Error: Please specify a valid SemVer string.');
-  console.error('Usage: pnpm version:set <new-version> (e.g. pnpm version:set 0.2.0)\n');
+  console.error('Usage: pnpm version:set <new-version> (e.g. pnpm version:set 0.5.1.0)\n');
   process.exit(1);
 }
 
