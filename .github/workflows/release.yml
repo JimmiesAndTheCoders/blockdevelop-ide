@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 jobs:
   release:
@@ -15,7 +16,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        include:
+          - os: windows-latest
+            build_flag: '--win'
+          - os: macos-latest
+            build_flag: '--mac'
+          - os: ubuntu-latest
+            build_flag: '--linux'
 
     steps:
       - name: Checkout Repository
@@ -43,15 +50,15 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build All Monorepo Packages
+      - name: Build Monorepo Packages
         run: pnpm run build
 
-      - name: Build Desktop Renderer & Main Bundles
+      - name: Build Desktop Bundles
         run: pnpm --filter @blockdevelop/desktop run build
 
-      - name: Package & Publish Executables to GitHub Releases
+      - name: Package & Publish Executables
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm --filter @blockdevelop/desktop exec electron-builder --publish always
+        run: pnpm --filter @blockdevelop/desktop exec electron-builder ${{ matrix.build_flag }} --publish always
         
