@@ -60,5 +60,5 @@ export const useEditorStore = create<EditorState>()(
       set((state) => {
         state.zoomLevel = zoom;
       }),
-  }))
+  })),
 );

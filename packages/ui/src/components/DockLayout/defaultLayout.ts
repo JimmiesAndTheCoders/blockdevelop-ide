@@ -69,11 +69,7 @@ export const BASELINE_PANELS: BaselinePanelsMap = {
   },
 };
 
-export type LayoutPresetType =
-  | 'default'
-  | 'visual-builder'
-  | 'code-centric'
-  | 'debugger';
+export type LayoutPresetType = 'default' | 'visual-builder' | 'code-centric' | 'debugger';
 
 export interface LayoutPresetMetadata {
   id: LayoutPresetType;
@@ -83,7 +79,7 @@ export interface LayoutPresetMetadata {
 }
 
 export const LAYOUT_PRESETS: Record<LayoutPresetType, LayoutPresetMetadata> = {
-  'default': {
+  default: {
     id: 'default',
     name: 'Default Workspace',
     description: 'Full IDE view with Explorer, Editor, Properties, and Terminal.',
@@ -101,7 +97,7 @@ export const LAYOUT_PRESETS: Record<LayoutPresetType, LayoutPresetMetadata> = {
     description: 'Maximized code editor view with file explorer and side terminal.',
     icon: 'code',
   },
-  'debugger': {
+  debugger: {
     id: 'debugger',
     name: 'Debugger & Runner',
     description: 'Focused view on execution stack, variable inspector, and output console.',
@@ -477,7 +473,7 @@ export class LayoutModelFactory {
     } catch (err) {
       console.error(
         '[LayoutModelFactory] Model creation failed, auto-recovering to DEFAULT_WORKSPACE_LAYOUT:',
-        err
+        err,
       );
       return this.createDefaultModel();
     }
@@ -496,7 +492,7 @@ export class LayoutModelFactory {
     } catch (err) {
       console.error(
         '[LayoutModelFactory] JSON sanitization failed, auto-recovering to DEFAULT_WORKSPACE_LAYOUT:',
-        err
+        err,
       );
       return this.createDefaultJson();
     }

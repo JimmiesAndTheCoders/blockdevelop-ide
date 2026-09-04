@@ -76,7 +76,7 @@ export const TabItem: FC<TabItemProps> = ({
           ? 'bg-workspace-activeTab text-white font-medium border-t-2 border-t-brand-blue shadow-sm'
           : 'bg-workspace-tab hover:bg-workspace-hover text-gray-400 hover:text-gray-200 border-t-2 border-t-transparent',
         tab.isDragging && 'opacity-40 border-dashed border-brand-blue bg-workspace-dark',
-        className
+        className,
       )}
     >
       {/* Tab Icon */}
@@ -101,7 +101,7 @@ export const TabItem: FC<TabItemProps> = ({
               aria-label={`Close tab ${tab.title}`}
               className={clsx(
                 'p-0.5 rounded hover:bg-workspace-border text-gray-400 hover:text-white transition-opacity',
-                isHovered || isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                isHovered || isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100',
               )}
             >
               <Icon name="close" size="xs" />

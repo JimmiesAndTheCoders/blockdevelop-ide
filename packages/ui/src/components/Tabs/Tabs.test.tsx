@@ -36,7 +36,7 @@ describe('TabBar & TabItem Component Suite', () => {
         activeTabId="tab-1"
         onTabSelect={() => {}}
         onTabClose={handleClose}
-      />
+      />,
     );
 
     const closeBtn = screen.getByLabelText('Close tab Main.hx');
@@ -53,7 +53,7 @@ describe('TabBar & TabItem Component Suite', () => {
         activeTabId="tab-1"
         onTabSelect={() => {}}
         onNewTab={handleNewTab}
-      />
+      />,
     );
 
     const plusBtn = screen.getByLabelText('New tab');

@@ -133,7 +133,7 @@ export const Icon: FC<IconProps> = ({
     'inline-block shrink-0 align-middle transition-colors',
     colorClass,
     spinClass,
-    className
+    className,
   );
 
   const ariaProps = title ? { 'aria-label': title } : { 'aria-hidden': 'true' as const };
@@ -166,12 +166,5 @@ export const Icon: FC<IconProps> = ({
   }
 
   // Fallback to Box icon if unknown
-  return (
-    <Box
-      size={pixelSize}
-      className={combinedClassName}
-      {...ariaProps}
-      {...svgProps}
-    />
-  );
+  return <Box size={pixelSize} className={combinedClassName} {...ariaProps} {...svgProps} />;
 };

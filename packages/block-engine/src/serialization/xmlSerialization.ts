@@ -7,7 +7,7 @@ import type { DeserializationOptions } from './jsonSerialization';
  */
 export function serializeWorkspaceToXml(
   workspace: Blockly.WorkspaceSvg | Blockly.Workspace,
-  pretty = true
+  pretty = true,
 ): string {
   const xmlElement = Blockly.Xml.workspaceToDom(workspace);
   return pretty ? Blockly.Xml.domToPrettyText(xmlElement) : Blockly.Xml.domToText(xmlElement);
@@ -19,7 +19,7 @@ export function serializeWorkspaceToXml(
 export function deserializeWorkspaceFromXml(
   workspace: Blockly.WorkspaceSvg | Blockly.Workspace,
   xmlText: string,
-  options: DeserializationOptions = {}
+  options: DeserializationOptions = {},
 ): boolean {
   const { clearWorkspace = true, clearUndoStack = true } = options;
 

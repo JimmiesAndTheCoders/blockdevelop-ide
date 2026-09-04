@@ -13,7 +13,10 @@ export interface NumberInputProps extends Omit<TextInputProps, 'type' | 'variant
  * Compact NumberInput supporting min/max boundaries and step increments.
  */
 export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
-  ({ min, max, step = 1, value, onChange, onNumberChange, disabled, size = 'md', ...props }, ref) => {
+  (
+    { min, max, step = 1, value, onChange, onNumberChange, disabled, size = 'md', ...props },
+    ref,
+  ) => {
     const numericValue = typeof value === 'number' ? value : parseFloat(String(value ?? ''));
 
     const handleStep = (delta: number) => {
@@ -78,7 +81,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         />
       </div>
     );
-  }
+  },
 );
 
 NumberInput.displayName = 'NumberInput';

@@ -57,7 +57,8 @@ export const TYPE_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     output: 'Type',
     inputsInline: true,
     style: 'logic_blocks',
-    tooltip: 'Specifies a key-value dictionary Map<K, V> where K is the key type and V is the value type.',
+    tooltip:
+      'Specifies a key-value dictionary Map<K, V> where K is the key type and V is the value type.',
     helpUrl: '',
   },
 

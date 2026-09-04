@@ -1,11 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as Blockly from 'blockly/core';
 import { registerBlockDefinitions } from '../index';
-import {
-  IMPORT_BLOCK_DEFINITIONS,
-  IMPORT_KIND_OPTIONS,
-  isValidImportPath,
-} from './index';
+import { IMPORT_BLOCK_DEFINITIONS, IMPORT_KIND_OPTIONS, isValidImportPath } from './index';
 
 describe('Phase 4.1 - Task 4.3: Import & Dependency Statements Suite', () => {
   let workspace: Blockly.Workspace;

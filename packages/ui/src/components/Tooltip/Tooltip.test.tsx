@@ -16,7 +16,7 @@ describe('Tooltip Component', () => {
     render(
       <Tooltip content="Save File" delay={400} shortcut="Ctrl+S">
         <button type="button">Save</button>
-      </Tooltip>
+      </Tooltip>,
     );
 
     const button = screen.getByRole('button', { name: 'Save' });
@@ -42,7 +42,7 @@ describe('Tooltip Component', () => {
     render(
       <Tooltip content="Build Project" delay={0}>
         <button type="button">Build</button>
-      </Tooltip>
+      </Tooltip>,
     );
 
     const button = screen.getByRole('button', { name: 'Build' });
@@ -58,7 +58,7 @@ describe('Tooltip Component', () => {
     render(
       <Tooltip content="Disabled Tooltip" disabled delay={0}>
         <button type="button">Action</button>
-      </Tooltip>
+      </Tooltip>,
     );
 
     const button = screen.getByRole('button', { name: 'Action' });

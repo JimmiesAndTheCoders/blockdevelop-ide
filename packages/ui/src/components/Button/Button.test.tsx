@@ -19,7 +19,7 @@ describe('Button Component', () => {
     render(
       <Button variant="accent" size="xs">
         Compact Action
-      </Button>
+      </Button>,
     );
 
     const button = screen.getByRole('button', { name: /Compact Action/i });
@@ -31,7 +31,7 @@ describe('Button Component', () => {
     render(
       <Button leftIcon="play" rightIcon="chevron-right">
         Start
-      </Button>
+      </Button>,
     );
 
     const button = screen.getByRole('button', { name: /Start/i });
@@ -44,7 +44,7 @@ describe('Button Component', () => {
     render(
       <Button isLoading onClick={handleClick}>
         Compiling
-      </Button>
+      </Button>,
     );
 
     const button = screen.getByRole('button', { name: /Compiling/i });

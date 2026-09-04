@@ -40,7 +40,7 @@ export function parseAndSanitizeDeepLink(rawUrl: string): ParsedDeepLink | null 
     const action = parsed.hostname.toLowerCase();
     const validActions = ['open-project', 'open-file', 'import-plugin'] as const;
 
-    if (!validActions.includes(action as typeof validActions[number])) {
+    if (!validActions.includes(action as (typeof validActions)[number])) {
       console.warn(`[DeepLink Security] Rejected invalid deep link action: ${action}`);
       return null;
     }
@@ -117,7 +117,10 @@ function handleDeepLinkUrl(url: string, window: BrowserWindow | null): void {
   const result = parseAndSanitizeDeepLink(url);
   if (!result) return;
 
-  console.log(`[DeepLink] Dispatching sanitized deep link action '${result.action}':`, result.params);
+  console.log(
+    `[DeepLink] Dispatching sanitized deep link action '${result.action}':`,
+    result.params,
+  );
 
   if (window && !window.isDestroyed()) {
     window.webContents.send(IPC_CHANNELS.SYSTEM_DEEP_LINK, result);

@@ -30,7 +30,7 @@ export const TabBar: FC<TabBarProps> = ({
       role="tablist"
       className={clsx(
         'h-8 bg-workspace-dark border-b border-workspace-border flex items-center justify-between select-none shrink-0 font-sans overflow-hidden',
-        className
+        className,
       )}
     >
       {/* Tab Scroll Area */}

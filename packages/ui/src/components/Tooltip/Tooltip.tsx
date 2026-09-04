@@ -91,7 +91,7 @@ export const Tooltip: FC<TooltipProps> = ({
           className={clsx(
             'absolute z-50 pointer-events-none flex items-center gap-2 px-2 py-1 text-2xs font-sans font-medium text-gray-200 bg-workspace-panel border border-workspace-border rounded shadow-ide-dropdown whitespace-nowrap animate-in fade-in duration-150',
             positionClassesMap[position],
-            className
+            className,
           )}
         >
           <span>{content}</span>

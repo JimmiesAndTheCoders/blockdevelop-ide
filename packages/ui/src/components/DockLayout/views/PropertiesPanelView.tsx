@@ -4,7 +4,10 @@ import { PanelHeader } from '../../Panel/PanelHeader';
 import { PanelSection } from '../../Panel/PanelSection';
 import { TextInput } from '../../Input/TextInput';
 
-export const PropertiesPanelView: FC<PanelProps> = ({ title = 'Properties', icon = 'settings' }) => {
+export const PropertiesPanelView: FC<PanelProps> = ({
+  title = 'Properties',
+  icon = 'settings',
+}) => {
   return (
     <div className="flex flex-col h-full bg-workspace-panel font-sans text-xs select-none">
       <PanelHeader title={title} icon={icon} />

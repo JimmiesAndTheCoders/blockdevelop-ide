@@ -12,7 +12,7 @@ export interface SearchFilterOptions {
 export function filterToolboxCategories(
   toolboxDef: ToolboxDefinition,
   rawQuery: string,
-  options: SearchFilterOptions = {}
+  options: SearchFilterOptions = {},
 ): ToolboxDefinition {
   const query = rawQuery.toLowerCase().trim();
   if (!query) {

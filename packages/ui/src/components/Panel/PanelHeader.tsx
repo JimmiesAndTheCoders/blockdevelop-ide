@@ -43,7 +43,7 @@ export const PanelHeader: FC<PanelHeaderProps> = ({
     <div
       className={clsx(
         'h-7 px-2 bg-workspace-header border-b border-workspace-border flex items-center justify-between text-xs text-gray-300 select-none shrink-0 font-sans',
-        className
+        className,
       )}
     >
       {/* Left: Title + Icon + Badge */}
@@ -77,7 +77,7 @@ export const PanelHeader: FC<PanelHeaderProps> = ({
             aria-label={isPinned ? 'Unpin panel' : 'Pin panel'}
             className={clsx(
               'p-1 rounded hover:bg-workspace-hover transition-colors',
-              isPinned ? 'text-brand-blue' : 'text-gray-400 hover:text-white'
+              isPinned ? 'text-brand-blue' : 'text-gray-400 hover:text-white',
             )}
           >
             <Icon name="layers" size="xs" />

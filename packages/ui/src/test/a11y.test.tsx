@@ -21,7 +21,7 @@ describe('WCAG 2.1 & ARIA Accessibility Audit Suite', () => {
     render(
       <Button isLoading disabled>
         Save
-      </Button>
+      </Button>,
     );
     const button = screen.getByRole('button');
     expect(button).toHaveAttribute('aria-busy', 'true');
@@ -61,7 +61,7 @@ describe('WCAG 2.1 & ARIA Accessibility Audit Suite', () => {
     render(
       <Modal isOpen onClose={() => {}} title="IDE Settings">
         <div>Preferences</div>
-      </Modal>
+      </Modal>,
     );
     const dialog = screen.getByRole('dialog');
     expect(dialog).toHaveAttribute('aria-modal', 'true');
@@ -74,7 +74,7 @@ describe('WCAG 2.1 & ARIA Accessibility Audit Suite', () => {
         position={{ x: 10, y: 10 }}
         onClose={() => {}}
         items={[{ id: '1', label: 'Refactor' }]}
-      />
+      />,
     );
     expect(screen.getByRole('menu')).toBeInTheDocument();
     expect(screen.getByRole('menuitem')).toHaveTextContent('Refactor');
@@ -84,7 +84,7 @@ describe('WCAG 2.1 & ARIA Accessibility Audit Suite', () => {
     render(
       <PanelSection title="Block Workspace">
         <div>Blocks Canvas</div>
-      </PanelSection>
+      </PanelSection>,
     );
     const sectionHeader = screen.getByRole('button', { name: /Block Workspace/i });
     expect(sectionHeader).toHaveAttribute('aria-expanded', 'true');
@@ -95,7 +95,7 @@ describe('WCAG 2.1 & ARIA Accessibility Audit Suite', () => {
 
   it('TabBar and TabItem should expose role="tablist" and role="tab"', () => {
     render(
-      <TabBar tabs={[{ id: 't1', title: 'Main.hx' }]} activeTabId="t1" onTabSelect={() => {}} />
+      <TabBar tabs={[{ id: 't1', title: 'Main.hx' }]} activeTabId="t1" onTabSelect={() => {}} />,
     );
     expect(screen.getByRole('tablist')).toBeInTheDocument();
     const tab = screen.getByRole('tab');
@@ -109,7 +109,7 @@ describe('WCAG 2.1 & ARIA Accessibility Audit Suite', () => {
     render(<Spinner label="Loading Compiler" />);
     expect(screen.getByRole('progressbar', { name: 'Loading Compiler' })).toHaveAttribute(
       'aria-busy',
-      'true'
+      'true',
     );
   });
 

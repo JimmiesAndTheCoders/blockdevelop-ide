@@ -68,8 +68,12 @@ export const WorkspaceMinimap: React.FC<WorkspaceMinimapProps> = ({
       // Combine blocks content bounds + camera view bounds
       const minX = Math.min(contentMetrics.left, viewMetrics.left) - 100;
       const minY = Math.min(contentMetrics.top, viewMetrics.top) - 100;
-      const maxX = Math.max(contentMetrics.left + contentMetrics.width, viewMetrics.left + viewMetrics.width) + 100;
-      const maxY = Math.max(contentMetrics.top + contentMetrics.height, viewMetrics.top + viewMetrics.height) + 100;
+      const maxX =
+        Math.max(contentMetrics.left + contentMetrics.width, viewMetrics.left + viewMetrics.width) +
+        100;
+      const maxY =
+        Math.max(contentMetrics.top + contentMetrics.height, viewMetrics.top + viewMetrics.height) +
+        100;
 
       const totalWidth = Math.max(maxX - minX, 200);
       const totalHeight = Math.max(maxY - minY, 200);

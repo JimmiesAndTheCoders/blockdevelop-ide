@@ -28,7 +28,8 @@ describe('IPC Main Validation & Security Guardrails', () => {
   describe('assertPathWithinBoundary', () => {
     it('should allow paths within the workspace boundary', () => {
       const root = process.platform === 'win32' ? 'C:\\workspace' : '/workspace';
-      const target = process.platform === 'win32' ? 'C:\\workspace\\src\\index.ts' : '/workspace/src/index.ts';
+      const target =
+        process.platform === 'win32' ? 'C:\\workspace\\src\\index.ts' : '/workspace/src/index.ts';
       expect(assertPathWithinBoundary(target, root)).toBeDefined();
     });
 

@@ -26,7 +26,9 @@ describe('LayoutModelFactory & Serialization / Deserialization Suite', () => {
 
   it('should generate valid JSON models for all 4 layout presets', () => {
     expect(LayoutModelFactory.createPresetJson('default')).toEqual(DEFAULT_WORKSPACE_LAYOUT_JSON);
-    expect(LayoutModelFactory.createPresetJson('visual-builder')).toEqual(VISUAL_BUILDER_LAYOUT_JSON);
+    expect(LayoutModelFactory.createPresetJson('visual-builder')).toEqual(
+      VISUAL_BUILDER_LAYOUT_JSON,
+    );
     expect(LayoutModelFactory.createPresetJson('code-centric')).toEqual(CODE_CENTRIC_LAYOUT_JSON);
     expect(LayoutModelFactory.createPresetJson('debugger')).toEqual(DEBUGGER_LAYOUT_JSON);
   });

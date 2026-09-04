@@ -7,7 +7,11 @@
   background-color: #1f1f1f !important;
   border-right: none !important;
   color: #e0e0e0 !important;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif !important;
   font-size: 12px !important;
   padding: 4px 0 !important;
   user-select: none !important;
@@ -40,7 +44,9 @@
   border-radius: 4px !important;
   margin: 2px 4px !important;
   cursor: pointer !important;
-  transition: background-color 150ms ease, color 150ms ease !important;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease !important;
   border-left: 3px solid transparent !important;
 }
 
@@ -57,7 +63,11 @@
 }
 
 .blocklyTreeLabel {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif !important;
   font-size: 11px !important;
   font-weight: 500 !important;
   color: inherit !important;
@@ -130,7 +140,9 @@
 /* Ensure the Trashcan icon is clearly visible and responsive to hover */
 .blocklyTrash {
   opacity: 0.85 !important;
-  transition: opacity 150ms ease, transform 150ms ease !important;
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease !important;
   cursor: pointer !important;
 }
 

@@ -90,19 +90,22 @@ export function registerPackageBlocks(): void {
 /**
  * Validates that a workspace contains at most one package declaration block at the top level.
  */
-export function validateWorkspacePackageStructure(
-  workspace: Blockly.Workspace
-): { valid: boolean; packageBlockId: string | null; error?: string } {
+export function validateWorkspacePackageStructure(workspace: Blockly.Workspace): {
+  valid: boolean;
+  packageBlockId: string | null;
+  error?: string;
+} {
   const topBlocks = workspace.getTopBlocks(false);
   const packageBlocks = topBlocks.filter(
-    (b) => b.type === 'package_declare' || b.type === 'package_declare_header'
+    (b) => b.type === 'package_declare' || b.type === 'package_declare_header',
   );
 
   if (packageBlocks.length > 1) {
     return {
       valid: false,
       packageBlockId: packageBlocks[1]?.id ?? null,
-      error: 'Multiple package definitions detected. Only one package declaration is allowed per file.',
+      error:
+        'Multiple package definitions detected. Only one package declaration is allowed per file.',
     };
   }
 

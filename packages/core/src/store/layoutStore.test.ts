@@ -51,7 +51,9 @@ describe('useLayoutStore & Event Bus Integration Suite', () => {
   });
 
   it('should auto-recover cleanly when loadLayout receives corrupted non-object parameter', () => {
-    useLayoutStore.getState().loadLayout('corrupted_string_value' as unknown as SerializedLayoutModel);
+    useLayoutStore
+      .getState()
+      .loadLayout('corrupted_string_value' as unknown as SerializedLayoutModel);
 
     const state = useLayoutStore.getState();
     expect(state.layoutModel).toBeNull();

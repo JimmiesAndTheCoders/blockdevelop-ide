@@ -69,5 +69,5 @@ export const useTerminalStore = create<TerminalState>()(
       set((state) => {
         state.isTerminalOpen = open;
       }),
-  }))
+  })),
 );

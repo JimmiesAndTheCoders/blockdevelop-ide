@@ -92,7 +92,7 @@ export const Modal: FC<ModalProps> = ({
       // Focus trapping via TAB key
       if (e.key === 'Tab' && modalRef.current) {
         const focusables = Array.from(
-          modalRef.current.querySelectorAll<HTMLElement>(focusableSelector)
+          modalRef.current.querySelectorAll<HTMLElement>(focusableSelector),
         );
         if (focusables.length === 0) return;
 
@@ -158,7 +158,7 @@ export const Modal: FC<ModalProps> = ({
         className={clsx(
           'relative flex flex-col bg-workspace-panel border border-workspace-border rounded-lg shadow-ide-modal text-gray-200 outline-none overflow-hidden max-h-[90vh]',
           sizeClassesMap[size],
-          className
+          className,
         )}
       >
         {/* Header */}
@@ -187,9 +187,7 @@ export const Modal: FC<ModalProps> = ({
         )}
 
         {/* Body */}
-        <div className={clsx('flex-1 p-4 overflow-y-auto text-xs', bodyClassName)}>
-          {children}
-        </div>
+        <div className={clsx('flex-1 p-4 overflow-y-auto text-xs', bodyClassName)}>{children}</div>
 
         {/* Footer */}
         {footer && (

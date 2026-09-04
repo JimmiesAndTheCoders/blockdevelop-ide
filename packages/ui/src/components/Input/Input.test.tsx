@@ -27,7 +27,7 @@ describe('Input Components Suite', () => {
           onChange={() => {}}
           onClear={handleClear}
           placeholder="Type..."
-        />
+        />,
       );
 
       const clearBtn = screen.getByLabelText('Clear text input');

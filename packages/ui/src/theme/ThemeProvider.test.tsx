@@ -27,7 +27,7 @@ describe('ThemeProvider Engine', () => {
     render(
       <ThemeProvider>
         <ThemeTester />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
 
     expect(screen.getByTestId('theme').textContent).toBe('dark');
@@ -40,7 +40,7 @@ describe('ThemeProvider Engine', () => {
     render(
       <ThemeProvider>
         <ThemeTester />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
 
     act(() => {

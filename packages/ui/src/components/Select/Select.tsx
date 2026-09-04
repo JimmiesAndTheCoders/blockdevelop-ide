@@ -77,9 +77,7 @@ export const Select: FC<SelectProps> = ({
   className,
   id,
 }) => {
-  const [internalValue, setInternalValue] = useState<string>(
-    controlledValue ?? defaultValue ?? ''
-  );
+  const [internalValue, setInternalValue] = useState<string>(controlledValue ?? defaultValue ?? '');
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState<number>(-1);
@@ -108,7 +106,7 @@ export const Select: FC<SelectProps> = ({
   // Find currently selected option object
   const selectedOption = useMemo(
     () => flatOptions.find((opt) => opt.value === activeValue),
-    [flatOptions, activeValue]
+    [flatOptions, activeValue],
   );
 
   // Filter options based on search query
@@ -124,7 +122,7 @@ export const Select: FC<SelectProps> = ({
           (opt) =>
             opt.label.toLowerCase().includes(query) ||
             opt.value.toLowerCase().includes(query) ||
-            (opt.description && opt.description.toLowerCase().includes(query))
+            (opt.description && opt.description.toLowerCase().includes(query)),
         );
         if (matchedSubOptions.length > 0) {
           result.push({ label: item.label, options: matchedSubOptions });
@@ -242,7 +240,7 @@ export const Select: FC<SelectProps> = ({
             ? 'border-status-error focus:ring-1 focus:ring-status-error'
             : 'border-workspace-border hover:border-workspace-borderLight focus:border-brand-blue focus:ring-1 focus:ring-brand-blue',
           disabled && 'opacity-50 cursor-not-allowed bg-workspace-panel',
-          sizeClassesMap[size]
+          sizeClassesMap[size],
         )}
       >
         <div className="flex items-center gap-2 truncate min-w-0">
@@ -253,7 +251,7 @@ export const Select: FC<SelectProps> = ({
           <span
             className={clsx(
               'truncate',
-              selectedOption ? 'text-gray-100 font-medium' : 'text-gray-500'
+              selectedOption ? 'text-gray-100 font-medium' : 'text-gray-500',
             )}
           >
             {selectedOption ? selectedOption.label : placeholder}
@@ -312,8 +310,8 @@ export const Select: FC<SelectProps> = ({
                             opt.disabled
                               ? 'opacity-40 cursor-not-allowed'
                               : isSelected
-                              ? 'bg-workspace-selection text-white font-medium'
-                              : 'hover:bg-workspace-hover text-gray-200'
+                                ? 'bg-workspace-selection text-white font-medium'
+                                : 'hover:bg-workspace-hover text-gray-200',
                           )}
                         >
                           <div className="flex items-center gap-2 truncate">
@@ -351,8 +349,8 @@ export const Select: FC<SelectProps> = ({
                     item.disabled
                       ? 'opacity-40 cursor-not-allowed'
                       : isSelected
-                      ? 'bg-workspace-selection text-white font-medium'
-                      : 'hover:bg-workspace-hover text-gray-200'
+                        ? 'bg-workspace-selection text-white font-medium'
+                        : 'hover:bg-workspace-hover text-gray-200',
                   )}
                 >
                   <div className="flex items-center gap-2 truncate">
@@ -375,7 +373,9 @@ export const Select: FC<SelectProps> = ({
       )}
 
       {(errorMessage || helperText) && (
-        <p className={clsx('text-2xs font-medium', isError ? 'text-status-error' : 'text-gray-400')}>
+        <p
+          className={clsx('text-2xs font-medium', isError ? 'text-status-error' : 'text-gray-400')}
+        >
           {errorMessage || helperText}
         </p>
       )}

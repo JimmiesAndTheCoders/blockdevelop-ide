@@ -32,7 +32,7 @@ export class PanelErrorBoundary extends Component<
     console.error(
       `[PanelErrorBoundary] Panel '${this.props.panelId || 'unknown'}' crashed:`,
       error,
-      errorInfo
+      errorInfo,
     );
   }
 
@@ -50,7 +50,8 @@ export class PanelErrorBoundary extends Component<
               {this.props.title || 'Panel Rendering Error'}
             </h3>
             <p className="text-2xs text-gray-400 font-mono bg-workspace-panel p-2 rounded w-full border border-workspace-border mb-3 overflow-x-auto text-left max-h-24">
-              {this.state.error?.message || 'An unexpected rendering error occurred inside this panel.'}
+              {this.state.error?.message ||
+                'An unexpected rendering error occurred inside this panel.'}
             </p>
             <button
               type="button"

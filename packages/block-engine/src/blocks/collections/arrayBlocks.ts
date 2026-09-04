@@ -1,9 +1,6 @@
 import * as Blockly from 'blockly/core';
 import type { CustomBlockDefinition } from '../../types';
-import {
-  ARRAY_SORT_DIRECTION_OPTIONS,
-  ARRAY_TRANSFORMATION_MODE_OPTIONS,
-} from './types';
+import { ARRAY_SORT_DIRECTION_OPTIONS, ARRAY_TRANSFORMATION_MODE_OPTIONS } from './types';
 
 export const ARRAY_1D_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
   // 1. Create Empty Array Literal: []
@@ -60,7 +57,8 @@ export const ARRAY_1D_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     output: 'Array',
     inputsInline: true,
     style: 'math_blocks',
-    tooltip: 'Instantiates a new typed Array<T> with an explicit type annotation and initial capacity.',
+    tooltip:
+      'Instantiates a new typed Array<T> with an explicit type annotation and initial capacity.',
     helpUrl: '',
   },
 
@@ -324,7 +322,8 @@ export const ARRAY_1D_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     nextStatement: null,
     inputsInline: true,
     style: 'math_blocks',
-    tooltip: 'Changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.',
+    tooltip:
+      'Changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.',
     helpUrl: '',
   },
 
@@ -346,7 +345,8 @@ export const ARRAY_1D_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     output: 'Number',
     inputsInline: true,
     style: 'math_blocks',
-    tooltip: 'Returns the first index at which a given element can be found in the array, or -1 if not present.',
+    tooltip:
+      'Returns the first index at which a given element can be found in the array, or -1 if not present.',
     helpUrl: '',
   },
 
@@ -419,7 +419,8 @@ export const ARRAY_1D_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     output: 'Array',
     inputsInline: true,
     style: 'math_blocks',
-    tooltip: 'Sorts the elements of an array in ascending or descending order in-place or as a copy.',
+    tooltip:
+      'Sorts the elements of an array in ascending or descending order in-place or as a copy.',
     helpUrl: '',
   },
 ];

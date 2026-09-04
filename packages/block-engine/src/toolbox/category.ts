@@ -38,6 +38,6 @@ export function registerCustomToolboxCategory(): void {
     Blockly.registry.Type.TOOLBOX_ITEM,
     Blockly.ToolboxCategory.registrationName,
     BlockDevelopToolboxCategory,
-    true
+    true,
   );
 }

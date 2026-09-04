@@ -49,7 +49,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       id,
       ...inputProps
     },
-    ref
+    ref,
   ) => {
     const isError = Boolean(error);
     const errorMessage = typeof error === 'string' ? error : undefined;
@@ -78,11 +78,13 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
               ? 'border-status-error focus-within:border-status-error focus-within:ring-1 focus-within:ring-status-error'
               : 'border-workspace-border hover:border-workspace-borderLight focus-within:border-brand-blue focus-within:ring-1 focus-within:ring-brand-blue',
             disabled && 'opacity-50 cursor-not-allowed bg-workspace-panel',
-            sizeClassesMap[size]
+            sizeClassesMap[size],
           )}
         >
           {leftIcon && (
-            <span className="inline-flex shrink-0 items-center select-none">{renderIconSlot(leftIcon)}</span>
+            <span className="inline-flex shrink-0 items-center select-none">
+              {renderIconSlot(leftIcon)}
+            </span>
           )}
 
           <input
@@ -96,7 +98,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             className={clsx(
               'w-full bg-transparent border-none outline-none text-gray-100 placeholder-gray-500 shrink min-w-0',
               variant === 'code' ? 'font-mono text-cyan-300' : 'font-sans',
-              className
+              className,
             )}
             {...inputProps}
           />
@@ -114,21 +116,26 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           )}
 
           {!clearable && rightIcon && (
-            <span className="inline-flex shrink-0 items-center select-none">{renderIconSlot(rightIcon)}</span>
+            <span className="inline-flex shrink-0 items-center select-none">
+              {renderIconSlot(rightIcon)}
+            </span>
           )}
         </div>
 
         {(errorMessage || helperText) && (
           <p
             id={id ? `${id}-description` : undefined}
-            className={clsx('text-2xs font-medium', isError ? 'text-status-error' : 'text-gray-400')}
+            className={clsx(
+              'text-2xs font-medium',
+              isError ? 'text-status-error' : 'text-gray-400',
+            )}
           >
             {errorMessage || helperText}
           </p>
         )}
       </div>
     );
-  }
+  },
 );
 
 TextInput.displayName = 'TextInput';

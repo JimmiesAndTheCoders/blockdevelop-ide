@@ -131,17 +131,13 @@ export const ContextMenu: FC<ContextMenuProps> = ({
       className={clsx(
         'flex flex-col bg-workspace-panel border border-workspace-border rounded-md shadow-ide-dropdown py-1 text-xs text-gray-200 select-none min-w-[160px] animate-in fade-in duration-100 z-[100]',
         isSubmenu ? 'absolute top-0 left-full -ml-1' : '',
-        className
+        className,
       )}
     >
       {menuItems.map((item) => {
         if (item.divider) {
           return (
-            <div
-              key={item.id}
-              role="separator"
-              className="my-1 border-t border-workspace-border"
-            />
+            <div key={item.id} role="separator" className="my-1 border-t border-workspace-border" />
           );
         }
 
@@ -164,8 +160,8 @@ export const ContextMenu: FC<ContextMenuProps> = ({
                 item.disabled
                   ? 'opacity-40 cursor-not-allowed'
                   : item.danger
-                  ? 'text-red-400 hover:bg-red-950/60 hover:text-red-300'
-                  : 'hover:bg-workspace-hover text-gray-200 hover:text-white'
+                    ? 'text-red-400 hover:bg-red-950/60 hover:text-red-300'
+                    : 'hover:bg-workspace-hover text-gray-200 hover:text-white',
               )}
             >
               <div className="flex items-center gap-2 truncate">
@@ -207,6 +203,6 @@ export const ContextMenu: FC<ContextMenuProps> = ({
     >
       {renderMenu(items)}
     </div>,
-    document.body
+    document.body,
   );
 };

@@ -1,8 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import {
-  LayoutPersistenceManager,
-  LAYOUT_STORAGE_KEY,
-} from './LayoutPersistenceManager';
+import { LayoutPersistenceManager, LAYOUT_STORAGE_KEY } from './LayoutPersistenceManager';
 import { DEFAULT_WORKSPACE_LAYOUT_JSON } from './defaultLayout';
 
 describe('LayoutPersistenceManager Suite', () => {

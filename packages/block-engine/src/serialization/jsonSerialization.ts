@@ -11,7 +11,7 @@ export interface DeserializationOptions {
  * Serializes a Blockly workspace to a strongly-typed JSON object.
  */
 export function serializeWorkspaceToJson(
-  workspace: Blockly.WorkspaceSvg | Blockly.Workspace
+  workspace: Blockly.WorkspaceSvg | Blockly.Workspace,
 ): SerializedWorkspaceState {
   const jsonState = Blockly.serialization.workspaces.save(workspace);
   return {
@@ -26,7 +26,7 @@ export function serializeWorkspaceToJson(
  */
 export function serializeWorkspaceToJsonString(
   workspace: Blockly.WorkspaceSvg | Blockly.Workspace,
-  pretty = true
+  pretty = true,
 ): string {
   const jsonState = serializeWorkspaceToJson(workspace);
   return pretty ? JSON.stringify(jsonState, null, 2) : JSON.stringify(jsonState);
@@ -38,7 +38,7 @@ export function serializeWorkspaceToJsonString(
 export function deserializeWorkspaceFromJson(
   workspace: Blockly.WorkspaceSvg | Blockly.Workspace,
   state: SerializedWorkspaceState,
-  options: DeserializationOptions = {}
+  options: DeserializationOptions = {},
 ): boolean {
   const { clearWorkspace = true, clearUndoStack = true } = options;
 
@@ -74,7 +74,7 @@ export function deserializeWorkspaceFromJson(
 export function deserializeWorkspaceFromJsonString(
   workspace: Blockly.WorkspaceSvg | Blockly.Workspace,
   jsonString: string,
-  options: DeserializationOptions = {}
+  options: DeserializationOptions = {},
 ): boolean {
   if (!jsonString || !jsonString.trim()) {
     if (options.clearWorkspace !== false) {

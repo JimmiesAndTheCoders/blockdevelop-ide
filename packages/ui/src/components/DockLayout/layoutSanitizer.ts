@@ -191,10 +191,7 @@ export class LayoutSanitizer {
   /**
    * Strictly sanitizes raw JSON state to prevent corrupted or outdated layouts from crashing the IDE.
    */
-  public static sanitize(
-    rawJson: unknown,
-    options: SanitizeLayoutOptions = {}
-  ): IJsonModel {
+  public static sanitize(rawJson: unknown, options: SanitizeLayoutOptions = {}): IJsonModel {
     const knownKeys = options.knownComponents
       ? new Set(options.knownComponents)
       : getKnownComponentKeys();
@@ -209,7 +206,9 @@ export class LayoutSanitizer {
     const candidate = JSON.parse(JSON.stringify(rawJson)) as Partial<IJsonModel>;
 
     if (!candidate.layout || typeof candidate.layout !== 'object') {
-      console.warn('[LayoutSanitizer] Layout configuration missing root layout node, reverting to fallback.');
+      console.warn(
+        '[LayoutSanitizer] Layout configuration missing root layout node, reverting to fallback.',
+      );
       return fallback;
     }
 
@@ -224,7 +223,9 @@ export class LayoutSanitizer {
       }
 
       if (!cleanedRoot) {
-        console.warn('[LayoutSanitizer] All tabs pruned during layout sanitization, falling back to default layout.');
+        console.warn(
+          '[LayoutSanitizer] All tabs pruned during layout sanitization, falling back to default layout.',
+        );
         return fallback;
       }
 
@@ -255,7 +256,10 @@ export class LayoutSanitizer {
 
       return sanitizedModel;
     } catch (err) {
-      console.error('[LayoutSanitizer] Failed to parse candidate layout model, reverting to default layout:', err);
+      console.error(
+        '[LayoutSanitizer] Failed to parse candidate layout model, reverting to default layout:',
+        err,
+      );
       return fallback;
     }
   }

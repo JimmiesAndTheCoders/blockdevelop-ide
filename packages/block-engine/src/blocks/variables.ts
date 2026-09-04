@@ -74,7 +74,8 @@ export const VARIABLE_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     previousStatement: null,
     nextStatement: null,
     style: 'variable_blocks',
-    tooltip: 'Declares a variable with explicit scope (local, global, class field) and type annotations.',
+    tooltip:
+      'Declares a variable with explicit scope (local, global, class field) and type annotations.',
     helpUrl: '',
   },
   {

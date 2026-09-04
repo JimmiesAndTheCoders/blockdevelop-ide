@@ -102,11 +102,13 @@ export interface IDEBlockThemeConfig {
   blockStyles: Record<string, Blockly.Theme.BlockStyle>;
   categoryStyles: Record<string, Blockly.Theme.CategoryStyle>;
   componentStyles: Record<string, unknown>;
-  fontStyle?: {
-    family?: string | undefined;
-    weight?: string | undefined;
-    size?: number | undefined;
-  } | undefined;
+  fontStyle?:
+    | {
+        family?: string | undefined;
+        weight?: string | undefined;
+        size?: number | undefined;
+      }
+    | undefined;
 }
 
 /**
@@ -125,15 +127,19 @@ export interface CustomBlockContextMenuOption {
  */
 export interface SerializedWorkspaceState {
   version: string;
-  blocks?: {
-    languageVersion: number;
-    blocks: Record<string, unknown>[];
-  } | undefined;
-  variables?: {
-    name: string;
-    id: string;
-    type?: string | undefined;
-  }[] | undefined;
+  blocks?:
+    | {
+        languageVersion: number;
+        blocks: Record<string, unknown>[];
+      }
+    | undefined;
+  variables?:
+    | {
+        name: string;
+        id: string;
+        type?: string | undefined;
+      }[]
+    | undefined;
 }
 
 /**

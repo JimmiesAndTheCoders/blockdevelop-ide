@@ -1,12 +1,7 @@
 import { ipcMain } from 'electron';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {
-  IPC_CHANNELS,
-  FileReadOptions,
-  FileWriteOptions,
-  DirReadResult,
-} from '@blockdevelop/core';
+import { IPC_CHANNELS, FileReadOptions, FileWriteOptions, DirReadResult } from '@blockdevelop/core';
 import { assertObject, assertString, assertPathWithinBoundary } from './validation';
 import { wrapIPCHandler } from './errorHandling';
 
@@ -19,7 +14,7 @@ export function registerFSHandlers(): void {
       const encoding = options.encoding ? assertString(options.encoding, 'encoding') : 'utf-8';
 
       return await fs.readFile(safePath, { encoding: encoding as BufferEncoding });
-    })
+    }),
   );
 
   ipcMain.handle(
@@ -32,21 +27,24 @@ export function registerFSHandlers(): void {
       await fs.mkdir(path.dirname(safePath), { recursive: true });
       await fs.writeFile(safePath, content, 'utf-8');
       return true;
-    })
+    }),
   );
 
   ipcMain.handle(
     IPC_CHANNELS.FS_READ_DIR,
-    wrapIPCHandler(IPC_CHANNELS.FS_READ_DIR, async (_, dirPath: string): Promise<DirReadResult[]> => {
-      const safeDir = assertPathWithinBoundary(dirPath, undefined, 'dirPath');
-      const entries = await fs.readdir(safeDir, { withFileTypes: true });
+    wrapIPCHandler(
+      IPC_CHANNELS.FS_READ_DIR,
+      async (_, dirPath: string): Promise<DirReadResult[]> => {
+        const safeDir = assertPathWithinBoundary(dirPath, undefined, 'dirPath');
+        const entries = await fs.readdir(safeDir, { withFileTypes: true });
 
-      return entries.map((entry) => ({
-        name: entry.name,
-        isDirectory: entry.isDirectory(),
-        path: path.join(safeDir, entry.name),
-      }));
-    })
+        return entries.map((entry) => ({
+          name: entry.name,
+          isDirectory: entry.isDirectory(),
+          path: path.join(safeDir, entry.name),
+        }));
+      },
+    ),
   );
 
   ipcMain.handle(
@@ -59,6 +57,6 @@ export function registerFSHandlers(): void {
       } catch {
         return false;
       }
-    })
+    }),
   );
 }

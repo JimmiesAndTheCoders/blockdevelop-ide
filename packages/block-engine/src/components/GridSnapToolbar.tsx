@@ -44,7 +44,7 @@ export const GridSnapToolbar: React.FC<GridSnapToolbarProps> = ({
         updateWorkspaceGrid(workspace, { spacing: parsedSpacing });
       }
     },
-    [workspace]
+    [workspace],
   );
 
   if (!workspace) {

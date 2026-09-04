@@ -12,7 +12,11 @@
   bottom: 0;
   background-color: var(--ide-bg);
   color: var(--ide-text);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif;
   font-size: 0.75rem;
   overflow: hidden;
   user-select: none;
@@ -77,7 +81,10 @@
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
   box-sizing: border-box;
 }
 
@@ -127,7 +134,9 @@
   height: 16px;
   border-radius: 3px;
   color: var(--ide-muted);
-  transition: background-color 100ms ease, color 100ms ease;
+  transition:
+    background-color 100ms ease,
+    color 100ms ease;
   margin-left: 4px;
 }
 
@@ -214,7 +223,9 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: background-color 100ms ease, color 100ms ease;
+  transition:
+    background-color 100ms ease,
+    color 100ms ease;
 }
 
 .flexlayout__tabset_toolbar_button:hover,

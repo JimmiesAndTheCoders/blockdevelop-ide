@@ -5,13 +5,20 @@ import { PanelSection } from '../../Panel/PanelSection';
 import { SearchInput } from '../../Input/SearchInput';
 import { Badge } from '../../Badge/Badge';
 
-export const ExplorerPanelView: FC<PanelProps> = ({ title = 'Project Explorer', icon = 'folder' }) => {
+export const ExplorerPanelView: FC<PanelProps> = ({
+  title = 'Project Explorer',
+  icon = 'folder',
+}) => {
   return (
     <div className="flex flex-col h-full bg-workspace-panel font-sans text-xs select-none">
       <PanelHeader
         title={title}
         icon={icon}
-        badge={<Badge variant="platform" size="xs">HAXE</Badge>}
+        badge={
+          <Badge variant="platform" size="xs">
+            HAXE
+          </Badge>
+        }
       />
       <div className="p-2 border-b border-workspace-border">
         <SearchInput size="xs" placeholder="Search project files..." />

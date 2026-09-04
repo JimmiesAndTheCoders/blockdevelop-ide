@@ -49,10 +49,7 @@ describe('BlocklyCanvas React Component Suite', () => {
     const handleBlockSelect = vi.fn();
 
     const { container } = render(
-      <BlocklyCanvas
-        onWorkspaceChange={handleWorkspaceChange}
-        onBlockSelect={handleBlockSelect}
-      />
+      <BlocklyCanvas onWorkspaceChange={handleWorkspaceChange} onBlockSelect={handleBlockSelect} />,
     );
 
     expect(container.firstChild).toBeInTheDocument();

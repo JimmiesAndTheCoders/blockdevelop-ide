@@ -48,5 +48,5 @@ export const useUIStore = create<UIState>()(
       set((state) => {
         state.isSidebarOpen = !state.isSidebarOpen;
       }),
-  }))
+  })),
 );

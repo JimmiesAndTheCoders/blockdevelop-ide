@@ -98,7 +98,7 @@ describe('ZoomControlsBar HUD & Keyboard Shortcuts Suite', () => {
 
   it('should unbind change listener on unmount', () => {
     const { unmount } = render(
-      <ZoomControlsBar workspace={mockWorkspace as unknown as Blockly.WorkspaceSvg} />
+      <ZoomControlsBar workspace={mockWorkspace as unknown as Blockly.WorkspaceSvg} />,
     );
 
     expect(mockWorkspace.addChangeListener).toHaveBeenCalledTimes(1);

@@ -3,8 +3,10 @@ import { clsx } from 'clsx';
 
 export type SwitchSize = 'xs' | 'sm' | 'md';
 
-export interface SwitchProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'size' | 'onChange'> {
+export interface SwitchProps extends Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'size' | 'onChange'
+> {
   checked?: boolean | undefined;
   defaultChecked?: boolean | undefined;
   onChange?: ((checked: boolean) => void) | undefined;
@@ -40,7 +42,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
       onClick,
       ...buttonProps
     },
-    ref
+    ref,
   ) => {
     const [internalChecked, setInternalChecked] = useState(defaultChecked);
 
@@ -67,7 +69,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
         className={clsx(
           'inline-flex items-center gap-2.5 font-sans select-none cursor-pointer',
           disabled && 'opacity-50 cursor-not-allowed',
-          className
+          className,
         )}
       >
         <button
@@ -84,7 +86,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
             sizeConfig.track,
             isChecked
               ? 'bg-brand-blue border-brand-blue shadow-inner'
-              : 'bg-workspace-header border-workspace-border hover:border-workspace-borderLight'
+              : 'bg-workspace-header border-workspace-border hover:border-workspace-borderLight',
           )}
           {...buttonProps}
         >
@@ -92,7 +94,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
             className={clsx(
               'pointer-events-none inline-block rounded-full bg-white shadow transition-transform duration-200 ease-in-out',
               sizeConfig.knob,
-              isChecked ? sizeConfig.translate : 'translate-x-0'
+              isChecked ? sizeConfig.translate : 'translate-x-0',
             )}
           />
         </button>
@@ -107,7 +109,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
         )}
       </label>
     );
-  }
+  },
 );
 
 Switch.displayName = 'Switch';

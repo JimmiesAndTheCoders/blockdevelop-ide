@@ -24,6 +24,11 @@
   --ide-warning: #fbbf24;
   --ide-success: #34d399;
   --ide-info: #60a5fa;
+  --ide-cat-structure: #06b6d4;
+  --ide-cat-types: #f59e0b;
+  --ide-cat-collections: #8b5cf6;
+  --ide-cat-variables: #ea8220;
+  --ide-cat-functions: #e11d48;
   --ide-scrollbar-thumb: rgba(121, 121, 121, 0.4);
   --ide-scrollbar-thumb-hover: rgba(160, 160, 160, 0.7);
   color-scheme: dark;
@@ -50,6 +55,11 @@
   --ide-warning: #dd6b20;
   --ide-success: #38a169;
   --ide-info: #3182ce;
+  --ide-cat-structure: #0891b2;
+  --ide-cat-types: #d97706;
+  --ide-cat-collections: #7c3aed;
+  --ide-cat-variables: #c2410c;
+  --ide-cat-functions: #be123c;
   --ide-scrollbar-thumb: rgba(100, 100, 100, 0.3);
   --ide-scrollbar-thumb-hover: rgba(100, 100, 100, 0.6);
   color-scheme: light;
@@ -76,6 +86,11 @@
   --ide-warning: #ffaa00;
   --ide-success: #00ff00;
   --ide-info: #00ffff;
+  --ide-cat-structure: #00ffff;
+  --ide-cat-types: #ffff00;
+  --ide-cat-collections: #ff00ff;
+  --ide-cat-variables: #ffa500;
+  --ide-cat-functions: #ff5555;
   --ide-scrollbar-thumb: #6fc06d;
   --ide-scrollbar-thumb-hover: #ffffff;
   color-scheme: dark;

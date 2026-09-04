@@ -25,7 +25,7 @@ export interface IDEContextMenuActions {
  */
 export function buildIDEContextMenuItems(
   scope: BlocklyContextMenuScope,
-  actions?: IDEContextMenuActions
+  actions?: IDEContextMenuActions,
 ): ContextMenuItem[] {
   const { block, workspace } = scope;
 
@@ -53,7 +53,7 @@ export function buildIDEContextMenuItems(
                 Blockly.Events.setGroup(true);
                 const newBlock = Blockly.serialization.blocks.append(
                   jsonState,
-                  svgBlock.workspace
+                  svgBlock.workspace,
                 ) as Blockly.BlockSvg;
                 if (newBlock) {
                   newBlock.moveBy(20, 20);
@@ -207,7 +207,7 @@ export function buildIDEContextMenuItems(
                 Blockly.Events.setGroup(true);
                 const newBlock = Blockly.serialization.blocks.append(
                   jsonState,
-                  workspace
+                  workspace,
                 ) as Blockly.BlockSvg;
                 if (newBlock) {
                   newBlock.moveBy(40, 40);

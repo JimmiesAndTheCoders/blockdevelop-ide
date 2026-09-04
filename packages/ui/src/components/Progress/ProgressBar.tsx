@@ -1,13 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import { clsx } from 'clsx';
 
-export type ProgressBarVariant =
-  | 'accent'
-  | 'haxe'
-  | 'success'
-  | 'warning'
-  | 'error'
-  | 'neutral';
+export type ProgressBarVariant = 'accent' | 'haxe' | 'success' | 'warning' | 'error' | 'neutral';
 
 export type ProgressBarSize = 'xs' | 'sm' | 'md';
 
@@ -70,7 +64,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
         aria-valuemax={max}
         className={clsx(
           'relative w-full bg-workspace-dark border border-workspace-border/40 overflow-hidden shrink-0',
-          sizeClassesMap[size]
+          sizeClassesMap[size],
         )}
       >
         {isIndeterminate ? (
@@ -78,7 +72,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
             data-testid="progress-indeterminate"
             className={clsx(
               'h-full w-full animate-pulse bg-gradient-to-r from-transparent via-brand-blue to-transparent',
-              variantFillClassesMap[variant]
+              variantFillClassesMap[variant],
             )}
           />
         ) : (
@@ -87,7 +81,7 @@ export const ProgressBar: FC<ProgressBarProps> = ({
             style={{ width: `${percentage}%` }}
             className={clsx(
               'h-full transition-all duration-200 ease-out',
-              variantFillClassesMap[variant]
+              variantFillClassesMap[variant],
             )}
           />
         )}

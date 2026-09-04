@@ -41,5 +41,5 @@ export const useProjectStore = create<ProjectState>()(
       set((state) => {
         state.targetPlatform = target;
       }),
-  }))
+  })),
 );

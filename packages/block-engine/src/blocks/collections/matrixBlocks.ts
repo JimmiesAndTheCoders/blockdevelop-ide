@@ -26,7 +26,8 @@ export const MATRIX_2D_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     output: 'Array',
     inputsInline: true,
     style: 'math_blocks',
-    tooltip: 'Initializes a 2D matrix grid Array<Array<T>> with specified rows, cols, and default value.',
+    tooltip:
+      'Initializes a 2D matrix grid Array<Array<T>> with specified rows, cols, and default value.',
     helpUrl: '',
   },
 

@@ -63,7 +63,7 @@ function checkIPCRateLimit(channel: string): void {
     throw new IPCError(
       `IPC Rate limit exceeded (${MAX_IPC_CALLS_PER_SEC}/sec) on channel '${channel}'`,
       'IPC_RATE_LIMIT_EXCEEDED',
-      channel
+      channel,
     );
   }
 }
@@ -86,8 +86,8 @@ async function invokeWithParsedError<T>(
         new IPCError(
           `IPC Request timed out after ${timeoutMs}ms on channel '${channel}'`,
           'IPC_TIMEOUT',
-          channel
-        )
+          channel,
+        ),
       );
     }, timeoutMs);
   });
@@ -115,7 +115,11 @@ async function invokeWithParsedError<T>(
         if (parseErr instanceof IPCError) throw parseErr;
       }
     }
-    throw new IPCError(rawMessage || 'An unknown remote IPC error occurred.', 'REMOTE_IPC_ERROR', channel);
+    throw new IPCError(
+      rawMessage || 'An unknown remote IPC error occurred.',
+      'REMOTE_IPC_ERROR',
+      channel,
+    );
   }
 }
 
@@ -125,7 +129,11 @@ async function invokeWithParsedError<T>(
 function deepFreeze<T extends object>(obj: T): Readonly<T> {
   Object.keys(obj).forEach((prop) => {
     const val = (obj as Record<string, unknown>)[prop];
-    if (val !== null && (typeof val === 'object' || typeof val === 'function') && !Object.isFrozen(val)) {
+    if (
+      val !== null &&
+      (typeof val === 'object' || typeof val === 'function') &&
+      !Object.isFrozen(val)
+    ) {
       deepFreeze(val as object);
     }
   });

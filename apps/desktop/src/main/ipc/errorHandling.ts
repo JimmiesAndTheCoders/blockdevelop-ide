@@ -6,7 +6,7 @@ import { IPCSerializedError } from '@blockdevelop/core';
  */
 export function wrapIPCHandler<TArgs extends unknown[], TReturn>(
   channel: string,
-  handler: (event: IpcMainInvokeEvent, ...args: TArgs) => Promise<TReturn> | TReturn
+  handler: (event: IpcMainInvokeEvent, ...args: TArgs) => Promise<TReturn> | TReturn,
 ) {
   return async (event: IpcMainInvokeEvent, ...args: TArgs): Promise<TReturn> => {
     try {

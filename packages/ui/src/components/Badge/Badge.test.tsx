@@ -22,7 +22,7 @@ describe('Badge & Tag Component Suite', () => {
     render(
       <Badge dismissible onDismiss={handleDismiss}>
         Dismissible Tag
-      </Badge>
+      </Badge>,
     );
 
     const closeBtn = screen.getByLabelText('Dismiss badge');

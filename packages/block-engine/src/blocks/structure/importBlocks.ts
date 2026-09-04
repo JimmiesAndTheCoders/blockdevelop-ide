@@ -29,8 +29,7 @@ export const IMPORT_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     nextStatement: null,
     inputsInline: true,
     style: 'event_blocks',
-    tooltip:
-      'Imports a module, class, interface, or wildcard (.*) with optional alias (as Alias).',
+    tooltip: 'Imports a module, class, interface, or wildcard (.*) with optional alias (as Alias).',
     helpUrl: '',
   },
 

@@ -55,7 +55,12 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
 
-  const { isOpen, position, handleContextMenu: openContextMenu, closeContextMenu } = useContextMenu();
+  const {
+    isOpen,
+    position,
+    handleContextMenu: openContextMenu,
+    closeContextMenu,
+  } = useContextMenu();
   const [contextMenuItems, setContextMenuItems] = useState<ContextMenuItem[]>([]);
 
   const activeTabId = useEditorStore((state) => state.activeTabId);
@@ -83,7 +88,7 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
       setContextMenuItems(items);
       openContextMenu(e);
     },
-    [workspace, openContextMenu]
+    [workspace, openContextMenu],
   );
 
   // Keyboard Undo/Redo Actions
@@ -278,7 +283,15 @@ export const BlocklyCanvas: React.FC<BlocklyCanvasProps> = ({
       ws.dispose();
       setWorkspace(null);
     };
-  }, [gridOptions, media, showZoomControls, currentFileId, onWorkspaceChange, onBlockSelect, onXmlChange]);
+  }, [
+    gridOptions,
+    media,
+    showZoomControls,
+    currentFileId,
+    onWorkspaceChange,
+    onBlockSelect,
+    onXmlChange,
+  ]);
 
   return (
     <div className={className} onContextMenu={handleCanvasContextMenu}>

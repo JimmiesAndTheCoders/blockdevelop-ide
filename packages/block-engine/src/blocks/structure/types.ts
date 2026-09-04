@@ -36,10 +36,7 @@ export const VALID_CLASS_METHOD_TYPES = new Set([
   'procedure_defreturn_custom',
 ]);
 
-export const VALID_CLASS_CONSTRUCTOR_TYPES = new Set([
-  'class_constructor',
-  'function_def_typed',
-]);
+export const VALID_CLASS_CONSTRUCTOR_TYPES = new Set(['class_constructor', 'function_def_typed']);
 
 /**
  * Validates and sanitizes a package/namespace identifier string.

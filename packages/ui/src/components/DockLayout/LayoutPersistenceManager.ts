@@ -16,7 +16,7 @@ export class LayoutPersistenceManager {
   public static saveLayout(
     layoutJson: SerializedLayoutModel | unknown,
     delayMs = 500,
-    storageKey = LAYOUT_STORAGE_KEY
+    storageKey = LAYOUT_STORAGE_KEY,
   ): void {
     if (this.saveTimeout) {
       clearTimeout(this.saveTimeout);
@@ -40,7 +40,7 @@ export class LayoutPersistenceManager {
    */
   public static saveLayoutSync(
     layoutJson: SerializedLayoutModel | unknown,
-    storageKey = LAYOUT_STORAGE_KEY
+    storageKey = LAYOUT_STORAGE_KEY,
   ): void {
     if (this.saveTimeout) {
       clearTimeout(this.saveTimeout);
@@ -56,7 +56,7 @@ export class LayoutPersistenceManager {
     } catch (err) {
       console.error(
         '[LayoutPersistenceManager] Failed to persist workspace layout synchronously:',
-        err
+        err,
       );
     }
   }
@@ -64,9 +64,7 @@ export class LayoutPersistenceManager {
   /**
    * Loads saved layout model JSON from storage with automatic sanitization and recovery fallback.
    */
-  public static loadSavedLayout(
-    storageKey = LAYOUT_STORAGE_KEY
-  ): SerializedLayoutModel {
+  public static loadSavedLayout(storageKey = LAYOUT_STORAGE_KEY): SerializedLayoutModel {
     const fallback = LayoutModelFactory.createDefaultJson() as unknown as SerializedLayoutModel;
 
     try {
@@ -86,7 +84,7 @@ export class LayoutPersistenceManager {
     } catch (err) {
       console.warn(
         '[LayoutPersistenceManager] Corrupted or invalid saved layout detected. Reverting to default workspace layout:',
-        err
+        err,
       );
       this.clearSavedLayout(storageKey);
       return fallback;

@@ -45,6 +45,7 @@ blockdevelop-ide/
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - [Node.js](https://nodejs.org) >= 20.x
 - [pnpm](https://pnpm.io) >= 8.x
 

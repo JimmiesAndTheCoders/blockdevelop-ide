@@ -46,7 +46,7 @@ export function setupCrashHandlers(mainWindowGetter: () => BrowserWindow | null)
     writeCrashLog('Uncaught Exception', error);
     dialog.showErrorBox(
       'BlockDevelop IDE System Error',
-      `An unexpected system error occurred:\n\n${error.message || String(error)}\n\nA crash log has been saved to the logs directory.`
+      `An unexpected system error occurred:\n\n${error.message || String(error)}\n\nA crash log has been saved to the logs directory.`,
     );
   });
 
@@ -57,7 +57,10 @@ export function setupCrashHandlers(mainWindowGetter: () => BrowserWindow | null)
 
   // Renderer process crash detection and auto-recovery prompt
   app.on('render-process-gone', (_event, webContents, details) => {
-    writeCrashLog('Render Process Gone', new Error(`Reason: ${details.reason}, Exit Code: ${details.exitCode}`));
+    writeCrashLog(
+      'Render Process Gone',
+      new Error(`Reason: ${details.reason}, Exit Code: ${details.exitCode}`),
+    );
 
     const window = mainWindowGetter();
     if (window && !window.isDestroyed() && webContents === window.webContents) {
@@ -82,6 +85,9 @@ export function setupCrashHandlers(mainWindowGetter: () => BrowserWindow | null)
 
   // Child process crash detection
   app.on('child-process-gone', (_event, details) => {
-    writeCrashLog('Child Process Gone', new Error(`Type: ${details.type}, Reason: ${details.reason}`));
+    writeCrashLog(
+      'Child Process Gone',
+      new Error(`Type: ${details.type}, Reason: ${details.reason}`),
+    );
   });
 }

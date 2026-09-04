@@ -9,7 +9,7 @@ describe('Modal / Dialog Component', () => {
     render(
       <Modal isOpen onClose={() => {}} title="New Project Dialog">
         <div>Modal Body Text</div>
-      </Modal>
+      </Modal>,
     );
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -21,7 +21,7 @@ describe('Modal / Dialog Component', () => {
     render(
       <Modal isOpen={false} onClose={() => {}} title="Closed Dialog">
         <div>Hidden Body</div>
-      </Modal>
+      </Modal>,
     );
 
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -32,7 +32,7 @@ describe('Modal / Dialog Component', () => {
     render(
       <Modal isOpen onClose={handleClose} title="Test Modal">
         <div>Body</div>
-      </Modal>
+      </Modal>,
     );
 
     const closeBtn = screen.getByLabelText('Close dialog');
@@ -46,7 +46,7 @@ describe('Modal / Dialog Component', () => {
     render(
       <Modal isOpen onClose={handleClose} title="ESC Modal">
         <div>Press Escape</div>
-      </Modal>
+      </Modal>,
     );
 
     fireEvent.keyDown(window, { key: 'Escape' });
@@ -62,7 +62,7 @@ describe('Modal / Dialog Component', () => {
         footer={<Button variant="primary">Confirm Action</Button>}
       >
         <div>Are you sure?</div>
-      </Modal>
+      </Modal>,
     );
 
     expect(screen.getByRole('button', { name: 'Confirm Action' })).toBeInTheDocument();

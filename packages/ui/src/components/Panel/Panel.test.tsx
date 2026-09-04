@@ -18,12 +18,7 @@ describe('Panel Components Suite', () => {
     });
 
     it('should render custom action buttons in actions slot', () => {
-      render(
-        <PanelHeader
-          title="Terminal"
-          actions={<button type="button">Clear Logs</button>}
-        />
-      );
+      render(<PanelHeader title="Terminal" actions={<button type="button">Clear Logs</button>} />);
 
       expect(screen.getByRole('button', { name: 'Clear Logs' })).toBeInTheDocument();
     });
@@ -35,7 +30,7 @@ describe('Panel Components Suite', () => {
       render(
         <PanelSection title="Dependencies" onToggleCollapse={handleToggle}>
           <div>pnpm packages</div>
-        </PanelSection>
+        </PanelSection>,
       );
 
       expect(screen.getByText('pnpm packages')).toBeInTheDocument();

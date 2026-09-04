@@ -68,7 +68,7 @@ export function registerProcessHandlers(): void {
       });
 
       return proc.pid;
-    })
+    }),
   );
 
   ipcMain.handle(
@@ -89,6 +89,6 @@ export function registerProcessHandlers(): void {
       }
       activeProcesses.delete(safePid);
       return false;
-    })
+    }),
   );
 }

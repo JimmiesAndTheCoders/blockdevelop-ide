@@ -69,7 +69,9 @@ export const App: React.FC = () => {
   const handleResetLayout = () => {
     LayoutPersistenceManager.clearSavedLayout();
     const defaultJson = LayoutModelFactory.createDefaultJson();
-    type ResetLayoutParam = Parameters<ReturnType<typeof useLayoutStore.getState>['resetLayout']>[0];
+    type ResetLayoutParam = Parameters<
+      ReturnType<typeof useLayoutStore.getState>['resetLayout']
+    >[0];
     useLayoutStore.getState().resetLayout(defaultJson as unknown as ResetLayoutParam);
     setActivePreset('default');
     useUIStore.getState().setStatusMessage('Workspace window layout reset to default.');
@@ -99,7 +101,7 @@ export const App: React.FC = () => {
                   label: preset.name,
                   description: preset.description,
                   icon: preset.icon,
-                })
+                }),
               )}
               className="w-44"
             />
@@ -235,7 +237,12 @@ export const App: React.FC = () => {
           { id: 'copy', label: 'Copy Block', icon: 'copy', shortcut: 'Ctrl+C' },
           { id: 'paste', label: 'Paste Block', icon: 'copy', shortcut: 'Ctrl+V', disabled: true },
           { id: 'div-2', divider: true },
-          { id: 'reset-layout', label: 'Reset Window Layout', icon: 'refresh', onClick: handleResetLayout },
+          {
+            id: 'reset-layout',
+            label: 'Reset Window Layout',
+            icon: 'refresh',
+            onClick: handleResetLayout,
+          },
           { id: 'div-3', divider: true },
           { id: 'delete', label: 'Delete Selected', icon: 'trash', danger: true },
         ]}

@@ -25,9 +25,7 @@ describe('Toggle & Checkbox Components', () => {
     });
 
     it('should render label and description', () => {
-      render(
-        <Checkbox label="Auto-format Code" description="Format code on project compile" />
-      );
+      render(<Checkbox label="Auto-format Code" description="Format code on project compile" />);
 
       expect(screen.getByText('Auto-format Code')).toBeInTheDocument();
       expect(screen.getByText('Format code on project compile')).toBeInTheDocument();

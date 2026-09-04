@@ -1,5 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { useProjectStore, useUIStore, useEditorStore, useTerminalStore, useLayoutStore } from './store';
+import {
+  useProjectStore,
+  useUIStore,
+  useEditorStore,
+  useTerminalStore,
+  useLayoutStore,
+} from './store';
 
 describe('State Store Initial State Sanity Suite', () => {
   beforeEach(() => {

@@ -4,15 +4,7 @@ import { Icon, IconProps } from './Icon';
 import { Lock, RefreshCw, AlertCircle, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 export type StatusOverlayType =
-  | 'modified'
-  | 'dirty'
-  | 'lock'
-  | 'readonly'
-  | 'sync'
-  | 'loading'
-  | 'error'
-  | 'warning'
-  | 'success';
+  'modified' | 'dirty' | 'lock' | 'readonly' | 'sync' | 'loading' | 'error' | 'warning' | 'success';
 
 export type BadgePosition = 'top-right' | 'bottom-right' | 'top-left' | 'bottom-left';
 
@@ -114,7 +106,7 @@ export const StatusIcon: FC<StatusIconProps> = ({
       <div
         className={clsx(
           'absolute pointer-events-none flex items-center justify-center',
-          badgePositionClass
+          badgePositionClass,
         )}
       >
         {renderBadgeContent()}

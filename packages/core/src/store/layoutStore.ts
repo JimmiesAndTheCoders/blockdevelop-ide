@@ -111,7 +111,7 @@ export const useLayoutStore: UseBoundStore<StoreApi<LayoutState>> = create<Layou
         } catch (err) {
           console.error(
             '[LayoutStore] Failed to load layout JSON, auto-recovering to default state:',
-            err
+            err,
           );
           state.layoutModel = null;
           state.hiddenPanels = [];
@@ -134,7 +134,7 @@ export const useLayoutStore: UseBoundStore<StoreApi<LayoutState>> = create<Layou
           state.layoutModel = null;
         }
       }),
-  }))
+  })),
 );
 
 /**

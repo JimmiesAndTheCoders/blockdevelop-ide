@@ -1,6 +1,9 @@
 import * as Blockly from 'blockly/core';
 import type { CustomBlockDefinition } from '../../types';
-import { ADVANCED_FUNCTION_BLOCK_DEFINITIONS, registerAdvancedFunctionBlocks } from './functionBlocks';
+import {
+  ADVANCED_FUNCTION_BLOCK_DEFINITIONS,
+  registerAdvancedFunctionBlocks,
+} from './functionBlocks';
 
 export * from './types';
 export * from './functionBlocks';

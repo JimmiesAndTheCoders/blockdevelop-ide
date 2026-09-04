@@ -90,9 +90,7 @@ export function validateWorkspaceXml(xmlText: string): SerializationValidationRe
         }
       }
 
-      const rootName = rootElement
-        ? rootElement.nodeName.toLowerCase().replace(/.*:/, '')
-        : '';
+      const rootName = rootElement ? rootElement.nodeName.toLowerCase().replace(/.*:/, '') : '';
 
       if (rootName !== 'xml' && rootName !== 'block') {
         errors.push(`XML root element must be <xml> or <block>, received <${rootName}>.`);

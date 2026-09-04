@@ -18,7 +18,12 @@ function calculateCpuUsagePercent(): number {
 
     const idleDiff = curr.idle - prev.idle;
     const totalDiff =
-      curr.user + curr.nice + curr.sys + curr.idle + curr.irq - (prev.user + prev.nice + prev.sys + prev.idle + prev.irq);
+      curr.user +
+      curr.nice +
+      curr.sys +
+      curr.idle +
+      curr.irq -
+      (prev.user + prev.nice + prev.sys + prev.idle + prev.irq);
 
     totalIdleDiff += idleDiff;
     totalTickDiff += totalDiff;
@@ -42,7 +47,7 @@ export function registerSystemHandlers(): void {
         nodeVersion: process.versions.node || 'unknown',
         platform: process.platform,
       };
-    })
+    }),
   );
 
   ipcMain.handle(
@@ -67,6 +72,6 @@ export function registerSystemHandlers(): void {
         memoryUsagePercent: memPercent,
         appMemoryMB: appMB,
       };
-    })
+    }),
   );
 }

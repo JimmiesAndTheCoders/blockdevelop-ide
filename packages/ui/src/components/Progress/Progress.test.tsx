@@ -7,9 +7,7 @@ import { Spinner } from './Spinner';
 describe('Progress Components Suite', () => {
   describe('ProgressBar', () => {
     it('should render determinate progress percentage correctly', () => {
-      render(
-        <ProgressBar value={75} max={100} label="Compiling Haxe" showPercentage />
-      );
+      render(<ProgressBar value={75} max={100} label="Compiling Haxe" showPercentage />);
 
       const progress = screen.getByRole('progressbar');
       expect(progress).toHaveAttribute('aria-valuenow', '75');

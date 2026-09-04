@@ -29,7 +29,7 @@ export const DEFAULT_WORKSPACE_GRID_OPTIONS = DEFAULT_IDE_GRID_CONFIG;
  * Returns a strongly-typed GridOptions object matching Blockly specifications.
  */
 export function createIDEGridConfig(
-  options?: IDEGridOptions
+  options?: IDEGridOptions,
 ): NonNullable<Blockly.BlocklyOptions['grid']> {
   const spacing = options?.spacing ?? DEFAULT_IDE_GRID_CONFIG.spacing;
   const mode = options?.mode ?? DEFAULT_IDE_GRID_CONFIG.mode;
@@ -56,7 +56,7 @@ export function createIDEGridConfig(
  */
 export function updateWorkspaceGrid(
   workspace: Blockly.WorkspaceSvg,
-  options: Partial<IDEGridOptions>
+  options: Partial<IDEGridOptions>,
 ): void {
   if (options.snap !== undefined && workspace.options) {
     const opts = workspace.options as unknown as { gridOptions?: { snap?: boolean } };

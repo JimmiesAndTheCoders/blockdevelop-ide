@@ -25,8 +25,8 @@ export const Kbd = forwardRef<HTMLElement, KbdProps>(
     const parsedKeys: string[] = keys
       ? keys
       : shortcut
-      ? shortcut.split('+').map((k) => k.trim())
-      : [];
+        ? shortcut.split('+').map((k) => k.trim())
+        : [];
 
     if (parsedKeys.length > 0) {
       return (
@@ -37,7 +37,7 @@ export const Kbd = forwardRef<HTMLElement, KbdProps>(
               className={clsx(
                 'inline-flex items-center justify-center font-mono font-medium text-gray-300 bg-workspace-dark border border-workspace-border shadow-sm select-none shrink-0',
                 sizeClassesMap[size],
-                className
+                className,
               )}
             >
               {keyItem}
@@ -53,14 +53,14 @@ export const Kbd = forwardRef<HTMLElement, KbdProps>(
         className={clsx(
           'inline-flex items-center justify-center font-mono font-medium text-gray-300 bg-workspace-dark border border-workspace-border shadow-sm select-none shrink-0',
           sizeClassesMap[size],
-          className
+          className,
         )}
         {...kbdProps}
       >
         {children}
       </kbd>
     );
-  }
+  },
 );
 
 Kbd.displayName = 'Kbd';

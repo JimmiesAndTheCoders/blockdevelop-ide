@@ -53,8 +53,11 @@ export class PanelRegistry {
     if (!registration) {
       return React.createElement(
         'div',
-        { className: 'p-4 text-xs font-mono text-status-error bg-workspace-panel border border-workspace-border rounded' },
-        `⚠ Warning: Unregistered panel component key '${key}'.`
+        {
+          className:
+            'p-4 text-xs font-mono text-status-error bg-workspace-panel border border-workspace-border rounded',
+        },
+        `⚠ Warning: Unregistered panel component key '${key}'.`,
       );
     }
 
@@ -64,7 +67,7 @@ export class PanelRegistry {
     return React.createElement(
       PanelErrorBoundary,
       { panelId: key, title },
-      React.createElement(Component, props)
+      React.createElement(Component, props),
     );
   }
 

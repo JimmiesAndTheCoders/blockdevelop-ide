@@ -86,7 +86,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
       resolvedTheme,
       setTheme: setStoreTheme,
     }),
-    [activeTheme, resolvedTheme, setStoreTheme]
+    [activeTheme, resolvedTheme, setStoreTheme],
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

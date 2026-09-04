@@ -34,8 +34,7 @@ export const PanelSection: FC<PanelSectionProps> = ({
 }) => {
   const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
 
-  const collapsed =
-    controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
+  const collapsed = controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
 
   const handleToggle = () => {
     const nextState = !collapsed;
@@ -72,7 +71,7 @@ export const PanelSection: FC<PanelSectionProps> = ({
         onKeyDown={handleKeyDown}
         className={clsx(
           'h-6 px-2 bg-workspace-dark hover:bg-workspace-hover border-b border-workspace-border/50 flex items-center justify-between text-2xs text-gray-300 font-semibold uppercase tracking-wider select-none cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-blue',
-          headerClassName
+          headerClassName,
         )}
       >
         <div className="flex items-center gap-1.5 truncate min-w-0">
@@ -80,7 +79,10 @@ export const PanelSection: FC<PanelSectionProps> = ({
             name="chevron-right"
             size="xs"
             color="muted"
-            className={clsx('transition-transform duration-150 shrink-0', !collapsed && 'rotate-90')}
+            className={clsx(
+              'transition-transform duration-150 shrink-0',
+              !collapsed && 'rotate-90',
+            )}
           />
           {icon && <span className="inline-flex shrink-0">{renderIconSlot(icon)}</span>}
           <span className="truncate text-gray-200">{title}</span>
@@ -88,10 +90,7 @@ export const PanelSection: FC<PanelSectionProps> = ({
         </div>
 
         {actions && (
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="flex items-center gap-1 shrink-0"
-          >
+          <div onClick={(e) => e.stopPropagation()} className="flex items-center gap-1 shrink-0">
             {actions}
           </div>
         )}

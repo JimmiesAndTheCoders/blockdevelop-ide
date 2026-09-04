@@ -52,7 +52,7 @@ describe('UI Primitives Integration & Theme State Transitions Suite', () => {
     render(
       <ThemeProvider>
         <IntegratedWorkspaceUI />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
 
     expect(screen.getByTestId('active-theme')).toHaveTextContent('dark');
@@ -65,7 +65,7 @@ describe('UI Primitives Integration & Theme State Transitions Suite', () => {
     render(
       <ThemeProvider>
         <IntegratedWorkspaceUI />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
 
     const lightBtn = screen.getByRole('button', { name: 'Set Light Theme' });

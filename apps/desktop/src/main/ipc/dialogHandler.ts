@@ -34,7 +34,7 @@ export function registerDialogHandlers(): void {
           : await dialog.showOpenDialog(dialogOptions);
 
       return result.canceled ? null : (result.filePaths[0] ?? null);
-    })
+    }),
   );
 
   ipcMain.handle(
@@ -60,6 +60,6 @@ export function registerDialogHandlers(): void {
           : await dialog.showSaveDialog(dialogOptions);
 
       return result.canceled ? null : (result.filePath ?? null);
-    })
+    }),
   );
 }

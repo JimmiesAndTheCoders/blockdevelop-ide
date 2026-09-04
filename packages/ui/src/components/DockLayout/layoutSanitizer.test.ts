@@ -28,7 +28,12 @@ describe('LayoutSanitizer Baseline Suite', () => {
             type: 'tabset',
             children: [
               { type: 'tab', id: 't1', name: 'Explorer', component: 'explorer' },
-              { type: 'tab', id: 't2', name: 'Malicious Plugin', component: 'unknown_deprecated_plugin' },
+              {
+                type: 'tab',
+                id: 't2',
+                name: 'Malicious Plugin',
+                component: 'unknown_deprecated_plugin',
+              },
             ],
           },
         ],

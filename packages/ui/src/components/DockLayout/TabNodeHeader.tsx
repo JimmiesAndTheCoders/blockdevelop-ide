@@ -109,7 +109,7 @@ export const TabNodeHeader: FC<TabNodeHeaderProps> = ({
         className={clsx(
           'inline-flex items-center justify-between gap-2 h-7 px-2 text-xs font-sans text-gray-300 select-none cursor-pointer transition-colors',
           isPinned && 'border-l-2 border-l-brand-blue bg-workspace-dark',
-          className
+          className,
         )}
       >
         {/* Left: Icon + Title + Dirty Indicator */}
@@ -139,7 +139,7 @@ export const TabNodeHeader: FC<TabNodeHeaderProps> = ({
               className={clsx(
                 'p-0.5 rounded hover:bg-workspace-hover transition-colors',
                 isPinned ? 'text-brand-blue' : 'text-gray-400 hover:text-white',
-                isHovered || isPinned ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                isHovered || isPinned ? 'opacity-100' : 'opacity-0 group-hover:opacity-100',
               )}
             >
               <Icon name="layers" size="xs" />

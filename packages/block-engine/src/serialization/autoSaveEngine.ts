@@ -17,7 +17,7 @@ export class WorkspaceAutoSaveEngine {
    */
   public static saveToStorage(
     workspace: Blockly.WorkspaceSvg | Blockly.Workspace,
-    storageKey = DEFAULT_AUTO_SAVE_KEY
+    storageKey = DEFAULT_AUTO_SAVE_KEY,
   ): boolean {
     try {
       if (typeof window === 'undefined' || !window.localStorage) {
@@ -38,7 +38,7 @@ export class WorkspaceAutoSaveEngine {
   public static scheduleAutoSave(
     workspace: Blockly.WorkspaceSvg | Blockly.Workspace,
     storageKey = DEFAULT_AUTO_SAVE_KEY,
-    delayMs = 1000
+    delayMs = 1000,
   ): void {
     if (this.saveTimer) {
       clearTimeout(this.saveTimer);
@@ -65,7 +65,7 @@ export class WorkspaceAutoSaveEngine {
    */
   public static loadFromStorage(
     workspace: Blockly.WorkspaceSvg | Blockly.Workspace,
-    storageKey = DEFAULT_AUTO_SAVE_KEY
+    storageKey = DEFAULT_AUTO_SAVE_KEY,
   ): boolean {
     try {
       if (typeof window === 'undefined' || !window.localStorage) {
@@ -80,7 +80,7 @@ export class WorkspaceAutoSaveEngine {
       const success = deserializeWorkspaceFromJsonString(workspace, savedData);
       if (!success) {
         console.warn(
-          '[WorkspaceAutoSaveEngine] Corrupted auto-save detected. Clearing storage key.'
+          '[WorkspaceAutoSaveEngine] Corrupted auto-save detected. Clearing storage key.',
         );
         this.clearStorage(storageKey);
       }

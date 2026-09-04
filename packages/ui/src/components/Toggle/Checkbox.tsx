@@ -4,8 +4,10 @@ import { Icon } from '../Icon/Icon';
 
 export type CheckboxSize = 'xs' | 'sm' | 'md';
 
-export interface CheckboxProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
+export interface CheckboxProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'size' | 'type'
+> {
   size?: CheckboxSize | undefined;
   label?: ReactNode | undefined;
   description?: string | undefined;
@@ -36,7 +38,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       id,
       ...inputProps
     },
-    ref
+    ref,
   ) => {
     const [internalChecked, setInternalChecked] = useState(defaultChecked);
     const autoId = useId();
@@ -57,16 +59,14 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     };
 
     const checkedProps =
-      controlledChecked !== undefined
-        ? { checked: controlledChecked }
-        : { defaultChecked };
+      controlledChecked !== undefined ? { checked: controlledChecked } : { defaultChecked };
 
     return (
       <div
         className={clsx(
           'inline-flex items-start gap-2.5 font-sans select-none cursor-pointer',
           disabled && 'opacity-50 cursor-not-allowed',
-          className
+          className,
         )}
       >
         <div className="relative flex items-center justify-center shrink-0 mt-0.5">
@@ -90,8 +90,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
               isChecked
                 ? 'bg-brand-blue border-brand-blue text-white shadow-sm'
                 : isError
-                ? 'bg-workspace-dark border-status-error'
-                : 'bg-workspace-dark border-workspace-border hover:border-workspace-borderLight'
+                  ? 'bg-workspace-dark border-status-error'
+                  : 'bg-workspace-dark border-workspace-border hover:border-workspace-borderLight',
             )}
           >
             {isChecked && <Icon name="check" size={sizeConfig.icon} color="primary" />}
@@ -108,7 +108,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Checkbox.displayName = 'Checkbox';

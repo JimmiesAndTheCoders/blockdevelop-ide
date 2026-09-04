@@ -24,33 +24,35 @@ export function enforceSecurityPolicies(window: BrowserWindow): void {
         ...details.responseHeaders,
         'Content-Security-Policy': [
           "default-src 'self';" +
-          " script-src 'self' 'unsafe-inline';" +
-          " style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;" +
-          " font-src 'self' https://fonts.gstatic.com data:;" +
-          " img-src 'self' data: blob: https:;" +
-          " media-src 'self' data: blob: https:;" +
-          " connect-src 'self' ws: http: https:;" +
-          " object-src 'none';" +
-          " base-uri 'self';" +
-          " form-action 'self';",
+            " script-src 'self' 'unsafe-inline';" +
+            " style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;" +
+            " font-src 'self' https://fonts.gstatic.com data:;" +
+            " img-src 'self' data: blob: https:;" +
+            " media-src 'self' data: blob: https:;" +
+            " connect-src 'self' ws: http: https:;" +
+            " object-src 'none';" +
+            " base-uri 'self';" +
+            " form-action 'self';",
         ],
       },
     });
   });
 
   // Intercept and deny unauthorized permission requests (camera, mic, geolocation, notifications, etc.)
-  session.defaultSession.setPermissionRequestHandler((_webContents, permission, callback, details) => {
-    const allowedPermissions: string[] = []; // No hardware permissions required by default
+  session.defaultSession.setPermissionRequestHandler(
+    (_webContents, permission, callback, details) => {
+      const allowedPermissions: string[] = []; // No hardware permissions required by default
 
-    if (allowedPermissions.includes(permission)) {
-      callback(true);
-    } else {
-      console.warn(
-        `[Security Guardrail] Denied permission request for '${permission}' from origin '${details.requestingUrl}'`
-      );
-      callback(false);
-    }
-  });
+      if (allowedPermissions.includes(permission)) {
+        callback(true);
+      } else {
+        console.warn(
+          `[Security Guardrail] Denied permission request for '${permission}' from origin '${details.requestingUrl}'`,
+        );
+        callback(false);
+      }
+    },
+  );
 
   // Intercept synchronous permission checks
   session.defaultSession.setPermissionCheckHandler((_webContents, permission) => {

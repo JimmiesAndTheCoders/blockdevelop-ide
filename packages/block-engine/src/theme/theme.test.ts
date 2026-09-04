@@ -31,10 +31,13 @@ describe('BlockDevelop Dark Theme Suite', () => {
     expect(componentStyles.replacementGlowColour).toBe(IDE_DESIGN_TOKENS.haxeOrange);
   });
 
-  it('should map standard IDE brand colors across all block styles', () => {
+  it('should map standard IDE brand colors across all block and category styles', () => {
     const theme = createBlockDevelopDarkTheme();
     const styles = theme.blockStyles;
 
+    expect(styles.structure_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.structure);
+    expect(styles.type_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.types);
+    expect(styles.collection_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.collections);
     expect(styles.logic_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.logic);
     expect(styles.math_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.math);
     expect(styles.text_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.textCategory);

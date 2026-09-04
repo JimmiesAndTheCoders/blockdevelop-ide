@@ -19,7 +19,7 @@ describe('ContextMenu Engine', () => {
         position={{ x: 100, y: 100 }}
         onClose={() => {}}
         items={sampleMenuItems}
-      />
+      />,
     );
 
     expect(screen.getByRole('menu')).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('ContextMenu Engine', () => {
         position={{ x: 100, y: 100 }}
         onClose={() => {}}
         items={sampleMenuItems}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByText('Cut'));
@@ -52,7 +52,7 @@ describe('ContextMenu Engine', () => {
         position={{ x: 100, y: 100 }}
         onClose={handleClose}
         items={sampleMenuItems}
-      />
+      />,
     );
 
     fireEvent.keyDown(window, { key: 'Escape' });

@@ -44,8 +44,14 @@ export function loadWindowState(): WindowBoundsState {
       const parsed = JSON.parse(raw) as Partial<WindowBoundsState>;
 
       const state: WindowBoundsState = {
-        width: typeof parsed.width === 'number' && parsed.width >= 400 ? parsed.width : DEFAULT_STATE.width,
-        height: typeof parsed.height === 'number' && parsed.height >= 300 ? parsed.height : DEFAULT_STATE.height,
+        width:
+          typeof parsed.width === 'number' && parsed.width >= 400
+            ? parsed.width
+            : DEFAULT_STATE.width,
+        height:
+          typeof parsed.height === 'number' && parsed.height >= 300
+            ? parsed.height
+            : DEFAULT_STATE.height,
         isMaximized: Boolean(parsed.isMaximized),
         isFullScreen: Boolean(parsed.isFullScreen),
       };

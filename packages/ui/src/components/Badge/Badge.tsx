@@ -3,15 +3,7 @@ import { clsx } from 'clsx';
 import { Icon, type IconSize } from '../Icon/Icon';
 
 export type BadgeVariant =
-  | 'default'
-  | 'brand'
-  | 'info'
-  | 'success'
-  | 'warning'
-  | 'error'
-  | 'haxe'
-  | 'platform'
-  | 'outline';
+  'default' | 'brand' | 'info' | 'success' | 'warning' | 'error' | 'haxe' | 'platform' | 'outline';
 
 export type BadgeSize = 'xs' | 'sm' | 'md';
 
@@ -63,7 +55,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       className,
       ...spanProps
     },
-    ref
+    ref,
   ) => {
     const iconSize = iconSizeMap[size];
     const isDismissible = dismissible || Boolean(onDismiss);
@@ -83,7 +75,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
           'inline-flex items-center justify-center border font-sans select-none shrink-0 transition-colors leading-none',
           variantClassesMap[variant],
           sizeClassesMap[size],
-          className
+          className,
         )}
         {...spanProps}
       >
@@ -103,7 +95,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         )}
       </span>
     );
-  }
+  },
 );
 
 Badge.displayName = 'Badge';

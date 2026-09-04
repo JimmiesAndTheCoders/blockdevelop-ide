@@ -2,13 +2,7 @@ import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { clsx } from 'clsx';
 import { Icon, type IconSize } from '../Icon/Icon';
 
-export type ButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'danger'
-  | 'ghost'
-  | 'outline'
-  | 'accent';
+export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost' | 'outline' | 'accent';
 
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -69,7 +63,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       type = 'button',
       ...buttonProps
     },
-    ref
+    ref,
   ) => {
     const iconSize = sizeIconMap[size];
     const isDisabled = disabled || isLoading;
@@ -95,14 +89,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           variantClassesMap[variant],
           sizeClassesMap[size],
           fullWidth && 'w-full',
-          className
+          className,
         )}
         {...buttonProps}
       >
         {isLoading ? (
           <Icon name="refresh" spin size={iconSize} className="shrink-0" />
         ) : (
-          leftIcon && <span className="inline-flex shrink-0 items-center">{renderIconSlot(leftIcon)}</span>
+          leftIcon && (
+            <span className="inline-flex shrink-0 items-center">{renderIconSlot(leftIcon)}</span>
+          )
         )}
 
         {children && <span>{children}</span>}
@@ -112,7 +108,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         )}
       </button>
     );
-  }
+  },
 );
 
 Button.displayName = 'Button';

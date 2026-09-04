@@ -1,10 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as Blockly from 'blockly/core';
-import {
-  TYPE_BLOCK_DEFINITIONS,
-  registerTypeBlocks,
-  PRIMITIVE_TYPE_OPTIONS,
-} from './index';
+import { TYPE_BLOCK_DEFINITIONS, registerTypeBlocks, PRIMITIVE_TYPE_OPTIONS } from './index';
 
 describe('Phase 4.1 - Task 1.1: Type Annotations & Type Specifiers Suite', () => {
   let workspace: Blockly.Workspace;

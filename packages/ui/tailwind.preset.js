@@ -56,9 +56,9 @@ module.exports = {
       },
       fontSize: {
         '2xs': ['0.65rem', { lineHeight: '0.85rem' }],
-        'xs': ['0.75rem', { lineHeight: '1rem' }],
-        'sm': ['0.8125rem', { lineHeight: '1.125rem' }],
-        'base': ['0.875rem', { lineHeight: '1.25rem' }],
+        xs: ['0.75rem', { lineHeight: '1rem' }],
+        sm: ['0.8125rem', { lineHeight: '1.125rem' }],
+        base: ['0.875rem', { lineHeight: '1.25rem' }],
       },
       fontFamily: {
         sans: ['Inter', 'Segoe UI', 'system-ui', '-apple-system', 'sans-serif'],

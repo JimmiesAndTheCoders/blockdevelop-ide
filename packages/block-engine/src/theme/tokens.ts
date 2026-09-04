@@ -15,7 +15,7 @@ export const IDE_DESIGN_TOKENS = {
 } as const;
 
 /**
- * Category & Block Style Brand Color Palette.
+ * Category & Block Style Brand Color Palette for BlockDevelop IDE.
  */
 export const BLOCKDEVELOP_DARK_PALETTE = {
   bg: IDE_DESIGN_TOKENS.workspaceBg,
@@ -25,11 +25,14 @@ export const BLOCKDEVELOP_DARK_PALETTE = {
   text: IDE_DESIGN_TOKENS.textPrimary,
   accent: IDE_DESIGN_TOKENS.accentBlue,
   selection: IDE_DESIGN_TOKENS.selection,
-  logic: '#007ACC',
-  math: '#8A2BE2',
-  textCategory: '#10B981',
-  variables: '#EA8220',
-  functions: '#E11D48',
-  events: '#06B6D4',
-  target: '#F59E0B',
+  structure: '#06B6D4', // Cyan / OOP & Package Wrappers
+  types: '#F59E0B', // Amber / Type Annotations
+  logic: '#007ACC', // Blue / Control Flow & Conditionals
+  collections: '#8B5CF6', // Purple / Arrays & 2D Matrices
+  math: '#8A2BE2', // Violet / Numerical & Math
+  textCategory: '#10B981', // Emerald / Strings & Printing
+  variables: '#EA8220', // Haxe Orange / Variables & Memory
+  functions: '#E11D48', // Rose / Methods & Calls
+  events: '#06B6D4', // Cyan / Event Listeners
+  target: '#F59E0B', // Amber / Target Hardware & Platforms
 } as const;

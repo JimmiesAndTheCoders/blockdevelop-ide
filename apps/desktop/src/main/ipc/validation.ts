@@ -54,12 +54,18 @@ export function assertArrayOfStrings(val: unknown, paramName: string): string[] 
 export function sanitizePath(rawPath: unknown, paramName = 'filePath'): string {
   const str = assertNonEmptyString(rawPath, paramName);
   if (str.includes('\0')) {
-    throw new IPCValidationError(`Path parameter '${paramName}' contains invalid null-byte characters.`);
+    throw new IPCValidationError(
+      `Path parameter '${paramName}' contains invalid null-byte characters.`,
+    );
   }
   return path.normalize(str);
 }
 
-export function assertPathWithinBoundary(targetPath: unknown, rootBoundary?: string, paramName = 'filePath'): string {
+export function assertPathWithinBoundary(
+  targetPath: unknown,
+  rootBoundary?: string,
+  paramName = 'filePath',
+): string {
   const normalizedTarget = sanitizePath(targetPath, paramName);
   if (!rootBoundary) return normalizedTarget;
 
@@ -68,7 +74,7 @@ export function assertPathWithinBoundary(targetPath: unknown, rootBoundary?: str
 
   if (relative.startsWith('..') || path.isAbsolute(relative)) {
     throw new IPCValidationError(
-      `Security Violation: Path parameter '${paramName}' (${normalizedTarget}) escapes root workspace boundary (${normalizedRoot}).`
+      `Security Violation: Path parameter '${paramName}' (${normalizedTarget}) escapes root workspace boundary (${normalizedRoot}).`,
     );
   }
 
