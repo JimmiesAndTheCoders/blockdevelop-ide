@@ -27,6 +27,7 @@ export const VALID_CLASS_FIELD_TYPES = new Set([
   'variable_declare_typed',
   'variable_declare_inferred',
   'variables_declare_scoped',
+  'class_property_declaration',
 ]);
 
 export const VALID_CLASS_METHOD_TYPES = new Set([
@@ -34,12 +35,24 @@ export const VALID_CLASS_METHOD_TYPES = new Set([
   'function_def_simple',
   'procedure_defnoreturn_custom',
   'procedure_defreturn_custom',
+  'class_method_declaration',
 ]);
 
-export const VALID_CLASS_CONSTRUCTOR_TYPES = new Set(['class_constructor', 'function_def_typed']);
+export const VALID_CLASS_CONSTRUCTOR_TYPES = new Set([
+  'class_constructor',
+  'class_constructor_declaration',
+  'function_def_typed',
+]);
+
+export const PACKAGE_BLOCK_TYPES = new Set([
+  'package_declaration',
+  'package_block_wrapper',
+  'package_declare',
+  'package_declare_header',
+]);
 
 /**
- * Validates and sanitizes a package/namespace identifier string.
+ * Validates and sanitizes a package/namespace identifier string into clean dot notation.
  */
 export function sanitizePackageNamespace(rawName: string): string {
   if (!rawName || typeof rawName !== 'string') {
@@ -49,18 +62,23 @@ export function sanitizePackageNamespace(rawName: string): string {
   return rawName
     .trim()
     .replace(/[^a-zA-Z0-9_.]/g, '') // Strip non-identifier characters
-    .replace(/\.{2,}/g, '.') // Replace consecutive dots
+    .replace(/\.{2,}/g, '.') // Replace consecutive dots with a single dot
     .replace(/^\.+|\.+$/g, ''); // Strip leading and trailing dots
 }
 
 /**
- * Checks if a string is a valid dot-separated package identifier.
+ * Strictly verifies whether a string conforms to valid reverse-DNS dot-separated package notation.
+ * e.g., 'com.example.game', 'net.blockdevelop.core', 'main'
  */
 export function isValidPackageNamespace(name: string): boolean {
   if (!name || typeof name !== 'string') return true;
   const trimmed = name.trim();
-  if (!trimmed) return true;
-  return /^[a-zA-Z_][a-zA-Z0-9_]*(?:\.[a-zA-Z_][a-zA-Z0-9_]*)*$/.test(trimmed);
+  if (!trimmed) return true; // Root default package is allowed
+
+  const segments = trimmed.split('.');
+  const segmentRegex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+
+  return segments.every((segment) => segmentRegex.test(segment));
 }
 
 /**
@@ -69,5 +87,12 @@ export function isValidPackageNamespace(name: string): boolean {
 export function isValidImportPath(path: string): boolean {
   if (!path || typeof path !== 'string') return false;
   const trimmed = path.trim();
-  return /^[a-zA-Z_][a-zA-Z0-9_]*(?:\.[a-zA-Z_][a-zA-Z0-9_]*)*(?:\.\*)?$/.test(trimmed);
+  if (!trimmed) return false;
+
+  if (trimmed.endsWith('.*')) {
+    const base = trimmed.substring(0, trimmed.length - 2);
+    return isValidPackageNamespace(base);
+  }
+
+  return isValidPackageNamespace(trimmed);
 }
