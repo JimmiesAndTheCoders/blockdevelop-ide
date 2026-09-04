@@ -21,8 +21,13 @@ export const IMPORT_KIND_OPTIONS: [string, string][] = [
 ];
 
 /**
- * Valid block types allowed as direct child members of a Class.
+ * Valid block types allowed as direct child members of an Interface.
  */
+export const VALID_INTERFACE_MEMBER_TYPES = new Set([
+  'interface_method_signature',
+  'interface_property_signature',
+]);
+
 export const VALID_CLASS_FIELD_TYPES = new Set([
   'variable_declare_typed',
   'variable_declare_inferred',
@@ -51,9 +56,33 @@ export const PACKAGE_BLOCK_TYPES = new Set([
   'package_declare_header',
 ]);
 
+export const PROPERTY_ACCESSOR_READ_OPTIONS: [string, string][] = [
+  ['default (read)', 'DEFAULT'],
+  ['get (getter)', 'GET'],
+  ['null (private read)', 'NULL'],
+  ['never', 'NEVER'],
+];
+
+export const PROPERTY_ACCESSOR_WRITE_OPTIONS: [string, string][] = [
+  ['default (write)', 'DEFAULT'],
+  ['set (setter)', 'SET'],
+  ['null (readonly)', 'NULL'],
+  ['never', 'NEVER'],
+];
+
 /**
- * Validates and sanitizes a package/namespace identifier string into clean dot notation.
+ * Validates and sanitizes a comma-separated list of interface identifiers.
  */
+
+export function sanitizeInterfaceList(rawList: string): string {
+  if (!rawList || typeof rawList !== 'string') return '';
+  return rawList
+    .split(',')
+    .map((item) => sanitizePackageNamespace(item))
+    .filter((item) => item.length > 0)
+    .join(', ');
+}
+
 export function sanitizePackageNamespace(rawName: string): string {
   if (!rawName || typeof rawName !== 'string') {
     return '';

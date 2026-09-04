@@ -27,6 +27,8 @@ import {
   CLASS_BLOCK_DEFINITIONS,
   registerImportBlocks,
   IMPORT_BLOCK_DEFINITIONS,
+  registerInterfaceBlocks,
+  INTERFACE_BLOCK_DEFINITIONS,
 } from './structure';
 
 // Set English locale globally
@@ -64,6 +66,7 @@ export const CORE_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
   ...CORE_EVENT_BLOCK_DEFINITIONS,
   ...PACKAGE_BLOCK_DEFINITIONS,
   ...CLASS_BLOCK_DEFINITIONS,
+  ...INTERFACE_BLOCK_DEFINITIONS,
   ...IMPORT_BLOCK_DEFINITIONS,
   ...TYPE_BLOCK_DEFINITIONS,
   ...SCOPED_VARIABLE_BLOCK_DEFINITIONS,
@@ -79,6 +82,7 @@ export const CORE_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
 export function registerBlockDefinitions(definitions = CORE_BLOCK_DEFINITIONS): void {
   registerPackageBlocks();
   registerClassBlocks();
+  registerInterfaceBlocks();
   registerImportBlocks();
   registerTypeBlocks();
   registerScopedVariableBlocks();
