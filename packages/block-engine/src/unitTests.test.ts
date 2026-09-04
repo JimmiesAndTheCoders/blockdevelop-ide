@@ -138,7 +138,7 @@ describe('Phase 4.8 Unit Test Suite - Core Engine, Schemas & Serialization', () 
       expect(Blockly.Blocks['array_contains']).toBeDefined();
       expect(Blockly.Blocks['array_reverse']).toBeDefined();
       expect(Blockly.Blocks['array_sort']).toBeDefined();
-      
+
       // Verify 2D Matrix Category
       expect(Blockly.Blocks['matrix_create_2d']).toBeDefined();
       expect(Blockly.Blocks['matrix_get_2d']).toBeDefined();
@@ -147,13 +147,23 @@ describe('Phase 4.8 Unit Test Suite - Core Engine, Schemas & Serialization', () 
       expect(Blockly.Blocks['matrix_fill_2d']).toBeDefined();
 
       // Verify Functions & Events Category
+      expect(Blockly.Blocks['function_param_item']).toBeDefined();
+      expect(Blockly.Blocks['function_def_typed']).toBeDefined();
+      expect(Blockly.Blocks['function_def_simple']).toBeDefined();
+      expect(Blockly.Blocks['return_value']).toBeDefined();
+      expect(Blockly.Blocks['return_bare']).toBeDefined();
       expect(Blockly.Blocks['procedure_defnoreturn_custom']).toBeDefined();
       expect(Blockly.Blocks['procedure_defreturn_custom']).toBeDefined();
       expect(Blockly.Blocks['procedure_callnoreturn_custom']).toBeDefined();
       expect(Blockly.Blocks['procedure_callreturn_custom']).toBeDefined();
       expect(Blockly.Blocks['event_listener']).toBeDefined();
-      expect(Blockly.Blocks['event_on_start']).toBeDefined();
-      expect(Blockly.Blocks['event_on_update']).toBeDefined();
+
+      // Verify Function Invocation Category
+      expect(Blockly.Blocks['function_call_typed']).toBeDefined();
+      expect(Blockly.Blocks['function_call_typed_statement']).toBeDefined();
+      expect(Blockly.Blocks['method_call_instance']).toBeDefined();
+      expect(Blockly.Blocks['method_call_instance_statement']).toBeDefined();
+      expect(Blockly.Blocks['method_call_static']).toBeDefined();
     });
 
     it('should successfully instantiate blocks from each category in a workspace', () => {
