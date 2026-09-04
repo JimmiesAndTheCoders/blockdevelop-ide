@@ -119,6 +119,33 @@ describe('Phase 4.8 Unit Test Suite - Core Engine, Schemas & Serialization', () 
       expect(Blockly.Blocks['type_custom']).toBeDefined();
       expect(Blockly.Blocks['type_nullable']).toBeDefined();
 
+      // Verify Collections & Arrays Category
+      expect(Blockly.Blocks['array_create_empty']).toBeDefined();
+      expect(Blockly.Blocks['array_create_with']).toBeDefined();
+      expect(Blockly.Blocks['array_create_typed']).toBeDefined();
+      expect(Blockly.Blocks['array_length']).toBeDefined();
+      expect(Blockly.Blocks['array_get_index']).toBeDefined();
+      expect(Blockly.Blocks['array_set_index']).toBeDefined();
+      expect(Blockly.Blocks['array_push']).toBeDefined();
+      expect(Blockly.Blocks['array_pop']).toBeDefined();
+      expect(Blockly.Blocks['array_unshift']).toBeDefined();
+      expect(Blockly.Blocks['array_shift']).toBeDefined();
+      expect(Blockly.Blocks['array_insert_at']).toBeDefined();
+      expect(Blockly.Blocks['array_remove_at']).toBeDefined();
+      expect(Blockly.Blocks['array_slice']).toBeDefined();
+      expect(Blockly.Blocks['array_splice']).toBeDefined();
+      expect(Blockly.Blocks['array_indexOf']).toBeDefined();
+      expect(Blockly.Blocks['array_contains']).toBeDefined();
+      expect(Blockly.Blocks['array_reverse']).toBeDefined();
+      expect(Blockly.Blocks['array_sort']).toBeDefined();
+      
+      // Verify 2D Matrix Category
+      expect(Blockly.Blocks['matrix_create_2d']).toBeDefined();
+      expect(Blockly.Blocks['matrix_get_2d']).toBeDefined();
+      expect(Blockly.Blocks['matrix_set_2d']).toBeDefined();
+      expect(Blockly.Blocks['matrix_dimensions']).toBeDefined();
+      expect(Blockly.Blocks['matrix_fill_2d']).toBeDefined();
+
       // Verify Functions & Events Category
       expect(Blockly.Blocks['procedure_defnoreturn_custom']).toBeDefined();
       expect(Blockly.Blocks['procedure_defreturn_custom']).toBeDefined();

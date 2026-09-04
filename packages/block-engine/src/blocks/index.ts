@@ -14,6 +14,12 @@ import {
   registerScopedVariableBlocks,
   SCOPED_VARIABLE_BLOCK_DEFINITIONS,
 } from './scoping';
+import {
+  registerArray1DBlocks,
+  ARRAY_1D_BLOCK_DEFINITIONS,
+  registerMatrix2DBlocks,
+  MATRIX_2D_BLOCK_DEFINITIONS,
+} from './collections';
 
 // Set English locale globally
 Blockly.setLocale(En as unknown as Record<string, string>);
@@ -24,6 +30,7 @@ export * from './text';
 export * from './variables';
 export * from './functions';
 export * from './scoping';
+export * from './collections';
 
 export const CORE_EVENT_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
   {
@@ -48,6 +55,8 @@ export const CORE_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
   ...CORE_EVENT_BLOCK_DEFINITIONS,
   ...TYPE_BLOCK_DEFINITIONS,
   ...SCOPED_VARIABLE_BLOCK_DEFINITIONS,
+  ...ARRAY_1D_BLOCK_DEFINITIONS,
+  ...MATRIX_2D_BLOCK_DEFINITIONS,
   ...LOGIC_BLOCK_DEFINITIONS,
   ...MATH_BLOCK_DEFINITIONS,
   ...TEXT_BLOCK_DEFINITIONS,
@@ -58,6 +67,8 @@ export const CORE_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
 export function registerBlockDefinitions(definitions = CORE_BLOCK_DEFINITIONS): void {
   registerTypeBlocks();
   registerScopedVariableBlocks();
+  registerArray1DBlocks();
+  registerMatrix2DBlocks();
   registerLogicBlocks();
   registerMathBlocks();
   registerTextBlocks();
