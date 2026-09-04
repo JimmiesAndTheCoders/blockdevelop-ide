@@ -164,6 +164,19 @@ describe('Phase 4.8 Unit Test Suite - Core Engine, Schemas & Serialization', () 
       expect(Blockly.Blocks['method_call_instance']).toBeDefined();
       expect(Blockly.Blocks['method_call_instance_statement']).toBeDefined();
       expect(Blockly.Blocks['method_call_static']).toBeDefined();
+
+      // Verify Package & Structural Category
+      expect(Blockly.Blocks['package_declare']).toBeDefined();
+      expect(Blockly.Blocks['package_declare_header']).toBeDefined();
+
+      // Verify Class & Scope Category
+      expect(Blockly.Blocks['class_wrapper']).toBeDefined();
+      expect(Blockly.Blocks['class_constructor']).toBeDefined();
+
+      // Verify Import & Dependency Category
+      expect(Blockly.Blocks['import_statement']).toBeDefined();
+      expect(Blockly.Blocks['import_wildcard']).toBeDefined();
+      expect(Blockly.Blocks['import_alias']).toBeDefined();
     });
 
     it('should successfully instantiate blocks from each category in a workspace', () => {

@@ -20,6 +20,14 @@ import {
   registerMatrix2DBlocks,
   MATRIX_2D_BLOCK_DEFINITIONS,
 } from './collections';
+import {
+  registerPackageBlocks,
+  PACKAGE_BLOCK_DEFINITIONS,
+  registerClassBlocks,
+  CLASS_BLOCK_DEFINITIONS,
+  registerImportBlocks,
+  IMPORT_BLOCK_DEFINITIONS,
+} from './structure';
 
 // Set English locale globally
 Blockly.setLocale(En as unknown as Record<string, string>);
@@ -31,6 +39,7 @@ export * from './variables';
 export * from './functions';
 export * from './scoping';
 export * from './collections';
+export * from './structure';
 
 export const CORE_EVENT_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
   {
@@ -53,6 +62,9 @@ export const CORE_EVENT_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
 
 export const CORE_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
   ...CORE_EVENT_BLOCK_DEFINITIONS,
+  ...PACKAGE_BLOCK_DEFINITIONS,
+  ...CLASS_BLOCK_DEFINITIONS,
+  ...IMPORT_BLOCK_DEFINITIONS,
   ...TYPE_BLOCK_DEFINITIONS,
   ...SCOPED_VARIABLE_BLOCK_DEFINITIONS,
   ...ARRAY_1D_BLOCK_DEFINITIONS,
@@ -65,6 +77,9 @@ export const CORE_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
 ];
 
 export function registerBlockDefinitions(definitions = CORE_BLOCK_DEFINITIONS): void {
+  registerPackageBlocks();
+  registerClassBlocks();
+  registerImportBlocks();
   registerTypeBlocks();
   registerScopedVariableBlocks();
   registerArray1DBlocks();
