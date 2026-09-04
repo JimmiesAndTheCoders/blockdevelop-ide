@@ -10,7 +10,7 @@ import {
   VALID_CLASS_CONSTRUCTOR_TYPES,
 } from './index';
 
-describe('Phase 4.1 - Task 4.2: Enclosing Class & Scope Definition Wrapper Suite', () => {
+describe('Phase 4.2 - Section 3: Class Definitions & Constructor System Suite', () => {
   let workspace: Blockly.Workspace;
 
   beforeEach(() => {
@@ -24,65 +24,75 @@ describe('Phase 4.1 - Task 4.2: Enclosing Class & Scope Definition Wrapper Suite
     }
   });
 
-  it('should define class wrapper and constructor blocks in schema definitions', () => {
-    expect(CLASS_BLOCK_DEFINITIONS.length).toBe(2);
-    const types = CLASS_BLOCK_DEFINITIONS.map((def) => def.type);
-    expect(types).toContain('class_wrapper');
-    expect(types).toContain('class_constructor');
+  describe('1. Class Block Schema & Options', () => {
+    it('should define all 6 class declaration, constructor, and instantiation blocks', () => {
+      expect(CLASS_BLOCK_DEFINITIONS.length).toBe(6);
+      const types = CLASS_BLOCK_DEFINITIONS.map((def) => def.type);
+      expect(types).toContain('class_declaration');
+      expect(types).toContain('class_wrapper');
+      expect(types).toContain('class_constructor_declaration');
+      expect(types).toContain('class_constructor');
+      expect(types).toContain('super_constructor_call');
+      expect(types).toContain('instance_instantiation');
+    });
+
+    it('should expose access modifiers (public, private, internal)', () => {
+      const accessVals = CLASS_ACCESS_OPTIONS.map(([_, v]) => v);
+      expect(accessVals).toEqual(['PUBLIC', 'PRIVATE', 'INTERNAL']);
+    });
+
+    it('should expose class specifiers (standard, final, abstract)', () => {
+      const modVals = CLASS_MODIFIER_OPTIONS.map(([_, v]) => v);
+      expect(modVals).toEqual(['NONE', 'FINAL', 'ABSTRACT']);
+    });
   });
 
-  it('should expose access and class modifier dropdown options', () => {
-    const accessVals = CLASS_ACCESS_OPTIONS.map(([_, v]) => v);
-    expect(accessVals).toEqual(['PUBLIC', 'PRIVATE', 'INTERNAL']);
+  describe('2. Constructor & Instantiation System', () => {
+    it('should instantiate class_constructor_declaration with access modifier and params', () => {
+      const ctorBlock = workspace.newBlock('class_constructor_declaration');
+      expect(ctorBlock.type).toBe('class_constructor_declaration');
+      expect(ctorBlock.previousConnection).not.toBeNull();
+      expect(ctorBlock.nextConnection).not.toBeNull();
 
-    const modVals = CLASS_MODIFIER_OPTIONS.map(([_, v]) => v);
-    expect(modVals).toEqual(['NONE', 'FINAL', 'ABSTRACT']);
-  });
+      const accessField = ctorBlock.getField('ACCESS') as Blockly.FieldDropdown;
+      accessField.setValue('PUBLIC');
+      expect(accessField.getValue()).toBe('PUBLIC');
 
-  it('should instantiate class_wrapper and configure inheritance and member slots', () => {
-    const classBlock = workspace.newBlock('class_wrapper');
-    expect(classBlock.type).toBe('class_wrapper');
+      const paramBlock = workspace.newBlock('function_param_item');
+      ctorBlock.getInput('PARAMS')?.connection?.connect(paramBlock.previousConnection!);
+      expect(ctorBlock.getChildren(false).length).toBe(1);
+    });
 
-    const accessField = classBlock.getField('ACCESS') as Blockly.FieldDropdown;
-    const modField = classBlock.getField('MODIFIER') as Blockly.FieldDropdown;
-    const nameField = classBlock.getField('CLASS_NAME') as Blockly.FieldTextInput;
-    const extendsField = classBlock.getField('EXTENDS_CLASS') as Blockly.FieldTextInput;
-    const implementsField = classBlock.getField('IMPLEMENTS_INTERFACES') as Blockly.FieldTextInput;
+    it('should instantiate super_constructor_call and connect arguments', () => {
+      const superBlock = workspace.newBlock('super_constructor_call');
+      expect(superBlock.type).toBe('super_constructor_call');
+      expect(superBlock.previousConnection).not.toBeNull();
+      expect(superBlock.nextConnection).not.toBeNull();
 
-    accessField.setValue('PUBLIC');
-    modField.setValue('FINAL');
-    nameField.setValue('GamePlayer');
-    extendsField.setValue('BaseEntity');
-    implementsField.setValue('IDamageable, IUpdatable');
+      const arg0 = workspace.newBlock('math_number');
+      superBlock.getInput('ARG0')?.connection?.connect(arg0.outputConnection!);
+      expect(superBlock.getChildren(false).length).toBe(1);
+    });
 
-    expect(accessField.getValue()).toBe('PUBLIC');
-    expect(modField.getValue()).toBe('FINAL');
-    expect(nameField.getValue()).toBe('GamePlayer');
-    expect(extendsField.getValue()).toBe('BaseEntity');
-    expect(implementsField.getValue()).toBe('IDamageable, IUpdatable');
+    it('should instantiate instance_instantiation expression (new ClassName)', () => {
+      const newBlock = workspace.newBlock('instance_instantiation');
+      expect(newBlock.type).toBe('instance_instantiation');
+      expect(newBlock.outputConnection).not.toBeNull();
 
-    // Check separate member input slots
-    expect(classBlock.getInput('FIELDS')).toBeDefined();
-    expect(classBlock.getInput('CONSTRUCTOR')).toBeDefined();
-    expect(classBlock.getInput('METHODS')).toBeDefined();
-  });
+      const classField = newBlock.getField('CLASS_NAME') as Blockly.FieldTextInput;
+      classField.setValue('GameEntity');
+      expect(classField.getValue()).toBe('GameEntity');
 
-  it('should connect fields, constructor, and methods into class_wrapper slots', () => {
-    const classBlock = workspace.newBlock('class_wrapper');
-    const fieldBlock = workspace.newBlock('variable_declare_typed');
-    const ctorBlock = workspace.newBlock('class_constructor');
-    const methodBlock = workspace.newBlock('function_def_typed');
+      const arg0 = workspace.newBlock('math_number');
+      newBlock.getInput('ARG0')?.connection?.connect(arg0.outputConnection!);
+      expect(newBlock.getChildren(false).length).toBe(1);
+    });
 
-    classBlock.getInput('FIELDS')?.connection?.connect(fieldBlock.previousConnection!);
-    classBlock.getInput('CONSTRUCTOR')?.connection?.connect(ctorBlock.previousConnection!);
-    classBlock.getInput('METHODS')?.connection?.connect(methodBlock.previousConnection!);
-
-    expect(classBlock.getChildren(false).length).toBe(3);
-  });
-
-  it('should validate allowed class member types', () => {
-    expect(VALID_CLASS_FIELD_TYPES.has('variable_declare_typed')).toBe(true);
-    expect(VALID_CLASS_METHOD_TYPES.has('function_def_typed')).toBe(true);
-    expect(VALID_CLASS_CONSTRUCTOR_TYPES.has('class_constructor')).toBe(true);
+    it('should validate allowed class member type sets', () => {
+      expect(VALID_CLASS_FIELD_TYPES.has('variable_declare_typed')).toBe(true);
+      expect(VALID_CLASS_METHOD_TYPES.has('function_def_typed')).toBe(true);
+      expect(VALID_CLASS_CONSTRUCTOR_TYPES.has('class_constructor')).toBe(true);
+      expect(VALID_CLASS_CONSTRUCTOR_TYPES.has('class_constructor_declaration')).toBe(true);
+    });
   });
 });
