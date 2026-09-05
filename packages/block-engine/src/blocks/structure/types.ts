@@ -20,6 +20,11 @@ export const IMPORT_KIND_OPTIONS: [string, string][] = [
   ['aliased (as)', 'ALIAS'],
 ];
 
+export const VALID_ENUM_MEMBER_TYPES = new Set([
+  'enum_constructor_item',
+  'enum_constructor_parameterized',
+]);
+
 /**
  * Valid block types allowed as direct child members of an Interface.
  */
