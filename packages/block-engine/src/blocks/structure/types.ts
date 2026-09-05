@@ -75,6 +75,35 @@ export const PROPERTY_ACCESSOR_WRITE_OPTIONS: [string, string][] = [
   ['never', 'NEVER'],
 ];
 
+export const PROPERTY_SPECIFIER_OPTIONS: [string, string][] = [
+  ['standard', 'NONE'],
+  ['static', 'STATIC'],
+  ['inline', 'INLINE'],
+  ['final', 'FINAL'],
+  ['static inline', 'STATIC_INLINE'],
+];
+
+export const PROPERTY_ACCESS_MODE_OPTIONS: [string, string][] = [
+  ['(default, default) - read / write', 'DEFAULT_DEFAULT'],
+  ['(default, null) - public read, private write', 'DEFAULT_NULL'],
+  ['(get, set) - custom getter & setter', 'GET_SET'],
+  ['(never, never) - internal storage', 'NEVER_NEVER'],
+  ['(get, null) - custom getter, readonly', 'GET_NULL'],
+  ['(get, never) - custom getter, no write', 'GET_NEVER'],
+  ['(default, never) - read only, no write', 'DEFAULT_NEVER'],
+  ['(null, default) - private read, public write', 'NULL_DEFAULT'],
+];
+
+export const METHOD_MODIFIER_OPTIONS: [string, string][] = [
+  ['standard', 'NONE'],
+  ['override', 'OVERRIDE'],
+  ['static', 'STATIC'],
+  ['inline', 'INLINE'],
+  ['static inline', 'STATIC_INLINE'],
+  ['abstract', 'ABSTRACT'],
+  ['dynamic', 'DYNAMIC'],
+];
+
 /**
  * Validates and sanitizes a comma-separated list of interface identifiers.
  */
