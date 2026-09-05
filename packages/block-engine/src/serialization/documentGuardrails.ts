@@ -69,12 +69,16 @@ export function canonicalizeDocumentForHash(doc: BlockFileDocument): string {
       compilerFlags: doc.metadata.compilerFlags || [],
       description: doc.metadata.description || '',
     },
-    imports: doc.imports.map((imp) => ({
+    imports: (doc.imports || []).map((imp) => ({
       kind: imp.kind,
       path: imp.path,
       alias: imp.alias || '',
     })),
-    workspace: doc.workspace,
+    workspace: {
+      version: doc.workspace?.version || '1.0.0',
+      blocks: doc.workspace?.blocks || { languageVersion: 0, blocks: [] },
+      variables: doc.workspace?.variables || [],
+    },
   };
 
   return JSON.stringify(canonicalPayload);
@@ -362,11 +366,23 @@ export function repairBlockDocument(rawInput: unknown): DocumentRepairResult {
           }
           if (entry.shadow && typeof entry.shadow === 'object') {
             entry.shadow = repairBlockNode(entry.shadow as Record<string, unknown>);
+          } else if (entry.shadow !== undefined) {
+            delete entry.shadow;
+          }
+
+          if (!entry.block && !entry.shadow) {
+            delete inputsObj[inputName];
           }
         } else {
           delete inputsObj[inputName];
+          actions.push({
+            category: 'connection',
+            description: `Removed non-object input connection '${inputName}'.`,
+          });
         }
       });
+    } else if (node.inputs !== undefined) {
+      delete node.inputs;
     }
 
     // Repair next connection chain
@@ -381,6 +397,8 @@ export function repairBlockDocument(rawInput: unknown): DocumentRepairResult {
           description: `Removed dangling next-statement connection on block '${node.id}'.`,
         });
       }
+    } else if (node.next !== undefined) {
+      delete node.next;
     }
 
     return node;

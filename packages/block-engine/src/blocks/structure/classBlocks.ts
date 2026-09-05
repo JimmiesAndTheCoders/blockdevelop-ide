@@ -4,6 +4,7 @@ import {
   CLASS_ACCESS_OPTIONS,
   CLASS_MODIFIER_OPTIONS,
   sanitizePackageNamespace,
+  sanitizeInterfaceList,
 } from './types';
 
 export const CLASS_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
@@ -172,7 +173,8 @@ export const CLASS_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     previousStatement: null,
     nextStatement: null,
     style: 'structure_blocks',
-    tooltip: 'Class constructor definition (new) with access modifiers (public/private), typed parameters, and initialization body.',
+    tooltip:
+      'Class constructor definition (new) with access modifiers (public/private), typed parameters, and initialization body.',
     helpUrl: '',
   },
 
@@ -222,7 +224,8 @@ export const CLASS_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     nextStatement: null,
     inputsInline: true,
     style: 'structure_blocks',
-    tooltip: 'Invokes the superclass constructor (super(...)) with arguments in a derived class constructor.',
+    tooltip:
+      'Invokes the superclass constructor (super(...)) with arguments in a derived class constructor.',
     helpUrl: '',
   },
 
@@ -252,6 +255,89 @@ export const CLASS_BLOCK_DEFINITIONS: CustomBlockDefinition[] = [
     helpUrl: '',
   },
 ];
+
+export interface SuperConstructorValidationResult {
+  valid: boolean;
+  hasSuperclass: boolean;
+  hasConstructor: boolean;
+  hasSuperCall: boolean;
+  warning?: string | undefined;
+}
+
+/**
+ * Validates that derived classes (classes extending a superclass) with an explicit constructor invoke super(...).
+ */
+export function validateSuperConstructorCall(classBlock: Blockly.Block): SuperConstructorValidationResult {
+  const extendsField = classBlock.getField('EXTENDS_CLASS') as Blockly.FieldTextInput | null;
+  const superclass = extendsField?.getValue()?.trim() || '';
+  const hasSuperclass = Boolean(superclass);
+
+  const ctorInput = classBlock.getInput('CONSTRUCTOR');
+  const ctorBlock =
+    ctorInput?.connection?.targetBlock() ||
+    (ctorInput?.connection?.targetConnection?.getSourceBlock() ?? null);
+  const hasConstructor = Boolean(ctorBlock);
+
+  if (!hasSuperclass) {
+    if (ctorBlock) {
+      ctorBlock.setWarningText(null);
+      (ctorBlock as unknown as { warningText_?: string | null }).warningText_ = null;
+    }
+    return {
+      valid: true,
+      hasSuperclass: false,
+      hasConstructor,
+      hasSuperCall: false,
+    };
+  }
+
+  if (!hasConstructor) {
+    return {
+      valid: true,
+      hasSuperclass: true,
+      hasConstructor: false,
+      hasSuperCall: false,
+    };
+  }
+
+  // Inspect constructor body for super_constructor_call
+  const bodyInput = ctorBlock?.getInput('BODY');
+  let currentBlock: Blockly.Block | null =
+    bodyInput?.connection?.targetBlock() ||
+    (bodyInput?.connection?.targetConnection?.getSourceBlock() ?? null);
+  let hasSuperCall = false;
+
+  while (currentBlock) {
+    if (currentBlock.type === 'super_constructor_call') {
+      hasSuperCall = true;
+      break;
+    }
+    currentBlock = currentBlock.getNextBlock();
+  }
+
+  if (!hasSuperCall) {
+    const className = classBlock.getField('CLASS_NAME')?.getText() || 'Class';
+    const warning = `Derived class '${className}' extends '${superclass}' but constructor is missing an explicit 'super(...)' call.`;
+    ctorBlock?.setWarningText(warning);
+    (ctorBlock as unknown as { warningText_?: string }).warningText_ = warning;
+    return {
+      valid: false,
+      hasSuperclass: true,
+      hasConstructor: true,
+      hasSuperCall: false,
+      warning,
+    };
+  }
+
+  ctorBlock?.setWarningText(null);
+  (ctorBlock as unknown as { warningText_?: string | null }).warningText_ = null;
+  return {
+    valid: true,
+    hasSuperclass: true,
+    hasConstructor: true,
+    hasSuperCall: true,
+  };
+}
 
 /**
  * Attaches real-time field validators and warning indicators to class and instantiation blocks.
@@ -290,10 +376,16 @@ function attachClassBlockValidators(blockType: string): void {
     const implementsField = this.getField('IMPLEMENTS_INTERFACES');
     if (implementsField) {
       implementsField.setValidator((newInterfaces: string) => {
-        return newInterfaces
-          .split(',')
-          .map((item) => sanitizePackageNamespace(item))
-          .join(', ');
+        return sanitizeInterfaceList(newInterfaces);
+      });
+    }
+
+    // Attach workspace listener to validate super() constructor call in derived classes
+    if (this.workspace && (blockType === 'class_declaration' || blockType === 'class_wrapper')) {
+      this.workspace.addChangeListener(() => {
+        if (!this.isDeadOrDying?.()) {
+          validateSuperConstructorCall(this);
+        }
       });
     }
   };

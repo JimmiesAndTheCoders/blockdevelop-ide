@@ -6,18 +6,30 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-const targetVersion = process.argv[2];
+const rawInput = process.argv[2];
 
-if (!targetVersion || !/^\d+\.\d+\.\d+(?:\.\d+)?(?:-[a-zA-Z0-9.]+)?$/.test(targetVersion)) {
+if (!rawInput) {
   console.error('\n❌ Error: Please specify a valid SemVer string.');
-  console.error('Usage: pnpm version:set <new-version> (e.g. pnpm version:set 0.5.1.0)\n');
+  console.error('Usage: pnpm version:set <new-version> (e.g. pnpm version:set x.y.z-w or vx.y.z-w)\n');
+  process.exit(1);
+}
+
+// Strip optional leading 'v' for standard package.json SemVer compliance
+const targetVersion = rawInput.trim().replace(/^v/, '');
+
+// Standard 3-part SemVer regex: MAJOR.MINOR.PATCH(-prerelease)
+const semverRegex = /^\d+\.\d+\.\d+(?:-[a-zA-Z0-9.]+)?$/;
+
+if (!semverRegex.test(targetVersion)) {
+  console.error('\n❌ Error: Please specify a valid 3-part SemVer string (e.g. x.y.z-w).');
+  console.error('Usage: pnpm version:set <new-version> (e.g. pnpm version:set x.y.z-w)\n');
   process.exit(1);
 }
 
 // Function to locate all package.json files across the monorepo
 function findPackageJsonFiles(baseDir) {
   const results = [];
-  
+
   // 1. Root package.json
   const rootPkg = path.join(baseDir, 'package.json');
   if (fs.existsSync(rootPkg)) {
@@ -53,7 +65,7 @@ for (const pkgPath of allPackages) {
   const raw = fs.readFileSync(pkgPath, 'utf8');
   const json = JSON.parse(raw);
   const oldVersion = json.version;
-  
+
   json.version = targetVersion;
   fs.writeFileSync(pkgPath, JSON.stringify(json, null, 2) + '\n', 'utf8');
   console.log(`  ✓ ${relPath} (${oldVersion || 'none'} -> ${targetVersion})`);

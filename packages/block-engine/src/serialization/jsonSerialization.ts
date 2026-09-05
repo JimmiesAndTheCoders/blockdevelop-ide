@@ -16,8 +16,11 @@ export function serializeWorkspaceToJson(
   const jsonState = Blockly.serialization.workspaces.save(workspace);
   return {
     version: '1.0.0',
-    blocks: jsonState.blocks as unknown as SerializedWorkspaceState['blocks'],
-    variables: jsonState.variables as unknown as SerializedWorkspaceState['variables'],
+    blocks: (jsonState.blocks as unknown as SerializedWorkspaceState['blocks']) || {
+      languageVersion: 0,
+      blocks: [],
+    },
+    variables: (jsonState.variables as unknown as SerializedWorkspaceState['variables']) || [],
   };
 }
 
