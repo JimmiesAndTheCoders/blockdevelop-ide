@@ -6,13 +6,14 @@ export * from './search';
 export const DEFAULT_TOOLBOX_DEFINITION: ToolboxDefinition = {
   kind: 'categoryToolbox',
   contents: [
-    // 1. Structure & Classes Category (Cyan / Blue-green)
+    // 1. OOP & Architecture Category (Cyan / Blue-green)
     {
       kind: 'category',
-      name: 'Structure & Classes',
+      name: 'OOP & Architecture',
       colour: '#06b6d4',
       categorystyle: 'structure_category',
       contents: [
+        // Packages & Imports
         { kind: 'block', type: 'package_declaration' },
         { kind: 'block', type: 'package_block_wrapper' },
         { kind: 'block', type: 'import_type' },
@@ -20,25 +21,37 @@ export const DEFAULT_TOOLBOX_DEFINITION: ToolboxDefinition = {
         { kind: 'block', type: 'import_alias' },
         { kind: 'block', type: 'using_mixin' },
         { kind: 'block', type: 'import_statement' },
+
+        // Classes & Constructors
         { kind: 'block', type: 'class_declaration' },
         { kind: 'block', type: 'class_wrapper' },
-        { kind: 'block', type: 'class_property_declaration' },
-        { kind: 'block', type: 'property_getter_def' },
-        { kind: 'block', type: 'property_setter_def' },
-        { kind: 'block', type: 'class_method_declaration' },
-        { kind: 'block', type: 'method_param_item' },
+        { kind: 'block', type: 'class_constructor_declaration' },
+        { kind: 'block', type: 'class_constructor' },
+        { kind: 'block', type: 'super_constructor_call' },
+        { kind: 'block', type: 'instance_instantiation' },
+
+        // Interfaces & Contracts
         { kind: 'block', type: 'interface_declaration' },
         { kind: 'block', type: 'interface_method_signature' },
         { kind: 'block', type: 'interface_property_signature' },
+
+        // Enumerations & Pattern Matching
         { kind: 'block', type: 'enum_declaration' },
         { kind: 'block', type: 'enum_constructor_item' },
         { kind: 'block', type: 'enum_constructor_parameterized' },
         { kind: 'block', type: 'enum_value_reference' },
         { kind: 'block', type: 'enum_pattern_match' },
-        { kind: 'block', type: 'class_constructor_declaration' },
-        { kind: 'block', type: 'class_constructor' },
-        { kind: 'block', type: 'super_constructor_call' },
-        { kind: 'block', type: 'instance_instantiation' },
+
+        // Properties & Accessors
+        { kind: 'block', type: 'class_property_declaration' },
+        { kind: 'block', type: 'property_getter_def' },
+        { kind: 'block', type: 'property_setter_def' },
+
+        // Member Methods
+        { kind: 'block', type: 'class_method_declaration' },
+        { kind: 'block', type: 'method_param_item' },
+
+        // Core Life-cycle Events
         { kind: 'block', type: 'event_on_start' },
         { kind: 'block', type: 'event_on_update' },
         { kind: 'block', type: 'event_listener' },
