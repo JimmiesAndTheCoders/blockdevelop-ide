@@ -31,19 +31,27 @@ describe('BlockDevelop Dark Theme Suite', () => {
     expect(componentStyles.replacementGlowColour).toBe(IDE_DESIGN_TOKENS.haxeOrange);
   });
 
-  it('should map standard IDE brand colors across all block and category styles', () => {
+  it('should map standard IDE brand colors across all block and category styles including Phase 4.3 control flow', () => {
     const theme = createBlockDevelopDarkTheme();
     const styles = theme.blockStyles;
+    const catStyles = theme.categoryStyles;
 
     expect(styles.structure_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.structure);
     expect(styles.type_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.types);
     expect(styles.collection_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.collections);
     expect(styles.logic_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.logic);
+    expect(styles.loop_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.loops);
+    expect(styles.branch_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.branch);
+    expect(styles.exception_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.exception);
     expect(styles.math_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.math);
     expect(styles.text_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.textCategory);
     expect(styles.variable_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.variables);
     expect(styles.procedure_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.functions);
     expect(styles.event_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.events);
     expect(styles.target_blocks?.colourPrimary).toBe(BLOCKDEVELOP_DARK_PALETTE.target);
+
+    expect(catStyles.loop_category?.colour).toBe(BLOCKDEVELOP_DARK_PALETTE.loops);
+    expect(catStyles.branch_category?.colour).toBe(BLOCKDEVELOP_DARK_PALETTE.branch);
+    expect(catStyles.exception_category?.colour).toBe(BLOCKDEVELOP_DARK_PALETTE.exception);
   });
 });

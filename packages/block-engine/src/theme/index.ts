@@ -29,9 +29,19 @@ export function createBlockDevelopDarkTheme(): Blockly.Theme {
         colourTertiary: '#003e6b',
       },
       loop_blocks: {
-        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.logic,
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.loops,
         colourSecondary: '#005999',
         colourTertiary: '#003e6b',
+      },
+      branch_blocks: {
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.branch,
+        colourSecondary: '#0369a1',
+        colourTertiary: '#075985',
+      },
+      exception_blocks: {
+        colourPrimary: BLOCKDEVELOP_DARK_PALETTE.exception,
+        colourSecondary: '#b91c1c',
+        colourTertiary: '#991b1b',
       },
       collection_blocks: {
         colourPrimary: BLOCKDEVELOP_DARK_PALETTE.collections,
@@ -74,6 +84,9 @@ export function createBlockDevelopDarkTheme(): Blockly.Theme {
       structure_category: { colour: BLOCKDEVELOP_DARK_PALETTE.structure },
       type_category: { colour: BLOCKDEVELOP_DARK_PALETTE.types },
       logic_category: { colour: BLOCKDEVELOP_DARK_PALETTE.logic },
+      loop_category: { colour: BLOCKDEVELOP_DARK_PALETTE.loops },
+      branch_category: { colour: BLOCKDEVELOP_DARK_PALETTE.branch },
+      exception_category: { colour: BLOCKDEVELOP_DARK_PALETTE.exception },
       collection_category: { colour: BLOCKDEVELOP_DARK_PALETTE.collections },
       math_category: { colour: BLOCKDEVELOP_DARK_PALETTE.math },
       text_category: { colour: BLOCKDEVELOP_DARK_PALETTE.textCategory },

@@ -28,6 +28,9 @@ export const BLOCKDEVELOP_DARK_PALETTE = {
   structure: '#06B6D4', // Cyan / OOP & Package Wrappers
   types: '#F59E0B', // Amber / Type Annotations
   logic: '#007ACC', // Blue / Control Flow & Conditionals
+  loops: '#007ACC', // Blue Gradient / Iteration & Enhanced Loops
+  branch: '#0284C7', // Sky Blue / Branching, Switches & Selection
+  exception: '#DC2626', // Rose-Red / Try-Catch-Finally & Exceptions
   collections: '#8B5CF6', // Purple / Arrays & 2D Matrices
   math: '#8A2BE2', // Violet / Numerical & Math
   textCategory: '#10B981', // Emerald / Strings & Printing
